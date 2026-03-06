@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VerseVibe & Flow – Stories</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; }
+    body {
+      font-family: 'Georgia', 'Times New Roman', serif;
+      background: #fef9f1;
+      color: #2e3b3b;
+      padding: 2rem 1rem;
+      max-width: 1000px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+    h1 {
+      color: #2a7a7a;
+      font-size: 3rem;
+      margin-bottom: 0.2rem;
+      font-weight: 400;
+      letter-spacing: -0.5px;
+    }
+    .tagline {
+      font-style: italic;
+      color: #5f9ea0;
+      font-size: 1.3rem;
+      margin-top: 0;
+      border-bottom: 2px dashed #c0dcdc;
+      padding-bottom: 1rem;
+    }
+    .filters {
+      background: rgba(255,255,255,0.7);
+      backdrop-filter: blur(4px);
+      padding: 1.5rem;
+      border-radius: 40px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+      margin: 2.5rem 0 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 1rem;
+      border: 1px solid #e0f0f0;
+    }
+    .filters label {
+      font-weight: 500;
+      color: #2e5a5a;
+    }
+    select {
+      padding: 0.7rem 1.5rem;
+      font-size: 1rem;
+      border: 1px solid #b0d4d4;
+      border-radius: 40px;
+      background: white;
+      cursor: pointer;
+      font-family: inherit;
+      min-width: 200px;
+    }
+    #storiesContainer {
+      margin-top: 2rem;
+    }
+    .story {
+      background: white;
+      border-radius: 32px;
+      padding: 2.5rem;
+      margin-bottom: 3rem;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+      transition: 0.2s;
+      border: 1px solid #f0e4d5;
+    }
+    .story:hover {
+      box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+    }
+    .story h2 {
+      color: #1e4a4a;
+      font-size: 2.2rem;
+      margin: 0 0 0.5rem;
+      font-weight: 500;
+      line-height: 1.2;
+    }
+    .meta {
+      font-size: 0.95rem;
+      color: #7a9e9e;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .meta::before {
+      content: "📅";
+      opacity: 0.7;
+    }
+    .story img {
+      max-width: 100%;
+      max-height: 450px;
+      width: auto;
+      border-radius: 24px;
+      margin: 1.5rem 0 1rem;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      border: 1px solid #eee;
+    }
+    .short-desc {
+      font-size: 1.3rem;
+      font-weight: 400;
+      color: #2b5e5e;
+      border-left: 5px solid #b0d4d4;
+      padding: 0.5rem 0 0.5rem 1.5rem;
+      margin: 1.5rem 0;
+      background: #f8fcfc;
+      border-radius: 0 20px 20px 0;
+    }
+    .full-story {
+      white-space: pre-wrap;
+      font-size: 1.1rem;
+      color: #2c3e3e;
+      line-height: 1.8;
+    }
+    .loading, .error-message, .empty-message {
+      text-align: center;
+      padding: 3rem;
+      background: white;
+      border-radius: 40px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+      font-size: 1.2rem;
+    }
+    .loading { color: #5f9ea0; font-style: italic; }
+    .error-message { color: #b33; background: #fff2f2; border-left: 6px solid #b33; }
+    .empty-message { color: #7a9e9e; }
+    .footer-note {
+      text-align: center;
+      color: #8baaaa;
+      margin-top: 4rem;
+      font-style: italic;
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1.35.6/dist/umd/supabase.min.js"></script>
+</head>
+<body>
+  <h1>VerseVibe & Flow</h1>
+  <p class="tagline">stories that feel like coming home</p>
+
+  <div class="filters">
+    <label for="categorySelect">Filter by category:</label>
+    <select id="categorySelect">
+      <option value="">📚 All stories</option>
+      <option value="Lifestyle">🌿 Lifestyle</option>
+      <option value="Adventure">⛰️ Adventure</option>
+      <option value="Travel">✈️ Travel</option>
+      <option value="Inspiration">✨ Inspiration</option>
+      <option value="Tech">💻 Tech</option>
+      <option value="Other">📖 Other</option>
+    </select>
+  </div>
+
+  <div id="storiesContainer" class="loading">📖 Loading stories...</div>
+
+  <div class="footer-note">— Every story is a welcome home —</div>
+
+  <script>
+    // ========== CONFIGURATION ==========
+    // 🔴 IMPORTANT: Replace with your actual Supabase URL and ANON KEY
+    const SUPABASE_URL = 'https://yyebyrmgqaoiypwcchii.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_PNOBDTlx2p9nIR04E7ZfOw_9dXN_AI6'; // ⚠️ REPLACE THIS with your real anon key (starts with eyJ...)
+
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // Helper: format date
+    function formatDate(isoString) {
+      if (!isoString) return '';
+      const date = new Date(isoString);
+      return date.toLocaleDateString('en-US', { 
+        year: 'numeric', month: 'long', day: 'numeric' 
+      });
+    }
+
+    // Fetch stories – optionally filtered by category
+    async function fetchStories(category = '') {
+      console.log('Fetching stories. Category filter:', category || 'ALL');
+      
+      let query = supabaseClient
+        .from('stories')
+        .select('*')
+        .order('created_at', { ascending: false });
+      
+      // If a specific category is selected (not empty), add filter
+      if (category) {
+        query = query.eq('category', category);
+      }
+      
+      const { data, error } = await query;
+      
+      if (error) {
+        console.error('Supabase error:', error);
+        return { error, data: null };
+      }
+      return { error: null, data };
+    }
+
+    // Render stories with debug info
+    async function displayStories(category = '') {
+      const container = document.getElementById('storiesContainer');
+      container.innerHTML = '<div class="loading">📖 Curling up with a good story...</div>';
+
+      const { error, data: stories } = await fetchStories(category);
+
+      // Error handling
+      if (error) {
+        let userMessage = error.message;
+        if (error.message.includes('JWT') || error.message.includes('apikey') || error.message.includes('401')) {
+          userMessage = 'Invalid Supabase anon key. Please check your configuration.';
+        } else if (error.message.includes('relation') && error.message.includes('does not exist')) {
+          userMessage = 'The "stories" table does not exist. Please create it in your Supabase database.';
+        } else if (error.message.includes('permission denied')) {
+          userMessage = 'Permission denied. Add a SELECT policy for the "stories" table.';
+        }
+        container.innerHTML = `<div class="error-message">❌ ${userMessage}</div>`;
+        return;
+      }
+
+      // No stories
+      if (!stories || stories.length === 0) {
+        container.innerHTML = '<div class="empty-message">✨ No stories yet. Be the first to share!</div>';
+        return;
+      }
+
+      // Render each story with debug logs
+      container.innerHTML = '';
+      stories.forEach((story, index) => {
+        console.log(`Story ${index}:`, story);
+        console.log('image_urls:', story.image_urls);
+
+        const article = document.createElement('article');
+        article.className = 'story';
+
+        // Cover image handling with fallback
+        let coverHtml = '';
+        if (story.image_urls && Array.isArray(story.image_urls) && story.image_urls.length > 0) {
+          const imgUrl = story.image_urls[0];
+          console.log('First image URL:', imgUrl);
+          coverHtml = `<img src="${imgUrl}" alt="${story.title}" loading="lazy" onerror="this.onerror=null; this.src='https://via.placeholder.com/600x400?text=Image+not+found';">`;
+        } else if (story.image_url) {
+          console.log('Legacy image_url:', story.image_url);
+          coverHtml = `<img src="${story.image_url}" alt="${story.title}" loading="lazy" onerror="this.onerror=null; this.src='https://via.placeholder.com/600x400?text=Image+not+found';">`;
+        } else {
+          console.warn('No image found for story:', story.title);
+          coverHtml = '<div style="background:#eee; padding:2rem; text-align:center; border-radius:24px;">📷 No image available</div>';
+        }
+
+        const dateStr = formatDate(story.created_at);
+
+        article.innerHTML = `
+          <h2>${story.title}</h2>
+          <div class="meta">${dateStr}</div>
+          ${coverHtml}
+          <div class="short-desc">${story.short_description}</div>
+          <div class="full-story">${story.full_story.replace(/\n/g, '<br>')}</div>
+        `;
+
+        container.appendChild(article);
+      });
+    }
+
+    // Event listener: when dropdown changes, reload stories
+    document.getElementById('categorySelect').addEventListener('change', (e) => {
+      displayStories(e.target.value);
+    });
+
+    // On page load, show all stories
+    window.addEventListener('load', () => {
+      displayStories('');
+    });
+  </script>
+</body>
+</html>
