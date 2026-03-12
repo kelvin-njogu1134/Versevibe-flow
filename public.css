@@ -1,0 +1,267 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+}
+.page1{
+    background-color: teal;
+    min-height: 100vh;
+    width: 100%;
+}
+nav{
+    height: 20vh;
+    width: 100%;
+    background-color: teal;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    list-style: none;
+}
+nav ul{
+    display: flex;
+    list-style: none;
+    gap: 20px;
+}
+nav ul li a{
+    color: rgb(20, 20, 20);
+    text-decoration: none;
+    font-size: 20px;
+}
+.dropdown {
+    position: relative;
+}
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    background:teal;
+    list-style: none;
+    padding: 0;
+    border-radius: 10px;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.dropdown-menu li {
+    padding: 10px;
+}
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+nav .logo h1{
+    font-size: 40px;
+    color: rgb(20, 20, 20);
+    font-family: "Dancing Script", cursive;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: normal;
+}
+nav .logo h1 span{
+    color: red;
+}
+nav .logo p{
+    font-size: 20px;
+    color: whitesmoke;
+    font-family: "Dancing Script", cursive;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-style: normal;
+}
+
+
+.container{
+    height: 80vh;
+    width: 100%;
+    background-color: white;
+}
+.filters{
+    display: flex;
+    justify-content: flex-end;
+    padding: 20px;
+    font-size: 20px;
+}
+
+.story {
+  display: flex;              /* puts image and text side by side */
+  gap: 20px;                  /* space between image and text */
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  align-items: flex-start;
+  
+}
+
+.story img {
+  width: 250px;          /* fixed width */
+  height: 180px;
+  object-fit: cover;     /* prevents stretching */
+  border-radius: 10px;
+  flex-shrink: 0;        /* stops image from shrinking */
+}
+
+.story h2 {
+  margin: 0;
+  font-size: 22px;
+  margin-bottom: 8px;
+  margin-left: 30px;
+}
+
+.story .meta {
+  font-size: 13px;
+  color: rgb(0, 0, 0);
+  margin-bottom: 8px;
+  margin-left: 30px;
+}
+
+.story .short-desc {
+  font-weight: bold;
+  margin-bottom: 10px;
+  margin-left: 30px;
+
+}
+
+.story .full-story {
+  line-height:1.5 ;
+  color: #000000;
+  font-size: 22px;
+  margin-left: 30px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* From Uiverse.io by alexruix */ 
+.loader {
+  width: 80px;
+  height: 50px;
+  position: relative;
+}
+
+.loader-text {
+  position: absolute;
+  top: 0;
+  padding: 0;
+  margin: 0;
+  color: #C8B6FF;
+  animation: text_713 3.5s ease both infinite;
+  font-size: .8rem;
+  letter-spacing: 1px;
+}
+
+.load {
+  background-color: #9A79FF;
+  border-radius: 50px;
+  display: block;
+  height: 16px;
+  width: 16px;
+  bottom: 0;
+  position: absolute;
+  transform: translateX(64px);
+  animation: loading_713 3.5s ease both infinite;
+}
+
+.load::before {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 100%;
+  background-color: #D1C2FF;
+  border-radius: inherit;
+  animation: loading2_713 3.5s ease both infinite;
+}
+
+@keyframes text_713 {
+  0% {
+    letter-spacing: 1px;
+    transform: translateX(0px);
+  }
+
+  40% {
+    letter-spacing: 2px;
+    transform: translateX(26px);
+  }
+
+  80% {
+    letter-spacing: 1px;
+    transform: translateX(32px);
+  }
+
+  90% {
+    letter-spacing: 2px;
+    transform: translateX(0px);
+  }
+
+  100% {
+    letter-spacing: 1px;
+    transform: translateX(0px);
+  }
+}
+
+@keyframes loading_713 {
+  0% {
+    width: 16px;
+    transform: translateX(0px);
+  }
+
+  40% {
+    width: 100%;
+    transform: translateX(0px);
+  }
+
+  80% {
+    width: 16px;
+    transform: translateX(64px);
+  }
+
+  90% {
+    width: 100%;
+    transform: translateX(0px);
+  }
+
+  100% {
+    width: 16px;
+    transform: translateX(0px);
+  }
+}
+
+@keyframes loading2_713 {
+  0% {
+    transform: translateX(0px);
+    width: 16px;
+  }
+
+  40% {
+    transform: translateX(0%);
+    width: 80%;
+  }
+
+  80% {
+    width: 100%;
+    transform: translateX(0px);
+  }
+
+  90% {
+    width: 80%;
+    transform: translateX(15px);
+  }
+
+  100% {
+    transform: translateX(0px);
+    width: 16px;
+  }
+}
+ 
+ 
+
