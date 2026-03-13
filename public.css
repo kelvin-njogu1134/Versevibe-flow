@@ -29,6 +29,26 @@ nav ul li a{
     text-decoration: none;
     font-size: 20px;
 }
+nav ul button{
+    padding: 8px 14px;
+    border: 1px solid white;
+    font-size: 15px;
+    background: white;
+    color: teal;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: -5px;
+
+    transition: all 0.3s ease;
+}
+
+nav ul button:hover{
+    background: teal;
+    color: white;
+    border: 1px solid teal;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
 .dropdown {
     position: relative;
 }
@@ -68,6 +88,7 @@ nav .logo p{
 }
 
 
+
 .container{
     height: 80vh;
     width: 100%;
@@ -88,6 +109,7 @@ nav .logo p{
   border-radius: 12px;
   margin-bottom: 20px;
   align-items: flex-start;
+  
   
 }
 
@@ -144,6 +166,12 @@ nav .logo p{
 .read-more-btn:hover{
   background:#006d6d;
 }
+
+
+
+
+
+
 
 
 
