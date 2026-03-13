@@ -2,11 +2,133 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-
 }
 .page1{
-    background-color: teal;
     min-height: 100vh;
     width: 100%;
+    background-color: teal;
+    
 
+}
+/* Container for the form */
+.container {
+  width: 90%;
+  max-width: 800px;
+  margin: 40px auto;
+  background-color: #f0f4f8;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  font-family: Arial, sans-serif;
+}
+
+/* Form layout */
+#storyForm {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Labels */
+#storyForm label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 600;
+  color: #333;
+  font-size: 16px;
+}
+
+/* Inputs and Textareas */
+#storyForm input[type="text"],
+#storyForm select,
+#storyForm textarea,
+#storyForm input[type="file"] {
+  margin-top: 8px;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 15px;
+  width: 100%;
+  transition: border-color 0.3s;
+}
+
+#storyForm input[type="text"]:focus,
+#storyForm select:focus,
+#storyForm textarea:focus,
+#storyForm input[type="file"]:focus {
+  outline: none;
+  border-color: teal;
+}
+
+/* Button */
+#storyForm button[type="submit"] {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  background-color: teal;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+#storyForm button[type="submit"]:hover {
+  background-color: #006d6d;
+  transform: translateY(-2px);
+}
+
+/* Optional: message below the form */
+#storyMessage {
+  margin-top: 15px;
+  font-weight: 600;
+}
+
+
+
+.story-item {
+  background: #f0f8f8;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  width: 90%;          /* takes most of the container */
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.story-item h3 {
+  margin: 0 0 10px 0;
+}
+
+.story-preview, .full-story {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+}
+
+.full-story {
+  display: none;       /* hidden by default */
+}
+
+.read-more-btn {
+  margin-top: 10px;
+  padding: 8px 14px;
+  border: none;
+  background: teal;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.read-more-btn:hover {
+  background: #006d6d;
+}
+
+/* Responsive for mobile */
+@media (max-width: 600px) {
+  .container {
+    width: 95%;
+    padding: 20px;
+  }
 }

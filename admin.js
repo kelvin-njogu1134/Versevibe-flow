@@ -1,3 +1,12 @@
+const fullStoryTextarea = document.getElementById('fullStory');
+
+// Function to auto-resize
+fullStoryTextarea.addEventListener('input', () => {
+  fullStoryTextarea.style.height = 'auto';          // reset height
+  fullStoryTextarea.style.height = fullStoryTextarea.scrollHeight + 'px'; // adjust to content
+});
+
+
 const SUPABASE_URL = 'https://yyebyrmgqaoiypwcchii.supabase.co';
     const SUPABASE_ANON_KEY = 'sb_publishable_PNOBDTlx2p9nIR04E7ZfOw_9dXN_AI6'; 
 
