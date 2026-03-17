@@ -4,68 +4,123 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin - Add & View Stories</title>
-<link rel="stylesheet" href="admin.css">
+  <link rel="stylesheet" href="admin.css">
+  <!-- Supabase JS v1 -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1.35.6/dist/umd/supabase.min.js"></script>
+  
+  <style>
+    /* Additional styles for logout button and layout */
+    .container-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .logout-btn {
+      background-color: #dc3545;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .logout-btn:hover {
+      background-color: #c82333;
+    }
+    .logout-btn:active {
+      transform: scale(0.98);
+    }
+  </style>
+  <script>
+    // Use the global supabaseClient from auth.js
+    async function checkAdmin() {
+      const user = window.supabaseClient.auth.user();   // v1 method
+      if (!user || user.email !== "esthernjeri184@gmail.com") {
+        alert("Access denied!");
+        window.location.href = "login.html";
+      }
+    }
+
+    // Run check on page load
+    checkAdmin();
+
+    // Logout function (v1)
+    async function logout() {
+      await window.supabaseClient.auth.signOut();
+      window.location.href = "login.html";
+    }
+  </script>
 </head>
 <body>
   <div class="page1">
-    
-  
-  
-  
+    <h3>THIS IS ADMIN PANEL ONLY</h3>
 
-  <h3>THIS IS ADMIN PANEL ONLY</h3>
-  <div class="container">
-  <form id="storyForm">
-    <label>Category:
-      <select id="category">
-        <option value="">📚 All stories</option>
-              <option value="Life">🌿 Life</option>
-              <option value="Inspiration">💡 Inspiration</option>
-              <option value="Fiction">📖 Fiction</option>
-              <option value="Selfgrowth">🌱 Selfgrowth</option>
-              <option value="Money">💰 Money</option>
-              <option value="Parenting">👨‍👩‍👧 Parenting</option>
-              <option value="Moments">📸 Moments</option>
-              <option value="News">📰 News</option>
-      </select>
-    </label>
+    <div class="container">
+      <!-- Header with logout button -->
+      <div class="container-header">
+        <h3>Add New Story</h3>
+        <button class="logout-btn" onclick="logout()">Logout</button>
+      </div>
 
-    <label>Title:
-      <input type="text" id="title" placeholder="title">
-    </label>
+      <form id="storyForm">
+        <label>
+          Category:
+          <select id="category">
+            <option value="">📚 All stories</option>
+            <option value="Life">🌿 Life</option>
+            <option value="Inspiration">💡 Inspiration</option>
+            <option value="Fiction">📖 Fiction</option>
+            <option value="Selfgrowth">🌱 Selfgrowth</option>
+            <option value="Money">💰 Money</option>
+            <option value="Parenting">👨‍👩‍👧 Parenting</option>
+            <option value="Moments">📸 Moments</option>
+            <option value="News">📰 News</option>
+          </select>
+        </label>
 
-    <label>Short Description:
-      <textarea id="shortDesc" rows="2" required></textarea>
-    </label>
+        <label>
+          Title:
+          <input type="text" id="title" placeholder="Title">
+        </label>
 
-    <label>Full Story:
-      <textarea id="fullStory" rows="5" required></textarea>
-    </label>
+        <label>
+          Short Description:
+          <textarea id="shortDesc" rows="2" required></textarea>
+        </label>
 
-    <label>Choose Image:
-      <input type="file" id="storyImage" accept="image/*" required>
-    </label>
+        <label>
+          Full Story:
+          <textarea id="fullStory" rows="5" required></textarea>
+        </label>
 
-    <button type="submit">Add Story</button>
-  </form>
+        <label>
+          Choose Image:
+          <input type="file" id="storyImage" accept="image/*" required>
+        </label>
 
+        <button type="submit">Add Story</button>
+      </form>
+
+      <a href="edit.html">
+        <button class="edit-delete-btn">EDIT & DELETE</button>
+      </a>
+    </div>
+
+    <div id="storyMessage"></div>
+
+    <hr />
+
+    <h2>Recent Stories</h2>
+    <div id="storiesList">Loading stories...</div>
+
+    <hr />
+
+    <!-- <h2>All Images in Bucket</h2> -->
+    <!-- <div id="gallery">Loading images...</div> -->
   </div>
 
-  <div id="storyMessage"></div>
-
-  <hr />
-
-  <h2>Recent Stories</h2>
-  <div id="storiesList">Loading stories...</div>
-
-  <hr />
-
-  <!-- <h2>All Images in Bucket</h2> -->
-  <!-- <div id="gallery">Loading images...</div> -->
-
-</div>
-
-  <script  src="admin.js"></script>
+  <script src="admin.js"></script>
 </body>
 </html>

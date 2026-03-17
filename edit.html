@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Manage Stories</title>
+  <!-- Include Supabase client library -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- Your new admin-manage.js file -->
+  <script src="admin-manage.js" defer></script>
+  
+    <link rel="stylesheet" href="edit.css">
+</head>
+<body>
+  <h1>Manage Stories</h1>
+
+  <!-- List of stories with edit/delete buttons -->
+  <div id="storiesManageList"></div>
+
+  <!-- Edit Form -->
+  <h2>Edit Story</h2>
+  <form id="editStoryForm">
+    <!-- Hidden story ID is stored in data attribute, not a hidden field -->
+    <label for="editCategory">Category</label>
+    <select id="editCategory" required>
+      <option value="">📚 All stories</option>
+              <option value="Life">🌿 Life</option>
+              <option value="Inspiration">💡 Inspiration</option>
+              <option value="Fiction">📖 Fiction</option>
+              <option value="Selfgrowth">🌱 Selfgrowth</option>
+              <option value="Money">💰 Money</option>
+              <option value="Parenting">👨‍👩‍👧 Parenting</option>
+              <option value="Moments">📸 Moments</option>
+              <option value="News">📰 News</option>
+      <!-- add your categories -->
+    </select>
+
+    <label for="editTitle">Title</label>
+    <input type="text" id="editTitle" required>
+
+    <label for="editShortDesc">Short Description</label>
+    <textarea id="editShortDesc" rows="2" required></textarea>
+
+    <label for="editFullStory">Full Story</label>
+    <textarea id="editFullStory" required></textarea>
+
+    <label for="editStoryImage">Replace Image (optional)</label>
+    <input type="file" id="editStoryImage" accept="image/*">
+
+    <div id="currentImagePreview"></div>
+
+    <div style="margin-top: 15px;">
+      <button type="submit">Update Story</button>
+      <button type="button" id="cancelEdit">Cancel</button>
+    </div>
+    <div id="editMessage"></div>
+  </form>
+</body>
+</html>

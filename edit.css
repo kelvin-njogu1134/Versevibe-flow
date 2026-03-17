@@ -1,0 +1,296 @@
+/* edit.css - Styles for Manage Stories page */
+
+/* Base styles */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background: #f8fafc;
+  color: #1e293b;
+  line-height: 1.5;
+}
+
+h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  color: #0f172a;
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 0.5rem;
+}
+
+h2 {
+  font-size: 1.5rem;
+  margin: 2rem 0 1rem;
+  color: #334155;
+}
+
+/* Stories list container */
+#storiesManageList {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  padding: 20px;
+  margin-bottom: 30px;
+}
+
+/* Individual story item */
+.story-manage-item {
+  padding: 12px;
+  border-bottom: 1px solid #e2e8f0;
+  transition: background 0.2s;
+}
+
+.story-manage-item:last-child {
+  border-bottom: none;
+}
+
+.story-manage-item:hover {
+  background: #f1f5f9;
+  border-radius: 8px;
+}
+
+/* Story row layout */
+.story-manage-item > div {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+/* Story image */
+.story-manage-item img {
+  width: 80px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Story text info */
+.story-manage-item div div {
+  flex: 1;
+  min-width: 200px;
+}
+
+.story-manage-item strong {
+  font-size: 1.1rem;
+  color: #0f172a;
+}
+
+.story-manage-item small {
+  color: #64748b;
+}
+
+/* Edit & Delete buttons */
+.edit-btn, .delete-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 70px;
+}
+
+.edit-btn {
+  background: #3b82f6;
+  color: white;
+}
+
+.edit-btn:hover {
+  background: #2563eb;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.3);
+}
+
+.delete-btn {
+  background: #ef4444;
+  color: white;
+}
+
+.delete-btn:hover {
+  background: #dc2626;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px -1px rgba(220, 38, 38, 0.3);
+}
+
+/* Edit Form */
+#editStoryForm {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  padding: 30px;
+  margin-top: 20px;
+}
+
+/* Form labels */
+#editStoryForm label {
+  display: block;
+  margin-top: 20px;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #334155;
+}
+
+#editStoryForm label:first-of-type {
+  margin-top: 0;
+}
+
+/* Form inputs, selects, textareas */
+#editStoryForm select,
+#editStoryForm input[type="text"],
+#editStoryForm textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 1rem;
+  transition: border 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+}
+
+#editStoryForm select:focus,
+#editStoryForm input[type="text"]:focus,
+#editStoryForm textarea:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+#editStoryForm textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* File input */
+#editStoryImage {
+  margin-top: 8px;
+  padding: 8px;
+  border: 1px dashed #cbd5e1;
+  border-radius: 8px;
+  width: 100%;
+  background: #f8fafc;
+  cursor: pointer;
+}
+
+#editStoryImage:hover {
+  border-color: #94a3b8;
+}
+
+/* Current image preview */
+#currentImagePreview {
+  margin: 15px 0;
+  padding: 15px;
+  background: #f1f5f9;
+  border-radius: 8px;
+  text-align: center;
+}
+
+#currentImagePreview img {
+  max-width: 200px;
+  max-height: 150px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  border: 2px solid white;
+}
+
+#currentImagePreview p {
+  color: #64748b;
+  font-style: italic;
+  margin: 8px 0 0;
+}
+
+/* Form action buttons */
+#editStoryForm div[style*="margin-top: 15px"] {
+  display: flex;
+  gap: 15px;
+  margin-top: 25px !important;
+  flex-wrap: wrap;
+}
+
+#editStoryForm button[type="submit"],
+#cancelEdit {
+  padding: 12px 30px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex: 0 1 auto;
+}
+
+#editStoryForm button[type="submit"] {
+  background: #10b981;
+  color: white;
+}
+
+#editStoryForm button[type="submit"]:hover {
+  background: #059669;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px -1px rgba(5, 150, 105, 0.3);
+}
+
+#cancelEdit {
+  background: #94a3b8;
+  color: white;
+}
+
+#cancelEdit:hover {
+  background: #64748b;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px -1px rgba(100, 116, 139, 0.3);
+}
+
+/* Message div */
+#editMessage {
+  margin-top: 20px;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 500;
+  text-align: center;
+  background: #f1f5f9;
+}
+
+/* Error state (for potential future use) */
+.error {
+  color: #b91c1c;
+  background: #fee2e2;
+  padding: 12px;
+  border-radius: 8px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  body {
+    padding: 15px;
+  }
+
+  .story-manage-item > div {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .story-manage-item img {
+    width: 100%;
+    height: auto;
+    max-height: 150px;
+  }
+
+  .edit-btn, .delete-btn {
+    width: 100%;
+    margin-top: 5px;
+  }
+
+  #editStoryForm div[style*="margin-top: 15px"] {
+    flex-direction: column;
+  }
+
+  #editStoryForm button[type="submit"],
+  #cancelEdit {
+    width: 100%;
+  }
+}

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Public Page</title>
+</head>
+<body>
+
+<h1>WELCOME USER 🎉</h1>
+<button onclick="logout()">Logout</button>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+<script src="auth.js"></script>
+
+<script>
+// Logout for public page
+async function logout() {
+  await supabase.auth.signOut();
+  window.location.href = "login.html";
+}
+</script>
+
+</body>
+</html>
