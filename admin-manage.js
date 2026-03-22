@@ -1,31 +1,24 @@
-// admin-manage.js
-// Separate file for editing and deleting stories
 
-// ---------------------------
-// 1. Supabase setup
-// ---------------------------
 const SUPABASE_URL = 'https://yyebyrmgqaoiypwcchii.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_PNOBDTlx2p9nIR04E7ZfOw_9dXN_AI6';
 
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// ---------------------------
-// 2. Helper functions
-// ---------------------------
+
 function formatDate(isoString) {
   if (!isoString) return '';
   const date = new Date(isoString);
   return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
 }
 
-// Extract filename from a Supabase public URL
+
 function getFileNameFromUrl(url) {
-  // URL format: .../object/public/images/filename
+  
   const parts = url.split('/images/');
   return parts.length > 1 ? parts[1] : null;
 }
 
-// Auto-resize for the fullStory textarea (same as in admin.js)
+
 const fullStoryTextarea = document.getElementById('fullStory');
 if (fullStoryTextarea) {
   fullStoryTextarea.addEventListener('input', () => {
@@ -34,9 +27,7 @@ if (fullStoryTextarea) {
   });
 }
 
-// ---------------------------
-// 3. Load all stories into a list with edit/delete buttons
-// ---------------------------
+
 async function loadStoriesForManage() {
   const container = document.getElementById('storiesManageList');
   if (!container) return;

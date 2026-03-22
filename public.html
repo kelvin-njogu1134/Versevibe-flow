@@ -2,77 +2,257 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>VerseVibe & Flow – Stories</title>
-<!-- font links -->
- <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=ABeeZee:ital@0;1&family=Arimo:ital,wght@0,400..700;1,400..700&family=Dancing+Script:wght@400..700&family=Delius+Unicase:wght@400;700&family=Edu+SA+Hand:wght@400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lora:ital,wght@0,400..700;1,400..700&family=Macondo&family=Momo+Signature&family=Momo+Trust+Sans:wght@200..800&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Playwrite+CZ:wght@100..400&family=Public+Sans:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Rubik:ital,wght@0,300..900;1,300..900&family=Special+Gothic+Expanded+One&family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=ABeeZee:ital@0;1&family=Arimo:ital,wght@0,400..700;1,400..700&family=Dancing+Script:wght@400..700&family=Delius+Unicase:wght@400;700&family=Edu+SA+Hand:wght@400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lora:ital,wght@0,400..700;1,400..700&family=Macondo&family=Momo+Signature&family=Momo+Trust+Sans:wght@200..800&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Playwrite+CZ:wght@100..400&family=Public+Sans:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Rubik:ital,wght@0,300..900;1,300..900&family=Special+Gothic+Expanded+One&family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="public.css">
- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1.35.6/dist/umd/supabase.min.js"></script>
+  <!-- Additional inline styles -->
+  <style>
+    .logout-btn {
+      background: #667eea;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      margin-left: 15px;
+      transition: background 0.2s;
+    }
+    .logout-btn:hover {
+      background: #5a67d8;
+    }
+    .user-email {
+      font-size: 14px;
+      margin-left: 10px;
+      color: #fff;
+      background: rgba(0,0,0,0.2);
+      padding: 5px 10px;
+      border-radius: 20px;
+    }
+
+    /* ----- SCROLL ANIMATION (improved) ----- */
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(25px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .animate-on-scroll {
+      opacity: 0; /* start hidden */
+      will-change: transform, opacity;
+    }
+
+    .animate-on-scroll.in-view {
+      animation: fadeInUp 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards;
+    }
+  </style>
 </head>
 <body>
   <div class="page1">
+    <nav>
+      <div class="logo">
+        <h1 class="animate__animated animate__backInDown">VerseVibe & <span>Flow</span></h1>
+        <p class="animate__animated animate__backInDown">Stories That Feel like Coming Home</p>
+      </div>
 
-  
-  <nav>
+      <!-- Hamburger button (hidden on desktop) -->
+      <button class="hamburger" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
 
-    <div class="logo">
-      <h1 class="animate__animated animate__backInDown">VerseVibe & <span>Flow</span></h1>
-    
-      <p class="animate__animated animate__backInDown">Stories That Feel like Coming Home</p>
-    </div>
-    
-      
-  <ul class="nav">
-  <li><a href="#home">Home</a></li>
-  <li class="dropdown">
-      <a href="#">About</a>
-        <ul class="dropdown-menu">
-            <li><a href="#about">About</a></li>
-            <li><a href="#aboutme">About Me</a></li>
-        </ul>
-    </li>
-    <li><a href="#contacts">Contact</a></li>
-        <button>Login In</button>
-</ul>   
-  </nav>
+      <ul class="nav">
+        <li><a href="public.html">Home</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle">About</a>
+          <ul class="dropdown-menu">
+            <li><a href="about.html">About</a></li>
+            <li><a href="aboutme.html">About Me</a></li>
+          </ul>
+        </li>
+        <li><a href="contact.html">Contact</a></li>
+        <li id="auth-nav"></li>
+      </ul>
+    </nav>
 
-  <div class="container">
-    
-    <div class="filters">
-
-      <label for="categorySelect">Filter by category:</label>
+    <div class="container">
+      <div class="filters">
+        <label for="categorySelect">Filter by category:</label>
         <select id="categorySelect">
-              <option value="">📚 All stories</option>
-              <option value="Life">🌿 Life</option>
-              <option value="Inspiration">💡 Inspiration</option>
-              <option value="Fiction">📖 Fiction</option>
-              <option value="Selfgrowth">🌱 Selfgrowth</option>
-              <option value="Money">💰 Money</option>
-              <option value="Parenting">👨‍👩‍👧 Parenting</option>
-              <option value="Moments">📸 Moments</option>
-              <option value="News">📰 News</option>
-     </select>
+          <option value="">📚 All stories</option>
+          <option value="Life">🌿 Life</option>
+          <option value="Inspiration">💡 Inspiration</option>
+          <option value="Fiction">📖 Fiction</option>
+          <option value="Selfgrowth">🌱 Selfgrowth</option>
+          <option value="Money">💰 Money</option>
+          <option value="Parenting">👨‍👩‍👧 Parenting</option>
+          <option value="Moments">📸 Moments</option>
+          <option value="News">📰 News</option>
+        </select>
+      </div>
+
+      <div id="storiesContainer" class="loading">📖 Loading stories...</div>
     </div>
-    
-  <!-- From Uiverse.io by alexruix --> 
-
-  
-
-    <div id="storiesContainer" class="loading">📖 Loading stories...</div>
-
-    
   </div>
 
-  </div>
+  <!-- Import Firebase and auth logic -->
+  <script type="importmap">
+    {
+      "imports": {
+        "firebase/app": "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js",
+        "firebase/auth": "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js"
+      }
+    }
+  </script>
+  <script type="module">
+    import { onAuthStateChanged, logoutUser, isAdminUser } from './auth.js';
+    const authNav = document.getElementById('auth-nav');
     
+    onAuthStateChanged(async (user) => {
+      if (!user) {
+        window.location.href = 'login.html';
+        return;
+      }
+      if (isAdminUser(user)) {
+        window.location.href = 'admin.html';
+        return;
+      }
+      const logoutBtn = document.createElement('button');
+      logoutBtn.textContent = 'Logout';
+      logoutBtn.classList.add('logout-btn');
+      logoutBtn.addEventListener('click', async () => {
+        await logoutUser();
+        window.location.href = 'login.html';
+      });
+      const userSpan = document.createElement('span');
+      userSpan.textContent = user.email;
+      userSpan.classList.add('user-email');
+      authNav.innerHTML = '';
+      authNav.appendChild(userSpan);
+      authNav.appendChild(logoutBtn);
+    });
+  </script>
   
+  <!-- Your existing public.js script (unchanged) -->
+  <script src="public.js"></script>
+  
+  <!-- Enhanced mobile menu & dropdown toggles (unchanged) -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const hamburger = document.querySelector('.hamburger');
+      const navMenu = document.querySelector('nav .nav');
+      const dropdownToggle = document.querySelector('.dropdown-toggle');
+      const dropdown = document.querySelector('.dropdown');
+      
+      if (hamburger && navMenu) {
+        hamburger.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const expanded = navMenu.classList.toggle('open');
+          hamburger.setAttribute('aria-expanded', expanded);
+        });
+      }
+      
+      if (dropdownToggle && dropdown) {
+        dropdownToggle.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          dropdown.classList.toggle('open');
+        });
+      }
+      
+      document.addEventListener('click', (e) => {
+        if (dropdown && dropdown.classList.contains('open')) {
+          const isInsideDropdown = dropdown.contains(e.target);
+          const isToggleClick = dropdownToggle && dropdownToggle.contains(e.target);
+          if (!isInsideDropdown && !isToggleClick) {
+            dropdown.classList.remove('open');
+          }
+        }
+        if (navMenu && navMenu.classList.contains('open')) {
+          if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
+            navMenu.classList.remove('open');
+            if (hamburger) hamburger.setAttribute('aria-expanded', false);
+          }
+        }
+      });
+      
+      window.addEventListener('resize', () => {
+        if (window.innerWidth > 768) {
+          if (navMenu) navMenu.classList.remove('open');
+          if (hamburger) hamburger.setAttribute('aria-expanded', false);
+        }
+      });
+    });
 
-  
-  
-  <script type="module" src="public.js"></script>
+    // ---------- SCROLL ANIMATION (FIXED) ----------
+    (function() {
+      // Function to add the 'animate-on-scroll' class to all .story-item elements
+      function addAnimationClass() {
+        const storyItems = document.querySelectorAll('.story-item');
+        storyItems.forEach(item => {
+          if (!item.classList.contains('animate-on-scroll')) {
+            item.classList.add('animate-on-scroll');
+          }
+        });
+      }
+
+      // Intersection Observer to add 'in-view' class when element becomes visible
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+            // Unobserve after animation to save resources
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.2 }); // trigger when 20% of the card is visible
+
+      // Observe all elements with .animate-on-scroll class
+      function observeAllCards() {
+        const cards = document.querySelectorAll('.animate-on-scroll');
+        cards.forEach(card => {
+          // Only observe if not already observed and not already animated
+          if (!card.classList.contains('in-view')) {
+            observer.observe(card);
+          }
+        });
+      }
+
+      // Call this whenever new content is added to #storiesContainer
+      function refreshAnimations() {
+        addAnimationClass();
+        observeAllCards();
+      }
+
+      // Initial run after page loads (with a slight delay to allow public.js to finish)
+      window.addEventListener('load', () => {
+        setTimeout(refreshAnimations, 100);
+      });
+
+      // Watch for changes in the stories container (dynamic updates from public.js)
+      const container = document.getElementById('storiesContainer');
+      if (container) {
+        const mutationObserver = new MutationObserver((mutations) => {
+          // After any change, re-run the animation setup
+          refreshAnimations();
+        });
+        mutationObserver.observe(container, { childList: true, subtree: true });
+      }
+
+      // Also listen for category select changes? public.js already triggers a re-render,
+      // so the mutation observer will catch it.
+    })();
+  </script>
 </body>
 </html>

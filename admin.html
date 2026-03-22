@@ -2,125 +2,741 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin - Add & View Stories</title>
-  <link rel="stylesheet" href="admin.css">
-  <!-- Supabase JS v1 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Admin Panel - Story Manager</title>
+  <!-- Google Fonts + modern base -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <!-- Font Awesome 6 (free icons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Supabase JS v1 (for data operations) -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1.35.6/dist/umd/supabase.min.js"></script>
   
   <style>
-    /* Additional styles for logout button and layout */
-    .container-header {
+    /* ---------- RESET & GLOBAL ---------- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f1f5f9;
+      line-height: 1.5;
+      color: #0f172a;
+    }
+
+    /* main admin wrapper - flex column for vertical centering */
+    .page1 {
+      min-height: 100vh;
+      background: linear-gradient(145deg, #0f4c5c 0%, #0a3a46 100%);
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
+    }
+
+    /* ========== STICKY NAVBAR ========== */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(2px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      padding: 0.9rem 2rem;
+      display: flex;
       align-items: center;
-      margin-bottom: 20px;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
     }
-    .logout-btn {
-      background-color: #dc3545;
-      color: white;
+
+    .logo {
+      font-size: 1.65rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #0f4c5c, #14b89c);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      letter-spacing: -0.3px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .logo i {
+      background: none;
+      color: #0f4c5c;
+      font-size: 1.7rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+      transition: all 0.3s ease;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1rem;
+      color: #1e293b;
+      transition: 0.2s;
+      padding: 0.4rem 0;
+      border-bottom: 2px solid transparent;
+    }
+    .nav-links a:hover {
+      color: #0f4c5c;
+      border-bottom-color: #0f4c5c;
+      transform: translateY(-1px);
+    }
+    .nav-links a.active {
+      color: #0f4c5c;
+      border-bottom-color: #0f4c5c;
+      font-weight: 600;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+    }
+    .admin-email {
+      font-size: 0.85rem;
+      background: #eef2ff;
+      padding: 6px 14px;
+      border-radius: 40px;
+      font-weight: 500;
+      color: #0f4c5c;
+    }
+    .logout-btn-nav {
+      background: #dc3545;
       border: none;
-      padding: 10px 20px;
-      font-size: 16px;
-      border-radius: 5px;
+      color: white;
+      font-weight: 600;
+      padding: 8px 18px;
+      border-radius: 40px;
       cursor: pointer;
-      transition: background-color 0.3s ease;
+      font-size: 0.85rem;
+      font-family: inherit;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
-    .logout-btn:hover {
-      background-color: #c82333;
+    .logout-btn-nav:hover {
+      background: #b91c2c;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 10px rgba(0,0,0,0.1);
     }
-    .logout-btn:active {
-      transform: scale(0.98);
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 5px;
+      background: transparent;
+      border: none;
+      padding: 6px;
     }
-  </style>
-  <script>
-    // Use the global supabaseClient from auth.js
-    async function checkAdmin() {
-      const user = window.supabaseClient.auth.user();   // v1 method
-      if (!user || user.email !== "esthernjeri184@gmail.com") {
-        alert("Access denied!");
-        window.location.href = "login.html";
+    .hamburger span {
+      width: 26px;
+      height: 2.5px;
+      background-color: #0f4c5c;
+      border-radius: 4px;
+      transition: all 0.25s ease;
+    }
+
+    /* ---------- FORM CONTAINER (centered both axes) ---------- */
+    .container {
+      width: 90%;
+      max-width: 850px;
+      margin: auto; /* centers vertically and horizontally */
+      background: white;
+      padding: 30px 32px;
+      border-radius: 28px;
+      box-shadow: 0 20px 35px -12px rgba(0,0,0,0.2);
+      transition: all 0.2s;
+    }
+
+    .container h3 {
+      color: #0f4c5c;
+      font-size: 1.7rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      padding: 0;
+      text-align: left;
+      border-left: 5px solid #14b89c;
+      padding-left: 18px;
+    }
+
+    /* ---------- FORM FIELDS CENTERED HORIZONTALLY ---------- */
+    #storyForm {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.4rem;
+    }
+
+    /* each label group has a consistent max-width and is centered */
+    #storyForm label {
+      width: 100%;
+      max-width: 500px;
+      text-align: left;
+      font-weight: 600;
+      color: #1e293b;
+      font-size: 0.9rem;
+      letter-spacing: -0.2px;
+    }
+
+    #storyForm input,
+    #storyForm select,
+    #storyForm textarea {
+      margin-top: 6px;
+      padding: 12px 14px;
+      border: 1px solid #cbd5e1;
+      border-radius: 16px;
+      font-size: 0.95rem;
+      font-family: 'Inter', sans-serif;
+      transition: 0.2s;
+      background: #fefefe;
+      width: 100%;
+    }
+
+    #storyForm input:focus,
+    #storyForm select:focus,
+    #storyForm textarea:focus {
+      outline: none;
+      border-color: #0f4c5c;
+      box-shadow: 0 0 0 3px rgba(15,76,92,0.2);
+    }
+
+    /* submit button also centered with max-width */
+    #storyForm button[type="submit"] {
+      width: 100%;
+      max-width: 500px;
+      background: #0f4c5c;
+      color: white;
+      font-weight: 700;
+      border: none;
+      padding: 14px;
+      border-radius: 40px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      margin-top: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    #storyForm button[type="submit"]:hover {
+      background: #0a3a46;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px -5px rgba(0,0,0,0.2);
+    }
+
+    /* EDIT & DELETE button centered as well */
+    .edit-delete-btn {
+      background: linear-gradient(95deg, #f97316, #ef4444);
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 40px;
+      padding: 12px 28px;
+      cursor: pointer;
+      transition: 0.2s;
+      font-size: 0.9rem;
+      display: block;
+      width: 100%;
+      max-width: 500px;
+      margin: 20px auto 0 auto;
+      text-align: center;
+    }
+    .edit-delete-btn:hover {
+      transform: scale(1.02);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+    }
+
+    #storyMessage {
+      text-align: center;
+      font-weight: 500;
+      margin: 10px auto;
+      max-width: 800px;
+    }
+
+    /* ---------- STORIES SECTION (cards) ---------- */
+    .stories-header {
+      text-align: center;
+      margin: 40px 0 20px 0;
+    }
+    .stories-header h2 {
+      color: white;
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      display: inline-block;
+      background: rgba(0,0,0,0.2);
+      backdrop-filter: blur(4px);
+      padding: 6px 28px;
+      border-radius: 60px;
+    }
+
+    #storiesList {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+      width: 90%;
+      max-width: 1400px;
+      margin: 20px auto 40px auto;
+      padding: 0 0.5rem;
+    }
+
+    .story-item {
+      background: white;
+      border-radius: 28px;
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.2, 0, 0, 1);
+      box-shadow: 0 12px 24px -12px rgba(0, 0, 0, 0.2);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      width: 100%;
+    }
+
+    .story-item:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 28px 36px -16px rgba(0, 0, 0, 0.25);
+    }
+
+    .story-item img {
+      width: 100%;
+      height: 210px;
+      object-fit: cover;
+      background: #e2e8f0;
+      transition: transform 0.4s ease;
+      display: block;
+    }
+    .story-item:hover img {
+      transform: scale(1.02);
+    }
+
+    .story-content {
+      padding: 1.5rem 1.3rem 1.5rem 1.3rem;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .story-item h3 {
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin: 0 0 0.6rem 0;
+      line-height: 1.3;
+      padding: 0;
+      text-align: left;
+      background: none;
+    }
+
+    .story-preview {
+      font-size: 0.95rem;
+      color: #334155;
+      line-height: 1.5;
+      margin-bottom: 1.2rem;
+      flex: 1;
+    }
+
+    .full-story {
+      display: none;
+      font-size: 0.9rem;
+      color: #1e293b;
+      background: #f8fafc;
+      padding: 12px;
+      border-radius: 18px;
+      margin: 12px 0;
+      border-left: 3px solid #0f4c5c;
+    }
+
+    .read-more-btn {
+      background: transparent;
+      border: 1.5px solid #0f4c5c;
+      color: #0f4c5c;
+      font-weight: 600;
+      padding: 8px 18px;
+      border-radius: 40px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      transition: 0.2s;
+      align-self: flex-start;
+      margin-top: 8px;
+    }
+    .read-more-btn:hover {
+      background: #0f4c5c;
+      color: white;
+      transform: scale(0.97);
+    }
+
+    .story-category-badge {
+      display: inline-block;
+      background: #e0f2fe;
+      color: #0c4a6e;
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 30px;
+      margin-bottom: 12px;
+      width: fit-content;
+    }
+
+    /* tablet & desktop grid */
+    @media (min-width: 768px) {
+      #storiesList {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+      }
+    }
+    @media (min-width: 1024px) {
+      #storiesList {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    @media (min-width: 1400px) {
+      #storiesList {
+        grid-template-columns: repeat(4, 1fr);
       }
     }
 
-    // Run check on page load
-    checkAdmin();
-
-    // Logout function (v1)
-    async function logout() {
-      await window.supabaseClient.auth.signOut();
-      window.location.href = "login.html";
+    /* ---------- RESPONSIVE NAVBAR (small screens) ---------- */
+    @media (max-width: 768px) {
+      .navbar {
+        padding: 0.8rem 1.2rem;
+      }
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        background: white;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1.5rem 2rem;
+        gap: 1.2rem;
+        box-shadow: 0 15px 25px rgba(0,0,0,0.1);
+        border-radius: 0 0 24px 24px;
+        z-index: 999;
+        transition: all 0.3s ease;
+      }
+      .nav-links.show {
+        display: flex;
+        animation: slideDown 0.3s ease forwards;
+      }
+      .hamburger {
+        display: flex;
+      }
+      .nav-right {
+        gap: 0.8rem;
+      }
+      .admin-email {
+        font-size: 0.75rem;
+        padding: 4px 10px;
+      }
+      .logout-btn-nav {
+        padding: 6px 14px;
+        font-size: 0.75rem;
+      }
+      .container {
+        width: 92%;
+        padding: 20px 18px;
+        margin: auto;
+      }
+      .container h3 {
+        font-size: 1.4rem;
+      }
+      .stories-header h2 {
+        font-size: 1.6rem;
+      }
     }
-  </script>
+
+    @keyframes slideDown {
+      0% {
+        opacity: 0;
+        transform: translateY(-15px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .story-item img {
+        height: 180px;
+      }
+      .story-content {
+        padding: 1rem;
+      }
+      .story-item h3 {
+        font-size: 1.2rem;
+      }
+      #storiesList {
+        gap: 1.3rem;
+        width: 92%;
+      }
+    }
+
+    #storyMessage {
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(4px);
+      color: white;
+      padding: 10px;
+      border-radius: 60px;
+      width: fit-content;
+      margin: 10px auto;
+    }
+    hr {
+      display: none;
+    }
+    .full-story {
+      transition: all 0.2s;
+    }
+    a {
+      text-decoration: none;
+    }
+    img, div, .page1 {
+      max-width: 100%;
+    }
+  </style>
 </head>
 <body>
-  <div class="page1">
-    <h3>THIS IS ADMIN PANEL ONLY</h3>
-
-    <div class="container">
-      <!-- Header with logout button -->
-      <div class="container-header">
-        <h3>Add New Story</h3>
-        <button class="logout-btn" onclick="logout()">Logout</button>
-      </div>
-
-      <form id="storyForm">
-        <label>
-          Category:
-          <select id="category">
-            <option value="">📚 All stories</option>
-            <option value="Life">🌿 Life</option>
-            <option value="Inspiration">💡 Inspiration</option>
-            <option value="Fiction">📖 Fiction</option>
-            <option value="Selfgrowth">🌱 Selfgrowth</option>
-            <option value="Money">💰 Money</option>
-            <option value="Parenting">👨‍👩‍👧 Parenting</option>
-            <option value="Moments">📸 Moments</option>
-            <option value="News">📰 News</option>
-          </select>
-        </label>
-
-        <label>
-          Title:
-          <input type="text" id="title" placeholder="Title">
-        </label>
-
-        <label>
-          Short Description:
-          <textarea id="shortDesc" rows="2" required></textarea>
-        </label>
-
-        <label>
-          Full Story:
-          <textarea id="fullStory" rows="5" required></textarea>
-        </label>
-
-        <label>
-          Choose Image:
-          <input type="file" id="storyImage" accept="image/*" required>
-        </label>
-
-        <button type="submit">Add Story</button>
-      </form>
-
-      <a href="edit.html">
-        <button class="edit-delete-btn">EDIT & DELETE</button>
-      </a>
+<div class="page1">
+  <!-- FULLY RESPONSIVE STICKY NAVBAR with hamburger -->
+  <nav class="navbar">
+    <div class="logo">
+      <i class="fas fa-book-open"></i> 
+      <span>VerseVibe & Flow</span>
     </div>
+    <div class="nav-links" id="navLinks">
+      <a href="public.html"><i class="fas fa-globe"></i> Public Stories</a>
+      <a href="admin.html" class="active"><i class="fas fa-shield-alt"></i> Admin Panel</a>
+    </div>
+    <div class="nav-right">
+      <span id="adminEmail" class="admin-email"></span>
+      <button id="logoutBtn" class="logout-btn-nav"><i class="fas fa-sign-out-alt"></i> Logout</button>
+      <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
 
-    <div id="storyMessage"></div>
+  <!-- Admin Form Container – now all input groups are centered -->
+  <div class="container">
+    <h3><i class="fas fa-pen-fancy"></i> Add New Story</h3>
+    <form id="storyForm">
+      <label>
+        Category:
+        <select id="category">
+          <option value="">📚 All stories</option>
+          <option value="Life">🌿 Life</option>
+          <option value="Inspiration">💡 Inspiration</option>
+          <option value="Fiction">📖 Fiction</option>
+          <option value="Selfgrowth">🌱 Selfgrowth</option>
+          <option value="Money">💰 Money</option>
+          <option value="Parenting">👨‍👩‍👧 Parenting</option>
+          <option value="Moments">📸 Moments</option>
+          <option value="News">📰 News</option>
+        </select>
+      </label>
 
-    <hr />
+      <label>
+        Title:
+        <input type="text" id="title" placeholder="Captivating story title">
+      </label>
 
-    <h2>Recent Stories</h2>
-    <div id="storiesList">Loading stories...</div>
+      <label>
+        Short Description:
+        <textarea id="shortDesc" rows="2" required placeholder="Brief intro..."></textarea>
+      </label>
 
-    <hr />
+      <label>
+        Full Story:
+        <textarea id="fullStory" rows="5" required placeholder="Write the complete story here..."></textarea>
+      </label>
 
-    <!-- <h2>All Images in Bucket</h2> -->
-    <!-- <div id="gallery">Loading images...</div> -->
+      <label>
+        Choose Image:
+        <input type="file" id="storyImage" accept="image/*" required>
+      </label>
+
+      <button type="submit"><i class="fas fa-plus-circle"></i> Publish Story</button>
+    </form>
+    <a href="edit.html">
+      <button class="edit-delete-btn"><i class="fas fa-edit"></i> EDIT & DELETE STORIES</button>
+    </a>
   </div>
 
-  <script src="admin.js"></script>
+  <div id="storyMessage"></div>
+
+  
+
+
+<script type="importmap">
+  {
+    "imports": {
+      "firebase/app": "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js",
+      "firebase/auth": "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js"
+    }
+  }
+</script>
+
+
+<script type="module">
+  import { onAuthStateChanged, logoutUser, isAdminUser } from './auth.js';
+
+  const adminEmailSpan = document.getElementById('adminEmail');
+  const logoutBtn = document.getElementById('logoutBtn');
+
+  onAuthStateChanged((user) => {
+    if (!user) {
+      window.location.href = 'login.html';
+      return;
+    }
+    if (!isAdminUser(user)) {
+      window.location.href = 'public.html';
+      return;
+    }
+    adminEmailSpan.textContent = user.email;
+  });
+
+  logoutBtn.addEventListener('click', async () => {
+    await logoutUser();
+    window.location.href = 'login.html';
+  });
+</script>
+
+
+<script src="admin.js"></script>
+
+
+<script>
+  (function() {
+    // Hamburger menu toggle
+    const hamburger = document.getElementById('hamburgerBtn');
+    const navLinks = document.getElementById('navLinks');
+    
+    if (hamburger && navLinks) {
+      hamburger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        navLinks.classList.toggle('show');
+        const spans = hamburger.querySelectorAll('span');
+        if (navLinks.classList.contains('show')) {
+          spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+          spans[1].style.opacity = '0';
+          spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+        } else {
+          spans[0].style.transform = 'none';
+          spans[1].style.opacity = '1';
+          spans[2].style.transform = 'none';
+        }
+      });
+      
+      const links = navLinks.querySelectorAll('a');
+      links.forEach(link => {
+        link.addEventListener('click', () => {
+          navLinks.classList.remove('show');
+          const spans = hamburger.querySelectorAll('span');
+          spans[0].style.transform = 'none';
+          spans[1].style.opacity = '1';
+          spans[2].style.transform = 'none';
+        });
+      });
+      
+      window.addEventListener('resize', function() {
+        if (window.innerWidth > 768 && navLinks.classList.contains('show')) {
+          navLinks.classList.remove('show');
+          const spans = hamburger.querySelectorAll('span');
+          if(spans[0]) spans[0].style.transform = 'none';
+          if(spans[1]) spans[1].style.opacity = '1';
+          if(spans[2]) spans[2].style.transform = 'none';
+        }
+      });
+    }
+    
+    // Enhance story cards dynamically (ensures images & layout are consistent)
+    const observer = new MutationObserver(function(mutations) {
+      mutations.forEach(function(mutation) {
+        if (mutation.type === 'childList' || mutation.type === 'subtree') {
+          enhanceStoryCards();
+        }
+      });
+    });
+    
+    function enhanceStoryCards() {
+      const storiesContainer = document.getElementById('storiesList');
+      if (!storiesContainer) return;
+      const storyItems = storiesContainer.querySelectorAll('.story-item');
+      if (!storyItems.length) return;
+      
+      storyItems.forEach(item => {
+        if (item.dataset.cardEnhanced === 'true') return;
+        
+        let imgElem = item.querySelector('img');
+        let titleElem = item.querySelector('h3');
+        let previewElem = item.querySelector('.story-preview');
+        let fullStoryElem = item.querySelector('.full-story');
+        let readBtn = item.querySelector('.read-more-btn');
+        
+        // Wrap content if missing .story-content
+        if (!item.querySelector('.story-content')) {
+          const wrapper = document.createElement('div');
+          wrapper.className = 'story-content';
+          const children = Array.from(item.childNodes);
+          let imageNode = null;
+          children.forEach(child => {
+            if (child.nodeType === 1 && child.tagName === 'IMG') imageNode = child;
+          });
+          if (imageNode) {
+            const restNodes = children.filter(c => c !== imageNode);
+            restNodes.forEach(node => wrapper.appendChild(node));
+            item.appendChild(wrapper);
+          } else {
+            children.forEach(node => wrapper.appendChild(node));
+            item.appendChild(wrapper);
+          }
+        }
+        
+        // Add category badge if not present
+        if (!item.querySelector('.story-category-badge') && item.dataset.category) {
+          const badge = document.createElement('div');
+          badge.className = 'story-category-badge';
+          badge.innerHTML = `<i class="fas fa-tag"></i> ${item.dataset.category}`;
+          const contentDiv = item.querySelector('.story-content');
+          if (contentDiv && contentDiv.firstChild) contentDiv.insertBefore(badge, contentDiv.firstChild);
+          else if (contentDiv) contentDiv.prepend(badge);
+        }
+        
+        if (readBtn && fullStoryElem) {
+          readBtn.style.marginTop = '8px';
+        }
+        
+        if (imgElem) {
+          imgElem.style.objectFit = 'cover';
+          imgElem.style.width = '100%';
+          imgElem.style.height = '210px';
+        }
+        
+        item.dataset.cardEnhanced = 'true';
+      });
+    }
+    
+    if (document.getElementById('storiesList')) {
+      setTimeout(enhanceStoryCards, 200);
+      observer.observe(document.getElementById('storiesList'), { childList: true, subtree: true });
+    }
+    
+    window.addEventListener('load', function() {
+      enhanceStoryCards();
+    });
+  })();
+</script>
 </body>
 </html>

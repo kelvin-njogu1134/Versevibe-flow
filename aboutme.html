@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>VerseVibe & Flow – About Me</title>
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=ABeeZee:ital@0;1&family=Arimo:ital,wght@0,400..700;1,400..700&family=Dancing+Script:wght@400..700&family=Delius+Unicase:wght@400;700&family=Edu+SA+Hand:wght@400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lora:ital,wght@0,400..700;1,400..700&family=Macondo&family=Momo+Signature&family=Momo+Trust+Sans:wght@200..800&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Playwrite+CZ:wght@100..400&family=Public+Sans:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Rubik:ital,wght@0,300..900;1,300..900&family=Special+Gothic+Expanded+One&family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
+
+  <!-- External CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1.35.6/dist/umd/supabase.min.js"></script>
+  
+  <style>
+    /* ===== RESET & BASE ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    .page1 {
+      background-color: teal;
+      min-height: 100vh;
+      width: 100%;
+    }
+
+    /* ===== NAVBAR – Sticky & Responsive ===== */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      width: 100%;
+      background-color: teal;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      list-style: none;
+      transition: all 0.3s ease;
+    }
+    /* Logo */
+    nav .logo h1 {
+      font-size: 40px;
+      color: rgb(20, 20, 20);
+      font-family: "Dancing Script", cursive;
+      font-weight: 600;
+    }
+    nav .logo h1 span {
+      color: red;
+    }
+    nav .logo p {
+      font-size: 20px;
+      color: whitesmoke;
+      font-family: "Dancing Script", cursive;
+      font-weight: 600;
+    }
+    .logo a {
+      text-decoration: none;
+    }
+
+    /* Navigation links container */
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      list-style: none;
+    }
+    .nav li a {
+      color: rgb(255, 255, 255);
+      text-decoration: none;
+      font-size: 20px;
+      transition: color 0.2s, transform 0.2s;
+    }
+    .nav li a:hover {
+      color: #ffd966;
+      transform: translateY(-2px);
+    }
+    .nav button {
+      padding: 8px 14px;
+      border: 1px solid white;
+      font-size: 15px;
+      background: white;
+      color: teal;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .nav button:hover {
+      background: teal;
+      color: white;
+      border: 1px solid teal;
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+    }
+
+    /* Dropdown (desktop hover) */
+    .dropdown {
+      position: relative;
+    }
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      background: teal;
+      list-style: none;
+      padding: 0;
+      border-radius: 10px;
+      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+      top: 100%;
+      left: 0;
+      min-width: 160px;
+    }
+    .dropdown-menu li {
+      padding: 10px;
+    }
+    .dropdown:hover .dropdown-menu {
+      display: block;
+    }
+
+    /* Hamburger button (hidden on desktop) */
+    .hamburger {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem;
+      z-index: 1001;
+    }
+    .hamburger span {
+      display: block;
+      width: 25px;
+      height: 3px;
+      background: white;
+      margin: 5px 0;
+      border-radius: 3px;
+      transition: all 0.2s;
+    }
+
+    /* ===== CONTAINER & ABOUT ME CARD ===== */
+    .container {
+      height: auto;
+      min-height: 80vh;
+      width: 100%;
+      background-color: white;
+      padding: 50px 8%;
+      border-radius: 30px 30px 0 0;
+    }
+    .aboutme-card {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #fef9f0;
+      border-radius: 32px;
+      padding: 45px 55px;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.05);
+      transition: transform 0.2s;
+    }
+    .aboutme-card:hover {
+      transform: translateY(-3px);
+    }
+    .aboutme-content {
+      font-family: 'Lora', serif;
+      color: #2c3e2f;
+      line-height: 1.8;
+      font-size: 18px;
+    }
+    .aboutme-content p {
+      margin-bottom: 1.8rem;
+    }
+    .name-intro {
+      font-size: 32px;
+      font-family: 'Dancing Script', cursive;
+      color: teal;
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
+    .divider {
+      text-align: center;
+      margin: 2rem 0;
+      font-size: 24px;
+      letter-spacing: 6px;
+      color: #b2dfdb;
+    }
+    .signature {
+      text-align: right;
+      font-family: 'Dancing Script', cursive;
+      font-size: 24px;
+      color: teal;
+      margin-top: 2rem;
+    }
+    .back-link {
+      text-align: center;
+      margin-top: 40px;
+    }
+    .back-link a {
+      background: teal;
+      color: white;
+      padding: 12px 28px;
+      border-radius: 40px;
+      text-decoration: none;
+      font-weight: bold;
+      display: inline-block;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .back-link a:hover {
+      background: #006d6d;
+      transform: scale(0.98);
+    }
+
+    /* ===== AUTH ELEMENTS ===== */
+    .logout-btn {
+      background: #667eea;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      margin-left: 15px;
+      transition: background 0.2s;
+    }
+    .logout-btn:hover {
+      background: #5a67d8;
+    }
+    .user-email {
+      font-size: 14px;
+      margin-left: 10px;
+      color: #fff;
+      background: rgba(0,0,0,0.2);
+      padding: 5px 10px;
+      border-radius: 20px;
+    }
+
+    /* ===== RESPONSIVE BREAKPOINTS ===== */
+    @media (max-width: 992px) {
+      .aboutme-card {
+        padding: 35px;
+      }
+      .aboutme-content {
+        font-size: 17px;
+      }
+      .name-intro {
+        font-size: 28px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      /* Hamburger visible */
+      .hamburger {
+        display: block;
+      }
+      /* Hide nav links by default */
+      .nav {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: teal;
+        flex-direction: column;
+        padding: 1rem;
+        gap: 1rem;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        z-index: 1000;
+      }
+      .nav.open {
+        display: flex;
+      }
+      /* Dropdown on mobile */
+      .dropdown {
+        position: static;
+      }
+      .dropdown-menu {
+        position: static;
+        background: rgba(0,0,0,0.1);
+        box-shadow: none;
+        margin-top: 0.5rem;
+        display: none;
+      }
+      .dropdown.open .dropdown-menu {
+        display: block;
+      }
+      /* Adjust container and card */
+      .container {
+        padding: 30px 5%;
+      }
+      .aboutme-card {
+        padding: 25px;
+      }
+      .aboutme-content {
+        font-size: 16px;
+      }
+      .name-intro {
+        font-size: 26px;
+      }
+      .divider {
+        font-size: 20px;
+        margin: 1.5rem 0;
+      }
+      .signature {
+        font-size: 20px;
+      }
+      nav .logo h1 {
+        font-size: 1.8rem;
+      }
+      nav .logo p {
+        font-size: 1rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .aboutme-card {
+        padding: 20px;
+      }
+      .aboutme-content {
+        font-size: 15px;
+      }
+      .name-intro {
+        font-size: 24px;
+      }
+      .back-link a {
+        padding: 10px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="page1">
+  <nav>
+    <div class="logo">
+      <a href="index.html">
+        <h1 class="animate__animated animate__backInDown">VerseVibe & <span>Flow</span></h1>
+        <p class="animate__animated animate__backInDown">Stories That Feel like Coming Home</p>
+      </a>
+    </div>
+
+    <!-- Hamburger button -->
+    <button class="hamburger" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+
+    <ul class="nav">
+      <li><a href="public.html">Home</a></li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle">About</a>
+        <ul class="dropdown-menu">
+          <li><a href="about.html">About</a></li>
+          <li><a href="aboutme.html">About Me</a></li>
+        </ul>
+      </li>
+      <li><a href="contact.html">Contact</a></li>
+      <li id="auth-nav"></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <div class="aboutme-card">
+      <div class="aboutme-content">
+        <div class="name-intro">✨ Hi, I'm Njeri. ✨</div>
+
+        <p>I am a storyteller. I write the way people think when they are alone. Soft. Honest. Vulnerable. Sometimes broken. Sometimes brave. I write for those who feel deeply but rarely say it out loud. For those who carry a quiet strength. For those who are still trying to find themselves after life has taken them through storms.</p>
+
+        <p>Writing has always been the way I make sense of things. The way I heal. The way I hold on to who I am. My stories are pieces of my heart disguised as characters. My reflections are the lessons life has whispered to me when I needed them most. My words are a home for anyone who has ever felt unseen or unheard.</p>
+
+        <div class="divider">❁  ❁  ❁</div>
+
+        <p>Thank you for being here.</p>
+        <p>Thank you for reading.</p>
+        <p>I hope these stories sit with you gently. I hope they comfort you on the hard days and inspire you on the good ones.</p>
+        <p>Most of all, I hope you find yourself somewhere within the lines.</p>
+
+        <div class="signature">— With warmth,<br>Njeri</div>
+      </div>
+    </div>
+
+    <div class="back-link">
+      <a href="public.html">📖 Read the Stories →</a>
+    </div>
+  </div>
+</div>
+
+<!-- Authentication & mobile menu script -->
+<script type="importmap">
+  {
+    "imports": {
+      "firebase/app": "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js",
+      "firebase/auth": "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js"
+    }
+  }
+</script>
+<script type="module">
+  import { onAuthStateChanged, logoutUser, isAdminUser } from './auth.js';
+  
+  const authNav = document.getElementById('auth-nav');
+  
+  onAuthStateChanged(async (user) => {
+    if (!user) {
+      window.location.href = 'login.html';
+      return;
+    }
+    
+    if (isAdminUser(user)) {
+      window.location.href = 'admin.html';
+      return;
+    }
+    
+    const logoutBtn = document.createElement('button');
+    logoutBtn.textContent = 'Logout';
+    logoutBtn.classList.add('logout-btn');
+    logoutBtn.addEventListener('click', async () => {
+      await logoutUser();
+      window.location.href = 'login.html';
+    });
+    
+    const userSpan = document.createElement('span');
+    userSpan.textContent = user.email;
+    userSpan.classList.add('user-email');
+    
+    authNav.innerHTML = '';
+    authNav.appendChild(userSpan);
+    authNav.appendChild(logoutBtn);
+  });
+</script>
+
+<script>
+  // Mobile menu toggle
+  document.addEventListener('DOMContentLoaded', () => {
+    const hamburger = document.querySelector('.hamburger');
+    const navMenu = document.querySelector('nav .nav');
+    const dropdownToggle = document.querySelector('.dropdown-toggle');
+    const dropdown = document.querySelector('.dropdown');
+
+    if (hamburger && navMenu) {
+      hamburger.addEventListener('click', () => {
+        const expanded = navMenu.classList.toggle('open');
+        hamburger.setAttribute('aria-expanded', expanded);
+      });
+    }
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (navMenu && navMenu.classList.contains('open')) {
+        if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
+          navMenu.classList.remove('open');
+          hamburger.setAttribute('aria-expanded', false);
+        }
+      }
+    });
+
+    // Mobile dropdown: click to open
+    if (dropdownToggle && dropdown) {
+      dropdownToggle.addEventListener('click', (e) => {
+        if (window.innerWidth <= 768) {
+          e.preventDefault();
+          dropdown.classList.toggle('open');
+        }
+      });
+    }
+
+    // Reset on resize
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 768) {
+        if (dropdown) dropdown.classList.remove('open');
+        if (navMenu) navMenu.classList.remove('open');
+        if (hamburger) hamburger.setAttribute('aria-expanded', false);
+      }
+    });
+  });
+</script>
+</body>
+</html>

@@ -2,57 +2,650 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Manage Stories</title>
-  <!-- Include Supabase client library -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Manage Stories - StoryVerse</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Supabase JS v2 -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <!-- Your new admin-manage.js file -->
+  <!-- External admin-manage.js (handles story CRUD) -->
   <script src="admin-manage.js" defer></script>
-  
-    <link rel="stylesheet" href="edit.css">
+  <style>
+    /* ---------- RESET & GLOBAL ---------- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f1f5f9;
+      line-height: 1.5;
+      color: #0f172a;
+    }
+
+    /* main wrapper */
+    .page-wrapper {
+      min-height: 100vh;
+      background: linear-gradient(145deg, #0f4c5c 0%, #0a3a46 100%);
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ========== STICKY NAVBAR (same as admin panel) ========== */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(2px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      padding: 0.9rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .logo {
+      font-size: 1.65rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #0f4c5c, #14b89c);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      letter-spacing: -0.3px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .logo i {
+      background: none;
+      color: #0f4c5c;
+      font-size: 1.7rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+      transition: all 0.3s ease;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1rem;
+      color: #1e293b;
+      transition: 0.2s;
+      padding: 0.4rem 0;
+      border-bottom: 2px solid transparent;
+    }
+    .nav-links a:hover {
+      color: #0f4c5c;
+      border-bottom-color: #0f4c5c;
+      transform: translateY(-1px);
+    }
+    .nav-links a.active {
+      color: #0f4c5c;
+      border-bottom-color: #0f4c5c;
+      font-weight: 600;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+    }
+    .admin-email {
+      font-size: 0.85rem;
+      background: #eef2ff;
+      padding: 6px 14px;
+      border-radius: 40px;
+      font-weight: 500;
+      color: #0f4c5c;
+    }
+    .logout-btn-nav {
+      background: #dc3545;
+      border: none;
+      color: white;
+      font-weight: 600;
+      padding: 8px 18px;
+      border-radius: 40px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-family: inherit;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .logout-btn-nav:hover {
+      background: #b91c2c;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 5px;
+      background: transparent;
+      border: none;
+      padding: 6px;
+    }
+    .hamburger span {
+      width: 26px;
+      height: 2.5px;
+      background-color: #0f4c5c;
+      border-radius: 4px;
+      transition: all 0.25s ease;
+    }
+
+    /* ---------- MAIN CONTENT ---------- */
+    .content-container {
+      width: 90%;
+      max-width: 1400px;
+      margin: 40px auto;
+      flex: 1;
+    }
+
+    /* Header */
+    .page-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .page-header h1 {
+      color: white;
+      font-size: 2.2rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      display: inline-block;
+      background: rgba(0,0,0,0.2);
+      backdrop-filter: blur(4px);
+      padding: 8px 32px;
+      border-radius: 60px;
+    }
+
+    /* Stories list - card layout */
+    #storiesManageList {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      margin-bottom: 40px;
+    }
+
+    /* Individual story card */
+    .story-manage-item {
+      background: white;
+      border-radius: 24px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 20px -8px rgba(0, 0, 0, 0.15);
+    }
+    .story-manage-item:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Card inner layout */
+    .story-manage-item > div {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 1.2rem;
+      flex-wrap: wrap;
+    }
+
+    /* Image */
+    .story-manage-item img {
+      width: 100px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 16px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      flex-shrink: 0;
+    }
+
+    /* Text info */
+    .story-info {
+      flex: 1;
+      min-width: 200px;
+    }
+    .story-info strong {
+      font-size: 1.2rem;
+      color: #0f172a;
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+    .story-info small {
+      color: #64748b;
+      font-size: 0.85rem;
+    }
+
+    /* Action buttons */
+    .story-actions {
+      display: flex;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+    }
+    .edit-btn, .delete-btn {
+      padding: 8px 18px;
+      border: none;
+      border-radius: 40px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .edit-btn {
+      background: #3b82f6;
+      color: white;
+    }
+    .edit-btn:hover {
+      background: #2563eb;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(37, 99, 235, 0.3);
+    }
+    .delete-btn {
+      background: #ef4444;
+      color: white;
+    }
+    .delete-btn:hover {
+      background: #dc2626;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(220, 38, 38, 0.3);
+    }
+
+    /* Edit form container */
+    .edit-form-container {
+      background: white;
+      border-radius: 28px;
+      padding: 30px 32px;
+      margin-top: 20px;
+      box-shadow: 0 20px 35px -12px rgba(0,0,0,0.2);
+    }
+    .edit-form-container h2 {
+      font-size: 1.7rem;
+      color: #0f4c5c;
+      margin-bottom: 1.5rem;
+      padding-left: 18px;
+      border-left: 5px solid #14b89c;
+    }
+
+    /* Form fields centered */
+    #editStoryForm {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.2rem;
+    }
+    #editStoryForm label {
+      width: 100%;
+      max-width: 500px;
+      text-align: left;
+      font-weight: 600;
+      color: #1e293b;
+      font-size: 0.9rem;
+    }
+    #editStoryForm select,
+    #editStoryForm input[type="text"],
+    #editStoryForm textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid #cbd5e1;
+      border-radius: 16px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      transition: 0.2s;
+    }
+    #editStoryForm select:focus,
+    #editStoryForm input:focus,
+    #editStoryForm textarea:focus {
+      outline: none;
+      border-color: #0f4c5c;
+      box-shadow: 0 0 0 3px rgba(15,76,92,0.2);
+    }
+    #editStoryForm textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+    #editStoryImage {
+      margin-top: 8px;
+      padding: 8px;
+      border: 1px dashed #cbd5e1;
+      border-radius: 12px;
+      width: 100%;
+      background: #f8fafc;
+      cursor: pointer;
+    }
+    #currentImagePreview {
+      width: 100%;
+      max-width: 500px;
+      margin: 10px 0;
+      padding: 12px;
+      background: #f1f5f9;
+      border-radius: 16px;
+      text-align: center;
+    }
+    #currentImagePreview img {
+      max-width: 180px;
+      max-height: 120px;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .form-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      width: 100%;
+      max-width: 500px;
+      margin-top: 10px;
+    }
+    .form-buttons button {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      border-radius: 40px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .form-buttons button[type="submit"] {
+      background: #10b981;
+      color: white;
+    }
+    .form-buttons button[type="submit"]:hover {
+      background: #059669;
+      transform: translateY(-2px);
+    }
+    #cancelEdit {
+      background: #94a3b8;
+      color: white;
+    }
+    #cancelEdit:hover {
+      background: #64748b;
+      transform: translateY(-2px);
+    }
+    #editMessage {
+      width: 100%;
+      max-width: 500px;
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: 40px;
+      text-align: center;
+      font-weight: 500;
+      background: #f1f5f9;
+    }
+
+    /* ---------- RESPONSIVE ADJUSTMENTS ---------- */
+    @media (max-width: 768px) {
+      .navbar {
+        padding: 0.8rem 1.2rem;
+      }
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        background: white;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1.5rem 2rem;
+        gap: 1.2rem;
+        box-shadow: 0 15px 25px rgba(0,0,0,0.1);
+        border-radius: 0 0 24px 24px;
+        z-index: 999;
+      }
+      .nav-links.show {
+        display: flex;
+        animation: slideDown 0.3s ease forwards;
+      }
+      .hamburger {
+        display: flex;
+      }
+      .nav-right {
+        gap: 0.8rem;
+      }
+      .admin-email {
+        font-size: 0.75rem;
+        padding: 4px 10px;
+      }
+      .logout-btn-nav {
+        padding: 6px 14px;
+        font-size: 0.75rem;
+      }
+      .story-manage-item > div {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .story-manage-item img {
+        width: 100%;
+        height: auto;
+        max-height: 180px;
+      }
+      .story-actions {
+        width: 100%;
+        justify-content: space-between;
+      }
+      .edit-btn, .delete-btn {
+        flex: 1;
+        justify-content: center;
+      }
+      .edit-form-container {
+        padding: 20px 18px;
+      }
+      .form-buttons {
+        flex-direction: column;
+      }
+    }
+
+    @keyframes slideDown {
+      0% { opacity: 0; transform: translateY(-15px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 480px) {
+      .page-header h1 {
+        font-size: 1.6rem;
+      }
+      .story-info strong {
+        font-size: 1rem;
+      }
+    }
+  </style>
 </head>
 <body>
-  <h1>Manage Stories</h1>
-
-  <!-- List of stories with edit/delete buttons -->
-  <div id="storiesManageList"></div>
-
-  <!-- Edit Form -->
-  <h2>Edit Story</h2>
-  <form id="editStoryForm">
-    <!-- Hidden story ID is stored in data attribute, not a hidden field -->
-    <label for="editCategory">Category</label>
-    <select id="editCategory" required>
-      <option value="">📚 All stories</option>
-              <option value="Life">🌿 Life</option>
-              <option value="Inspiration">💡 Inspiration</option>
-              <option value="Fiction">📖 Fiction</option>
-              <option value="Selfgrowth">🌱 Selfgrowth</option>
-              <option value="Money">💰 Money</option>
-              <option value="Parenting">👨‍👩‍👧 Parenting</option>
-              <option value="Moments">📸 Moments</option>
-              <option value="News">📰 News</option>
-      <!-- add your categories -->
-    </select>
-
-    <label for="editTitle">Title</label>
-    <input type="text" id="editTitle" required>
-
-    <label for="editShortDesc">Short Description</label>
-    <textarea id="editShortDesc" rows="2" required></textarea>
-
-    <label for="editFullStory">Full Story</label>
-    <textarea id="editFullStory" required></textarea>
-
-    <label for="editStoryImage">Replace Image (optional)</label>
-    <input type="file" id="editStoryImage" accept="image/*">
-
-    <div id="currentImagePreview"></div>
-
-    <div style="margin-top: 15px;">
-      <button type="submit">Update Story</button>
-      <button type="button" id="cancelEdit">Cancel</button>
+<div class="page-wrapper">
+  <!-- Sticky Navbar -->
+  <nav class="navbar">
+    <div class="logo">
+      <i class="fas fa-book-open"></i> 
+      <span>StoryVerse</span>
     </div>
-    <div id="editMessage"></div>
-  </form>
+    <div class="nav-links" id="navLinks">
+      <a href="public.html"><i class="fas fa-globe"></i> Public Stories</a>
+      <a href="admin.html"><i class="fas fa-shield-alt"></i> Admin Panel</a>
+      <a href="edit.html" class="active"><i class="fas fa-edit"></i> Manage Stories</a>
+    </div>
+    <div class="nav-right">
+      <span id="adminEmail" class="admin-email"></span>
+      <button id="logoutBtn" class="logout-btn-nav"><i class="fas fa-sign-out-alt"></i> Logout</button>
+      <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="content-container">
+    <div class="page-header">
+      <h1><i class="fas fa-tasks"></i> Manage Stories</h1>
+    </div>
+
+    <!-- Stories list will be populated by admin-manage.js -->
+    <div id="storiesManageList"></div>
+
+    <!-- Edit Form -->
+    <div class="edit-form-container">
+      <h2><i class="fas fa-pen-alt"></i> Edit Story</h2>
+      <form id="editStoryForm">
+        <label for="editCategory">Category</label>
+        <select id="editCategory" required>
+          <option value="">📚 All stories</option>
+          <option value="Life">🌿 Life</option>
+          <option value="Inspiration">💡 Inspiration</option>
+          <option value="Fiction">📖 Fiction</option>
+          <option value="Selfgrowth">🌱 Selfgrowth</option>
+          <option value="Money">💰 Money</option>
+          <option value="Parenting">👨‍👩‍👧 Parenting</option>
+          <option value="Moments">📸 Moments</option>
+          <option value="News">📰 News</option>
+        </select>
+
+        <label for="editTitle">Title</label>
+        <input type="text" id="editTitle" required>
+
+        <label for="editShortDesc">Short Description</label>
+        <textarea id="editShortDesc" rows="2" required></textarea>
+
+        <label for="editFullStory">Full Story</label>
+        <textarea id="editFullStory" required></textarea>
+
+        <label for="editStoryImage">Replace Image (optional)</label>
+        <input type="file" id="editStoryImage" accept="image/*">
+
+        <div id="currentImagePreview"></div>
+
+        <div class="form-buttons">
+          <button type="submit">Update Story</button>
+          <button type="button" id="cancelEdit">Cancel</button>
+        </div>
+        <div id="editMessage"></div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Firebase import map and auth (same as admin panel) -->
+<script type="importmap">
+  {
+    "imports": {
+      "firebase/app": "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js",
+      "firebase/auth": "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js"
+    }
+  }
+</script>
+<script type="module">
+  import { onAuthStateChanged, logoutUser, isAdminUser } from './auth.js';
+
+  const adminEmailSpan = document.getElementById('adminEmail');
+  const logoutBtn = document.getElementById('logoutBtn');
+
+  onAuthStateChanged((user) => {
+    if (!user) {
+      window.location.href = 'login.html';
+      return;
+    }
+    if (!isAdminUser(user)) {
+      window.location.href = 'public.html';
+      return;
+    }
+    adminEmailSpan.textContent = user.email;
+  });
+
+  logoutBtn.addEventListener('click', async () => {
+    await logoutUser();
+    window.location.href = 'login.html';
+  });
+</script>
+
+<!-- Hamburger toggle and story card enhancement (non-breaking) -->
+<script>
+  (function() {
+    // Hamburger menu toggle
+    const hamburger = document.getElementById('hamburgerBtn');
+    const navLinks = document.getElementById('navLinks');
+    
+    if (hamburger && navLinks) {
+      hamburger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        navLinks.classList.toggle('show');
+        const spans = hamburger.querySelectorAll('span');
+        if (navLinks.classList.contains('show')) {
+          spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+          spans[1].style.opacity = '0';
+          spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+        } else {
+          spans[0].style.transform = 'none';
+          spans[1].style.opacity = '1';
+          spans[2].style.transform = 'none';
+        }
+      });
+      
+      const links = navLinks.querySelectorAll('a');
+      links.forEach(link => {
+        link.addEventListener('click', () => {
+          navLinks.classList.remove('show');
+          const spans = hamburger.querySelectorAll('span');
+          if(spans[0]) spans[0].style.transform = 'none';
+          if(spans[1]) spans[1].style.opacity = '1';
+          if(spans[2]) spans[2].style.transform = 'none';
+        });
+      });
+      
+      window.addEventListener('resize', () => {
+        if (window.innerWidth > 768 && navLinks.classList.contains('show')) {
+          navLinks.classList.remove('show');
+          const spans = hamburger.querySelectorAll('span');
+          if(spans[0]) spans[0].style.transform = 'none';
+          if(spans[1]) spans[1].style.opacity = '1';
+          if(spans[2]) spans[2].style.transform = 'none';
+        }
+      });
+    }
+
+    // Ensure story items have proper class structure for styling
+    const observer = new MutationObserver(() => {
+      const container = document.getElementById('storiesManageList');
+      if (!container) return;
+      const items = container.querySelectorAll('.story-manage-item');
+      items.forEach(item => {
+        if (item.dataset.enhanced === 'true') return;
+        // The original admin-manage.js creates a structure with a div inside.
+        // We add a class to the inner div to help styling, but CSS already targets .story-manage-item > div
+        // Also ensure the text info has a consistent class for better targeting.
+        const innerDiv = item.querySelector('div');
+        if (innerDiv) {
+          // Check if the text part is wrapped; if not, we can add a class for better targeting (optional)
+          const textDiv = innerDiv.querySelector('div:not(:has(button))');
+          if (textDiv && !textDiv.classList.contains('story-info')) {
+            textDiv.classList.add('story-info');
+          }
+          // Wrap buttons container if needed
+          const btnContainer = innerDiv.querySelector('.edit-btn')?.parentElement;
+          if (btnContainer && !btnContainer.classList.contains('story-actions')) {
+            btnContainer.classList.add('story-actions');
+          }
+        }
+        item.dataset.enhanced = 'true';
+      });
+    });
+    if (document.getElementById('storiesManageList')) {
+      observer.observe(document.getElementById('storiesManageList'), { childList: true, subtree: true });
+    }
+  })();
+</script>
 </body>
 </html>

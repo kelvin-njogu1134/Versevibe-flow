@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>VerseVibe & Flow – Contact</title>
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=ABeeZee:ital@0;1&family=Arimo:ital,wght@0,400..700;1,400..700&family=Dancing+Script:wght@400..700&family=Delius+Unicase:wght@400;700&family=Edu+SA+Hand:wght@400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lora:ital,wght@0,400..700;1,400..700&family=Macondo&family=Momo+Signature&family=Momo+Trust+Sans:wght@200..800&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Playwrite+CZ:wght@100..400&family=Public+Sans:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Rubik:ital,wght@0,300..900;1,300..900&family=Special+Gothic+Expanded+One&family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
+
+  <!-- External CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1.35.6/dist/umd/supabase.min.js"></script>
+  
+  <style>
+    /* ===== RESET & BASE ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    .page1 {
+      background-color: teal;
+      min-height: 100vh;
+      width: 100%;
+    }
+
+    /* ===== NAVBAR – Sticky & Responsive ===== */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      width: 100%;
+      background-color: teal;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      list-style: none;
+      transition: all 0.3s ease;
+    }
+    /* Logo */
+    nav .logo h1 {
+      font-size: 40px;
+      color: rgb(20, 20, 20);
+      font-family: "Dancing Script", cursive;
+      font-weight: 600;
+    }
+    nav .logo h1 span {
+      color: red;
+    }
+    nav .logo p {
+      font-size: 20px;
+      color: whitesmoke;
+      font-family: "Dancing Script", cursive;
+      font-weight: 600;
+    }
+    .logo a {
+      text-decoration: none;
+    }
+
+    /* Navigation links container */
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      list-style: none;
+    }
+    .nav li a {
+      color: rgb(255, 255, 255);
+      text-decoration: none;
+      font-size: 20px;
+      transition: color 0.2s, transform 0.2s;
+    }
+    .nav li a:hover {
+      color: #ffd966;
+      transform: translateY(-2px);
+    }
+    .nav button {
+      padding: 8px 14px;
+      border: 1px solid white;
+      font-size: 15px;
+      background: white;
+      color: teal;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .nav button:hover {
+      background: teal;
+      color: white;
+      border: 1px solid teal;
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+    }
+
+    /* Dropdown – click-only (no hover) */
+    .dropdown {
+      position: relative;
+    }
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      background: teal;
+      list-style: none;
+      padding: 0;
+      border-radius: 10px;
+      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+      top: 100%;
+      left: 0;
+      min-width: 160px;
+      z-index: 100;
+    }
+    .dropdown-menu li {
+      padding: 10px;
+    }
+    /* Show dropdown only when .open class is added */
+    .dropdown.open .dropdown-menu {
+      display: block;
+    }
+
+    /* Hamburger button (hidden on desktop) */
+    .hamburger {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem;
+      z-index: 1001;
+    }
+    .hamburger span {
+      display: block;
+      width: 25px;
+      height: 3px;
+      background: white;
+      margin: 5px 0;
+      border-radius: 3px;
+      transition: all 0.2s;
+    }
+
+    /* ===== CONTAINER & CONTACT CARD ===== */
+    .container {
+      height: auto;
+      min-height: 80vh;
+      width: 100%;
+      background-color: white;
+      padding: 50px 8%;
+      border-radius: 30px 30px 0 0;
+    }
+    .contact-card {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #fef9f0;
+      border-radius: 32px;
+      padding: 45px 55px;
+      box-shadow: 0 15px 30px rgba(0,0,0,0.05);
+      transition: transform 0.2s;
+    }
+    .contact-card:hover {
+      transform: translateY(-3px);
+    }
+    .contact-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .contact-header h2 {
+      font-size: 36px;
+      font-family: 'Dancing Script', cursive;
+      color: teal;
+      margin-bottom: 0.5rem;
+    }
+    .contact-header p {
+      font-family: 'Lora', serif;
+      font-size: 18px;
+      color: #5d6e5d;
+    }
+    .contact-info {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-bottom: 2rem;
+      background: #fff8f0;
+      padding: 20px;
+      border-radius: 24px;
+    }
+    .info-item {
+      flex: 1;
+      text-align: center;
+      min-width: 150px;
+    }
+    .info-item .icon {
+      font-size: 42px;
+      display: block;
+      margin-bottom: 12px;
+    }
+    .info-item h4 {
+      font-size: 20px;
+      color: teal;
+      margin-bottom: 8px;
+      font-family: 'Nunito', sans-serif;
+    }
+    .info-item p, .info-item a {
+      font-size: 18px;
+      color: #2c3e2f;
+      text-decoration: none;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 500;
+    }
+    .info-item a:hover {
+      text-decoration: underline;
+      color: teal;
+    }
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .form-group label {
+      font-weight: 600;
+      font-family: 'Nunito', sans-serif;
+      color: #2c3e2f;
+    }
+    .form-group input, .form-group textarea {
+      padding: 12px 16px;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      font-size: 16px;
+      font-family: 'Nunito', sans-serif;
+      transition: 0.2s;
+    }
+    .form-group input:focus, .form-group textarea:focus {
+      outline: none;
+      border-color: teal;
+      box-shadow: 0 0 0 2px rgba(0,128,128,0.2);
+    }
+    .submit-btn {
+      background: teal;
+      color: white;
+      border: none;
+      padding: 14px 24px;
+      font-size: 18px;
+      font-weight: bold;
+      border-radius: 40px;
+      cursor: pointer;
+      transition: 0.2s;
+      font-family: 'Nunito', sans-serif;
+      margin-top: 10px;
+    }
+    .submit-btn:hover {
+      background: #006d6d;
+      transform: translateY(-2px);
+    }
+    .success-message {
+      background: #d4edda;
+      color: #155724;
+      padding: 12px;
+      border-radius: 12px;
+      text-align: center;
+      margin-top: 20px;
+      font-family: 'Nunito', sans-serif;
+      display: none;
+    }
+    .back-link {
+      text-align: center;
+      margin-top: 40px;
+    }
+    .back-link a {
+      background: teal;
+      color: white;
+      padding: 12px 28px;
+      border-radius: 40px;
+      text-decoration: none;
+      font-weight: bold;
+      display: inline-block;
+      transition: 0.2s;
+    }
+    .back-link a:hover {
+      background: #006d6d;
+      transform: translateY(-2px);
+    }
+
+    /* ===== AUTH ELEMENTS ===== */
+    .logout-btn {
+      background: #667eea;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      margin-left: 15px;
+      transition: background 0.2s;
+    }
+    .logout-btn:hover {
+      background: #5a67d8;
+    }
+    .user-email {
+      font-size: 14px;
+      margin-left: 10px;
+      color: #fff;
+      background: rgba(0,0,0,0.2);
+      padding: 5px 10px;
+      border-radius: 20px;
+    }
+
+    /* ===== RESPONSIVE BREAKPOINTS ===== */
+    @media (max-width: 992px) {
+      .contact-card {
+        padding: 35px;
+      }
+      .contact-header h2 {
+        font-size: 32px;
+      }
+      .info-item h4 {
+        font-size: 18px;
+      }
+      .info-item p, .info-item a {
+        font-size: 16px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      /* Hamburger visible */
+      .hamburger {
+        display: block;
+      }
+      /* Hide nav links by default */
+      .nav {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: teal;
+        flex-direction: column;
+        padding: 1rem;
+        gap: 1rem;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        z-index: 1000;
+      }
+      .nav.open {
+        display: flex;
+      }
+      /* Dropdown on mobile – static positioning so it fits inside column */
+      .dropdown {
+        position: static;
+      }
+      .dropdown-menu {
+        position: static;
+        background: rgba(0,0,0,0.1);
+        box-shadow: none;
+        margin-top: 0.5rem;
+      }
+      /* Adjust container and card */
+      .container {
+        padding: 30px 5%;
+      }
+      .contact-card {
+        padding: 25px;
+      }
+      .contact-header h2 {
+        font-size: 28px;
+      }
+      .contact-header p {
+        font-size: 16px;
+      }
+      .info-item {
+        min-width: 100%;
+      }
+      .info-item .icon {
+        font-size: 36px;
+      }
+      nav .logo h1 {
+        font-size: 1.8rem;
+      }
+      nav .logo p {
+        font-size: 1rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .contact-card {
+        padding: 20px;
+      }
+      .contact-header h2 {
+        font-size: 24px;
+      }
+      .submit-btn {
+        padding: 12px 20px;
+        font-size: 16px;
+      }
+      .back-link a {
+        padding: 10px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="page1">
+  <nav>
+    <div class="logo">
+      <a href="index.html">
+        <h1 class="animate__animated animate__backInDown">VerseVibe & <span>Flow</span></h1>
+        <p class="animate__animated animate__backInDown">Stories That Feel like Coming Home</p>
+      </a>
+    </div>
+
+    <!-- Hamburger button -->
+    <button class="hamburger" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+
+    <ul class="nav">
+      <li><a href="public.html">Home</a></li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle">About</a>
+        <ul class="dropdown-menu">
+          <li><a href="about.html">About</a></li>
+          <li><a href="aboutme.html">About Me</a></li>
+        </ul>
+      </li>
+      <li><a href="contact.html" style="border-bottom: 2px solid white;">Contact</a></li>
+      <li id="auth-nav"></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <div class="contact-card">
+      <div class="contact-header">
+        <h2>✨ Let's Connect ✨</h2>
+        <p>Have a story to share? A question? Just want to say hello? I'd love to hear from you.</p>
+      </div>
+
+      <!-- Contact Info Cards: Facebook, Email, Phone -->
+      <div class="contact-info">
+        <div class="info-item">
+          <span class="icon">📘</span>
+          <h4>Facebook</h4>
+          <p><a href="https://facebook.com/versevibeflow" target="_blank">@versevibeflow</a></p>
+        </div>
+        <div class="info-item">
+          <span class="icon">📧</span>
+          <h4>Email</h4>
+          <p><a href="mailto:hello@versevibe.com">hello@versevibe.com</a></p>
+        </div>
+        <div class="info-item">
+          <span class="icon">📞</span>
+          <h4>Phone</h4>
+          <p><a href="tel:+1234567890">+1 (234) 567-890</a></p>
+        </div>
+      </div>
+
+      <!-- Contact Form -->
+      <form id="contactForm" class="contact-form">
+        <div class="form-group">
+          <label for="name">Your Name *</label>
+          <input type="text" id="name" name="name" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Your Email *</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+          <label for="subject">Subject</label>
+          <input type="text" id="subject" name="subject" placeholder="e.g., Story idea, collaboration, just saying hi">
+        </div>
+        <div class="form-group">
+          <label for="message">Message *</label>
+          <textarea id="message" name="message" rows="5" required></textarea>
+        </div>
+        <button type="submit" class="submit-btn">Send Message ✨</button>
+        <div id="successMessage" class="success-message">🎉 Thank you! Your message has been sent. I'll get back to you soon.</div>
+      </form>
+    </div>
+
+    <div class="back-link">
+      <a href="public.html">📖 Back to Stories</a>
+    </div>
+  </div>
+</div>
+
+<!-- Authentication & session management -->
+<script type="importmap">
+  {
+    "imports": {
+      "firebase/app": "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js",
+      "firebase/auth": "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js"
+    }
+  }
+</script>
+<script type="module">
+  import { onAuthStateChanged, logoutUser, isAdminUser } from './auth.js';
+  
+  const authNav = document.getElementById('auth-nav');
+  
+  onAuthStateChanged(async (user) => {
+    if (!user) {
+      window.location.href = 'login.html';
+      return;
+    }
+    
+    if (isAdminUser(user)) {
+      window.location.href = 'admin.html';
+      return;
+    }
+    
+    const logoutBtn = document.createElement('button');
+    logoutBtn.textContent = 'Logout';
+    logoutBtn.classList.add('logout-btn');
+    logoutBtn.addEventListener('click', async () => {
+      await logoutUser();
+      window.location.href = 'login.html';
+    });
+    
+    const userSpan = document.createElement('span');
+    userSpan.textContent = user.email;
+    userSpan.classList.add('user-email');
+    
+    authNav.innerHTML = '';
+    authNav.appendChild(userSpan);
+    authNav.appendChild(logoutBtn);
+  });
+
+  // Handle form submission (demo mode: show success message)
+  const form = document.getElementById('contactForm');
+  const successDiv = document.getElementById('successMessage');
+  
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    successDiv.style.display = 'block';
+    form.reset();
+    setTimeout(() => {
+      successDiv.style.display = 'none';
+    }, 5000);
+  });
+</script>
+
+<script>
+  // Unified dropdown & mobile menu handling (click‑based dropdown everywhere)
+  document.addEventListener('DOMContentLoaded', () => {
+    const hamburger = document.querySelector('.hamburger');
+    const navMenu = document.querySelector('nav .nav');
+    const dropdownToggle = document.querySelector('.dropdown-toggle');
+    const dropdown = document.querySelector('.dropdown');
+
+    // Toggle mobile menu
+    if (hamburger && navMenu) {
+      hamburger.addEventListener('click', () => {
+        const expanded = navMenu.classList.toggle('open');
+        hamburger.setAttribute('aria-expanded', expanded);
+      });
+    }
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (navMenu && navMenu.classList.contains('open')) {
+        if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
+          navMenu.classList.remove('open');
+          hamburger.setAttribute('aria-expanded', false);
+        }
+      }
+    });
+
+    // Dropdown toggle on click (for all screen sizes)
+    if (dropdownToggle && dropdown) {
+      dropdownToggle.addEventListener('click', (e) => {
+        e.preventDefault();
+        dropdown.classList.toggle('open');
+      });
+
+      // Close dropdown when clicking outside
+      document.addEventListener('click', (e) => {
+        if (dropdown.classList.contains('open') && !dropdown.contains(e.target)) {
+          dropdown.classList.remove('open');
+        }
+      });
+    }
+
+    // Reset on resize (close mobile menu if open)
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 768) {
+        if (navMenu) navMenu.classList.remove('open');
+        if (hamburger) hamburger.setAttribute('aria-expanded', false);
+      }
+      // Keep dropdown state as is; we don't auto‑close on resize
+    });
+  });
+</script>
+</body>
+</html>
