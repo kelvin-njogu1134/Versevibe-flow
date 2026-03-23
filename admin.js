@@ -1,17 +1,15 @@
-// ✅ Import Supabase (MUST use type="module" in HTML)
+
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
 
-// 🔥 PASTE YOUR KEYS HERE
+
 const SUPABASE_URL = 'https://yyebyrmgqaoiypwcchii.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_PNOBDTlx2p9nIR04E7ZfOw_9dXN_AI6';
 
-// ✅ Initialize Supabase
+
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 
-// ==============================
-// Auto-resize textarea
-// ==============================
+
 const fullStoryTextarea = document.getElementById('fullStory');
 if (fullStoryTextarea) {
   fullStoryTextarea.addEventListener('input', () => {
@@ -21,9 +19,7 @@ if (fullStoryTextarea) {
 }
 
 
-// ==============================
-// Format Date
-// ==============================
+
 function formatDate(isoString) {
   if (!isoString) return '';
   const date = new Date(isoString);
@@ -35,9 +31,7 @@ function formatDate(isoString) {
 }
 
 
-// ==============================
-// Load Gallery
-// ==============================
+
 async function loadGallery() {
   const gallery = document.getElementById('gallery');
   if (!gallery) return;
@@ -72,9 +66,7 @@ async function loadGallery() {
 }
 
 
-// ==============================
-// Load Stories
-// ==============================
+
 async function loadStories() {
   const container = document.getElementById('storiesList');
   if (!container) return;
@@ -125,9 +117,7 @@ async function loadStories() {
 }
 
 
-// ==============================
-// Form Submission
-// ==============================
+
 const storyForm = document.getElementById('storyForm');
 const storyMessage = document.getElementById('storyMessage');
 
@@ -151,7 +141,7 @@ if (storyForm) {
     storyMessage.textContent = 'Uploading story...';
 
     try {
-      // ✅ Upload image
+      
       const fileName = `${Date.now()}-${file.name}`;
 
       const { error: uploadError } = await supabase.storage
@@ -160,14 +150,14 @@ if (storyForm) {
 
       if (uploadError) throw uploadError;
 
-      // ✅ Get public URL
+      
       const { data: publicUrlData } = supabase.storage
         .from('images')
         .getPublicUrl(fileName);
 
       const publicURL = publicUrlData.publicUrl;
 
-      // ✅ Insert into DB
+      
       const { error: insertError } = await supabase
         .from('stories')
         .insert([{
@@ -197,8 +187,6 @@ if (storyForm) {
 }
 
 
-// ==============================
-// Initial Load
-// ==============================
+
 loadStories();
 loadGallery();
