@@ -303,69 +303,151 @@ nav .logo p {
   margin-left: 0.3rem;
 }
 
-/* Comments section */
+/* ===== COMMENTS SECTION – COMPACT & CLEAN ===== */
 .comments-section {
-  margin-top: 2rem;
-  border-top: 1px solid #eee;
-  padding-top: 1rem;
+    margin-top: 1.5rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+    padding-top: 1rem;
 }
+
 .comments-section h3 {
-  margin-bottom: 1rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #2c3e50;
 }
+
 .comments-list {
-  max-height: 400px;
-  overflow-y: auto;
-  margin-bottom: 1rem;
+    max-height: 300px;               /* slightly shorter, fits better */
+    overflow-y: auto;
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
 }
+
+/* Individual comment bubble */
 .comment {
-  background: #f9f9f9;
-  border-radius: 12px;
-  padding: 0.8rem;
-  margin-bottom: 0.8rem;
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 0.75rem 1rem;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    border: 1px solid #eef2f6;
 }
-.comment-header {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.9rem;
-  margin-bottom: 0.5rem;
-  color: #555;
+
+.comment:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transform: translateY(-1px);
 }
+
 .comment-content {
-  line-height: 1.4;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    color: #1e2a3a;
+    word-wrap: break-word;
 }
+
+.comment-date {
+    font-size: 0.7rem;
+    color: #8a9bb0;
+    margin-top: 0.4rem;
+    letter-spacing: 0.2px;
+}
+
 .no-comments {
-  color: #888;
-  font-style: italic;
-  text-align: center;
-  padding: 1rem;
+    color: #8a9bb0;
+    font-style: italic;
+    text-align: center;
+    padding: 1rem;
+    background: #f8fafc;
+    border-radius: 16px;
+    font-size: 0.85rem;
 }
+
+/* Comment form – matches your teal theme */
 .comment-form {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
 }
-.comment-form input,
+
 .comment-form textarea {
-  padding: 0.5rem;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  font-family: inherit;
-  font-size: 0.9rem;
+    padding: 0.75rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    resize: vertical;
+    background: #ffffff;
+    transition: border 0.2s, box-shadow 0.2s;
 }
+
+.comment-form textarea:focus {
+    outline: none;
+    border-color: teal;
+    box-shadow: 0 0 0 3px rgba(0, 128, 128, 0.1);
+}
+
 .comment-form button {
-  align-self: flex-start;
-  background-color: #0070f3;
-  color: white;
-  border: none;
-  border-radius: 2rem;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  transition: background 0.2s;
+    align-self: flex-start;
+    background-color: teal;          /* changed to match site theme */
+    color: white;
+    border: none;
+    border-radius: 40px;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
 }
+
 .comment-form button:hover {
-  background-color: #005bb5;
+    background-color: #006b6b;
+    transform: scale(0.97);
 }
+
+/* Loader for comments */
 .loader-small {
+    text-align: center;
+    color: #8a9bb0;
+    padding: 1rem;
+    font-size: 0.85rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .comments-section h3 {
+        font-size: 1rem;
+    }
+    .comment {
+        padding: 0.65rem 0.85rem;
+    }
+    .comment-content {
+        font-size: 0.85rem;
+    }
+    .comment-date {
+        font-size: 0.65rem;
+    }
+    .comment-form textarea {
+        font-size: 0.85rem;
+        padding: 0.65rem;
+    }
+    .comment-form button {
+        padding: 0.5rem 1rem;
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .comments-list {
+        max-height: 250px;
+    }
+    .comment-form textarea {
+        font-size: 0.8rem;
+    }
+}.loader-small {
   text-align: center;
   color: #888;
   padding: 1rem;
