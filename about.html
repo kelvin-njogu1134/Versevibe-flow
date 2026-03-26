@@ -9,8 +9,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=ABeeZee:ital@0;1&family=Arimo:ital,wght@0,400..700;1,400..700&family=Dancing+Script:wght@400..700&family=Delius+Unicase:wght@400;700&family=Edu+SA+Hand:wght@400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lora:ital,wght@0,400..700;1,400..700&family=Macondo&family=Momo+Signature&family=Momo+Trust+Sans:wght@200..800&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Playwrite+CZ:wght@100..400&family=Public+Sans:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Rubik:ital,wght@0,300..900;1,300..900&family=Special+Gothic+Expanded+One&family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
 
-  <!-- External CSS -->
+  <!-- External CSS & AOS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1.35.6/dist/umd/supabase.min.js"></script>
   
   <style>
@@ -71,6 +72,8 @@
       color: rgb(255, 255, 255);
       text-decoration: none;
       font-size: 20px;
+      font-family: 'Roboto', sans-serif;
+      font-weight: 400;
       transition: color 0.2s, transform 0.2s;
     }
     .nav li a:hover {
@@ -86,6 +89,7 @@
       border-radius: 10px;
       cursor: pointer;
       transition: all 0.3s ease;
+      font-family: 'Roboto', sans-serif;
     }
     .nav button:hover {
       background: teal;
@@ -114,6 +118,16 @@
     }
     .dropdown-menu li {
       padding: 10px;
+    }
+    .dropdown-menu li a {
+      font-family: 'Roboto', sans-serif;
+      font-size: 16px;
+      color: white;
+      display: block;
+      transition: 0.2s;
+    }
+    .dropdown-menu li a:hover {
+      color: #ffd966;
     }
     /* Show menu when dropdown has 'open' class */
     .dropdown.open .dropdown-menu {
@@ -200,6 +214,7 @@
       font-weight: bold;
       display: inline-block;
       transition: 0.2s;
+      font-family: 'Roboto', sans-serif;
     }
     .back-link a:hover {
       background: #006d6d;
@@ -217,6 +232,7 @@
       font-size: 14px;
       margin-left: 15px;
       transition: background 0.2s;
+      font-family: 'Roboto', sans-serif;
     }
     .logout-btn:hover {
       background: #5a67d8;
@@ -228,6 +244,7 @@
       background: rgba(0,0,0,0.2);
       padding: 5px 10px;
       border-radius: 20px;
+      font-family: 'Roboto', sans-serif;
     }
 
     /* ===== RESPONSIVE BREAKPOINTS ===== */
@@ -265,7 +282,7 @@
       .nav.open {
         display: flex;
       }
-      /* Dropdown on mobile – position static so it fits inside column */
+      /* Dropdown on mobile – static positioning so it fits inside column */
       .dropdown {
         position: static;
       }
@@ -348,25 +365,25 @@
   </nav>
 
   <div class="container">
-    <div class="about-card">
+    <div class="about-card" data-aos="fade-up" data-aos-duration="800">
       <div class="about-content">
         <div style="text-align: center; margin-bottom: 1.5rem;">
           <span class="welcome-quote">✨ Welcome! ✨</span>
         </div>
         
-        <p>If you have found yourself here, it probably means you love stories. The quiet ones. The honest ones. The ones that stay with you long after you close the page — stories that feel like coming home even when life does not.</p>
+        <p data-aos="fade-right" data-aos-delay="100">If you have found yourself here, it probably means you love stories. The quiet ones. The honest ones. The ones that stay with you long after you close the page — stories that feel like coming home even when life does not.</p>
 
-        <p>This space is my little corner of the world. A place where words breathe. A place where I let life spill out in the form of fiction, reflections, soft truths, and the small moments that shape us. I write about healing and hurt, the days that feel heavy, and the days that remind you the light is still there.</p>
+        <p data-aos="fade-right" data-aos-delay="200">This space is my little corner of the world. A place where words breathe. A place where I let life spill out in the form of fiction, reflections, soft truths, and the small moments that shape us. I write about healing and hurt, the days that feel heavy, and the days that remind you the light is still there.</p>
 
-        <p>Here, nothing is perfect. Nothing is forced. Everything is real. Every story carries a piece of something I have lived, something I have felt, or something I have quietly learned while trying to grow in my own way.</p>
+        <p data-aos="fade-right" data-aos-delay="300">Here, nothing is perfect. Nothing is forced. Everything is real. Every story carries a piece of something I have lived, something I have felt, or something I have quietly learned while trying to grow in my own way.</p>
 
-        <p>If you read closely, you might find echoes of your own journey hidden between the lines. These are the quiet conversations — the one-sentence truths that hold more weight than they first appear.</p>
+        <p data-aos="fade-right" data-aos-delay="400">If you read closely, you might find echoes of your own journey hidden between the lines. These are the quiet conversations — the one-sentence truths that hold more weight than they first appear.</p>
 
-        <div class="heart-line">❁  ❁  ❁</div>
+        <div class="heart-line" data-aos="zoom-in" data-aos-delay="500">❁  ❁  ❁</div>
 
-        <p>I hope this is a place where you breathe a little deeper. A place where the words feel familiar even if we have never met. A place that reminds you that you are not alone in the things you feel.</p>
+        <p data-aos="fade-right" data-aos-delay="600">I hope this is a place where you breathe a little deeper. A place where the words feel familiar even if we have never met. A place that reminds you that you are not alone in the things you feel.</p>
 
-        <div style="text-align: right; margin-top: 2rem; font-family: 'Dancing Script', cursive; font-size: 22px; color: teal;">
+        <div style="text-align: right; margin-top: 2rem; font-family: 'Dancing Script', cursive; font-size: 22px; color: teal;" data-aos="fade-left" data-aos-delay="700">
           — With love,<br>
           the keeper of these stories
         </div>
@@ -378,6 +395,15 @@
     </div>
   </div>
 </div>
+
+<!-- AOS Script -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+  AOS.init({
+    once: true,
+    offset: 100,
+  });
+</script>
 
 <!-- Authentication & session management -->
 <script type="importmap">
