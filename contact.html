@@ -9,8 +9,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=ABeeZee:ital@0;1&family=Arimo:ital,wght@0,400..700;1,400..700&family=Dancing+Script:wght@400..700&family=Delius+Unicase:wght@400;700&family=Edu+SA+Hand:wght@400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lora:ital,wght@0,400..700;1,400..700&family=Macondo&family=Momo+Signature&family=Momo+Trust+Sans:wght@200..800&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Playwrite+CZ:wght@100..400&family=Public+Sans:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Rubik:ital,wght@0,300..900;1,300..900&family=Special+Gothic+Expanded+One&family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
 
-  <!-- External CSS -->
+  <!-- External CSS & AOS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1.35.6/dist/umd/supabase.min.js"></script>
   
   <style>
@@ -432,25 +433,31 @@
   </nav>
 
   <div class="container">
-    <div class="contact-card">
+    <div class="contact-card" data-aos="fade-up" data-aos-duration="800">
       <div class="contact-header">
         <h2>✨ Let's Connect ✨</h2>
         <p>Have a story to share? A question? Just want to say hello? I'd love to hear from you.</p>
       </div>
 
-      <!-- Contact Info Cards: Facebook, Email, Phone -->
+      <!-- Contact Info Cards: Facebook, Instagram, Email -->
       <div class="contact-info">
-        <div class="info-item">
+        <div class="info-item" data-aos="zoom-in" data-aos-delay="100">
           <span class="icon">📘</span>
           <h4>Facebook</h4>
-          <p><a href="https://facebook.com/versevibeflow" target="_blank">@versevibeflow</a></p>
+          <p><a href="https://www.facebook.com/versevibeandflow/" target="_blank">@versevibeandflow</a></p>
         </div>
-        <div class="info-item">
+        <div class="info-item" data-aos="zoom-in" data-aos-delay="200">
+          <span class="icon">📷</span>
+          <h4>Instagram</h4>
+          <p><a href="https://www.instagram.com/versevibeandflow/" target="_blank">@versevibeandflow</a></p>
+        </div>
+        <div class="info-item" data-aos="zoom-in" data-aos-delay="300">
           <span class="icon">📧</span>
           <h4>Email</h4>
-          <p><a href="mailto:hello@versevibe.com">hello@versevibe.com</a></p>
+          <p><a href="mailto:esthernjeri1824@gmail.com">esthernjeri1824@gmail.com</a></p>
         </div>
-        <div class="info-item">
+        <!-- Optional phone number (keep if you want) -->
+        <div class="info-item" data-aos="zoom-in" data-aos-delay="400">
           <span class="icon">📞</span>
           <h4>Phone</h4>
           <p><a href="tel:+1234567890">+1 (234) 567-890</a></p>
@@ -458,7 +465,7 @@
       </div>
 
       <!-- Contact Form -->
-      <form id="contactForm" class="contact-form">
+      <form id="contactForm" class="contact-form" data-aos="fade-up" data-aos-delay="200">
         <div class="form-group">
           <label for="name">Your Name *</label>
           <input type="text" id="name" name="name" required>
@@ -485,6 +492,15 @@
     </div>
   </div>
 </div>
+
+<!-- AOS Script -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+  AOS.init({
+    once: true,   // animations happen only once when scrolling down
+    offset: 100,
+  });
+</script>
 
 <!-- Authentication & session management -->
 <script type="importmap">
