@@ -9,8 +9,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=ABeeZee:ital@0;1&family=Arimo:ital,wght@0,400..700;1,400..700&family=Dancing+Script:wght@400..700&family=Delius+Unicase:wght@400;700&family=Edu+SA+Hand:wght@400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lora:ital,wght@0,400..700;1,400..700&family=Macondo&family=Momo+Signature&family=Momo+Trust+Sans:wght@200..800&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Playwrite+CZ:wght@100..400&family=Public+Sans:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Rubik:ital,wght@0,300..900;1,300..900&family=Special+Gothic+Expanded+One&family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
 
-  <!-- External CSS -->
+  <!-- External CSS & AOS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1.35.6/dist/umd/supabase.min.js"></script>
   
   <style>
@@ -71,6 +72,8 @@
       color: rgb(255, 255, 255);
       text-decoration: none;
       font-size: 20px;
+      font-family: 'Roboto', sans-serif;
+      font-weight: 400;
       transition: color 0.2s, transform 0.2s;
     }
     .nav li a:hover {
@@ -86,6 +89,7 @@
       border-radius: 10px;
       cursor: pointer;
       transition: all 0.3s ease;
+      font-family: 'Roboto', sans-serif;
     }
     .nav button:hover {
       background: teal;
@@ -95,7 +99,7 @@
       box-shadow: 0 6px 15px rgba(0,0,0,0.2);
     }
 
-    /* Dropdown (desktop hover) */
+    /* Dropdown – click-only (no hover) */
     .dropdown {
       position: relative;
     }
@@ -110,11 +114,23 @@
       top: 100%;
       left: 0;
       min-width: 160px;
+      z-index: 100;
     }
     .dropdown-menu li {
       padding: 10px;
     }
-    .dropdown:hover .dropdown-menu {
+    .dropdown-menu li a {
+      font-family: 'Roboto', sans-serif;
+      font-size: 16px;
+      color: white;
+      display: block;
+      transition: 0.2s;
+    }
+    .dropdown-menu li a:hover {
+      color: #ffd966;
+    }
+    /* Show menu when dropdown has 'open' class */
+    .dropdown.open .dropdown-menu {
       display: block;
     }
 
@@ -201,6 +217,7 @@
       font-weight: bold;
       display: inline-block;
       transition: background 0.2s, transform 0.1s;
+      font-family: 'Roboto', sans-serif;
     }
     .back-link a:hover {
       background: #006d6d;
@@ -218,6 +235,7 @@
       font-size: 14px;
       margin-left: 15px;
       transition: background 0.2s;
+      font-family: 'Roboto', sans-serif;
     }
     .logout-btn:hover {
       background: #5a67d8;
@@ -229,6 +247,7 @@
       background: rgba(0,0,0,0.2);
       padding: 5px 10px;
       border-radius: 20px;
+      font-family: 'Roboto', sans-serif;
     }
 
     /* ===== RESPONSIVE BREAKPOINTS ===== */
@@ -266,7 +285,7 @@
       .nav.open {
         display: flex;
       }
-      /* Dropdown on mobile */
+      /* Dropdown on mobile – static positioning so it fits inside column */
       .dropdown {
         position: static;
       }
@@ -354,22 +373,22 @@
   </nav>
 
   <div class="container">
-    <div class="aboutme-card">
+    <div class="aboutme-card" data-aos="fade-up" data-aos-duration="800">
       <div class="aboutme-content">
-        <div class="name-intro">✨ Hi, I'm Njeri. ✨</div>
+        <div class="name-intro" data-aos="zoom-in" data-aos-delay="100">✨ Hi, I'm Njeri. ✨</div>
 
-        <p>I am a storyteller. I write the way people think when they are alone. Soft. Honest. Vulnerable. Sometimes broken. Sometimes brave. I write for those who feel deeply but rarely say it out loud. For those who carry a quiet strength. For those who are still trying to find themselves after life has taken them through storms.</p>
+        <p data-aos="fade-right" data-aos-delay="200">I am a storyteller. I write the way people think when they are alone. Soft. Honest. Vulnerable. Sometimes broken. Sometimes brave. I write for those who feel deeply but rarely say it out loud. For those who carry a quiet strength. For those who are still trying to find themselves after life has taken them through storms.</p>
 
-        <p>Writing has always been the way I make sense of things. The way I heal. The way I hold on to who I am. My stories are pieces of my heart disguised as characters. My reflections are the lessons life has whispered to me when I needed them most. My words are a home for anyone who has ever felt unseen or unheard.</p>
+        <p data-aos="fade-right" data-aos-delay="300">Writing has always been the way I make sense of things. The way I heal. The way I hold on to who I am. My stories are pieces of my heart disguised as characters. My reflections are the lessons life has whispered to me when I needed them most. My words are a home for anyone who has ever felt unseen or unheard.</p>
 
-        <div class="divider">❁  ❁  ❁</div>
+        <div class="divider" data-aos="zoom-in" data-aos-delay="400">❁  ❁  ❁</div>
 
-        <p>Thank you for being here.</p>
-        <p>Thank you for reading.</p>
-        <p>I hope these stories sit with you gently. I hope they comfort you on the hard days and inspire you on the good ones.</p>
-        <p>Most of all, I hope you find yourself somewhere within the lines.</p>
+        <p data-aos="fade-right" data-aos-delay="500">Thank you for being here.</p>
+        <p data-aos="fade-right" data-aos-delay="600">Thank you for reading.</p>
+        <p data-aos="fade-right" data-aos-delay="700">I hope these stories sit with you gently. I hope they comfort you on the hard days and inspire you on the good ones.</p>
+        <p data-aos="fade-right" data-aos-delay="800">Most of all, I hope you find yourself somewhere within the lines.</p>
 
-        <div class="signature">— With warmth,<br>Njeri</div>
+        <div class="signature" data-aos="fade-left" data-aos-delay="900">— With warmth,<br>Njeri</div>
       </div>
     </div>
 
@@ -379,7 +398,16 @@
   </div>
 </div>
 
-<!-- Authentication & mobile menu script -->
+<!-- AOS Script -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+  AOS.init({
+    once: true,
+    offset: 100,
+  });
+</script>
+
+<!-- Authentication & session management -->
 <script type="importmap">
   {
     "imports": {
@@ -423,13 +451,14 @@
 </script>
 
 <script>
-  // Mobile menu toggle
+  // Unified dropdown & mobile menu handling (click‑based dropdown everywhere)
   document.addEventListener('DOMContentLoaded', () => {
     const hamburger = document.querySelector('.hamburger');
     const navMenu = document.querySelector('nav .nav');
     const dropdownToggle = document.querySelector('.dropdown-toggle');
     const dropdown = document.querySelector('.dropdown');
 
+    // Toggle mobile menu
     if (hamburger && navMenu) {
       hamburger.addEventListener('click', () => {
         const expanded = navMenu.classList.toggle('open');
@@ -437,7 +466,7 @@
       });
     }
 
-    // Close menu when clicking outside
+    // Close mobile menu when clicking outside
     document.addEventListener('click', (e) => {
       if (navMenu && navMenu.classList.contains('open')) {
         if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
@@ -447,23 +476,28 @@
       }
     });
 
-    // Mobile dropdown: click to open
+    // Dropdown toggle on click (for all screen sizes)
     if (dropdownToggle && dropdown) {
       dropdownToggle.addEventListener('click', (e) => {
-        if (window.innerWidth <= 768) {
-          e.preventDefault();
-          dropdown.classList.toggle('open');
+        e.preventDefault();
+        dropdown.classList.toggle('open');
+      });
+
+      // Close dropdown when clicking outside
+      document.addEventListener('click', (e) => {
+        if (dropdown.classList.contains('open') && !dropdown.contains(e.target)) {
+          dropdown.classList.remove('open');
         }
       });
     }
 
-    // Reset on resize
+    // Reset on resize (close open menus)
     window.addEventListener('resize', () => {
       if (window.innerWidth > 768) {
-        if (dropdown) dropdown.classList.remove('open');
         if (navMenu) navMenu.classList.remove('open');
         if (hamburger) hamburger.setAttribute('aria-expanded', false);
       }
+      // Keep dropdown open/close as per click; we don't auto‑close on resize
     });
   });
 </script>
