@@ -218,6 +218,20 @@
       border-radius: 20px;
       font-family: 'Roboto', sans-serif;
     }
+    .admin-link {
+      background: #ff9900;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 14px;
+      margin-left: 10px;
+      font-family: 'Roboto', sans-serif;
+      transition: background 0.2s;
+    }
+    .admin-link:hover {
+      background: #e68a00;
+    }
 
     /* ===== RESPONSIVE BREAKPOINTS ===== */
     @media (max-width: 768px) {
@@ -352,10 +366,26 @@
         window.location.href = 'login.html';
         return;
       }
+
+      // Clear existing content
+      authNav.innerHTML = '';
+
+      // Add user email
+      const userSpan = document.createElement('span');
+      userSpan.textContent = user.email;
+      userSpan.classList.add('user-email');
+      authNav.appendChild(userSpan);
+
+      // If admin, add a button/link to go to admin panel
       if (isAdminUser(user)) {
-        window.location.href = 'admin.html';
-        return;
+        const adminLink = document.createElement('a');
+        adminLink.textContent = 'Admin Panel';
+        adminLink.href = 'admin.html';
+        adminLink.classList.add('admin-link');
+        authNav.appendChild(adminLink);
       }
+
+      // Add logout button
       const logoutBtn = document.createElement('button');
       logoutBtn.textContent = 'Logout';
       logoutBtn.classList.add('logout-btn');
@@ -363,11 +393,6 @@
         await logoutUser();
         window.location.href = 'login.html';
       });
-      const userSpan = document.createElement('span');
-      userSpan.textContent = user.email;
-      userSpan.classList.add('user-email');
-      authNav.innerHTML = '';
-      authNav.appendChild(userSpan);
       authNav.appendChild(logoutBtn);
     });
   </script>
