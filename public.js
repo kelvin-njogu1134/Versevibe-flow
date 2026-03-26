@@ -124,7 +124,7 @@ async function submitComment(storyId, content, commentsContainer) {
         .from('comments')
         .insert({
             story_id: storyId,
-            author_name: null,   // no name stored
+            author_name: null,
             content: content.trim()
         })
         .select();
@@ -133,6 +133,7 @@ async function submitComment(storyId, content, commentsContainer) {
         alert('Failed to post comment. Please try again.');
         return false;
     }
+    // Refresh comments after posting
     const newComments = await fetchComments(storyId);
     renderComments(newComments, commentsContainer);
     return true;
@@ -167,6 +168,9 @@ async function displayStories(category = '') {
     const likedMap = await fetchLikesStatus(storyIds);
     container.innerHTML = '';
 
+    // Store comment loaded status per story
+    const commentLoaded = {};
+
     for (const story of stories) {
         const article = document.createElement('article');
         article.className = 'story';
@@ -196,14 +200,15 @@ async function displayStories(category = '') {
                 <div class="story-preview">Full Story: ${preview}...</div>
                 <div class="full-story" style="display:none;">${story.full_story.replace(/\n/g, '<br>')}</div>
                 <button class="read-more-btn">Read More</button>
-                <div class="like-section">
+                <div class="action-buttons">
                     <button class="like-btn ${isLiked ? 'liked' : ''}" data-story-id="${story.id}">
                         ❤️ <span class="like-count">${likeCount}</span>
                     </button>
+                    <button class="comment-toggle-btn" data-story-id="${story.id}">💬 Comment</button>
                 </div>
-                <div class="comments-section">
+                <div class="comments-section" id="comments-section-${story.id}" style="display: none;">
                     <h3>Comments</h3>
-                    <div class="comments-list" id="comments-${story.id}"><div class="loader-small">Loading comments...</div></div>
+                    <div class="comments-list" id="comments-list-${story.id}"></div>
                     <form class="comment-form" data-story-id="${story.id}">
                         <textarea name="content" placeholder="Write a comment..." rows="3" required></textarea>
                         <button type="submit">Post Comment</button>
@@ -241,18 +246,49 @@ async function displayStories(category = '') {
             toggleLike(story.id, currentCount, likeBtn, likeCountSpan);
         });
 
-        // ---------- LOAD & RENDER COMMENTS ----------
-        const commentsContainer = article.querySelector(`#comments-${story.id}`);
-        const comments = await fetchComments(story.id);
-        renderComments(comments, commentsContainer);
+        // ---------- COMMENT TOGGLE BUTTON ----------
+        const toggleBtn = article.querySelector('.comment-toggle-btn');
+        const commentsSection = article.querySelector(`#comments-section-${story.id}`);
+        const commentsListContainer = article.querySelector(`#comments-list-${story.id}`);
+        const commentForm = article.querySelector('.comment-form');
+
+        // Function to load and show comments
+        const loadAndShowComments = async () => {
+            if (!commentLoaded[story.id]) {
+                // Load comments
+                commentsListContainer.innerHTML = '<div class="loader-small">Loading comments...</div>';
+                const comments = await fetchComments(story.id);
+                renderComments(comments, commentsListContainer);
+                commentLoaded[story.id] = true;
+            }
+            commentsSection.style.display = 'block';
+        };
+
+        // Initially hidden, toggle on click
+        toggleBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (commentsSection.style.display === 'none') {
+                loadAndShowComments();
+            } else {
+                commentsSection.style.display = 'none';
+            }
+        });
 
         // ---------- COMMENT FORM SUBMIT ----------
-        const commentForm = article.querySelector('.comment-form');
         commentForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const content = commentForm.querySelector('textarea[name="content"]').value;
-            const success = await submitComment(story.id, content, commentsContainer);
-            if (success) commentForm.reset();
+            const success = await submitComment(story.id, content, commentsListContainer);
+            if (success) {
+                commentForm.reset();
+                // Ensure comments are loaded (if not, they will be after submit)
+                if (!commentLoaded[story.id]) {
+                    commentLoaded[story.id] = true;
+                }
+                // Refresh comments list
+                const comments = await fetchComments(story.id);
+                renderComments(comments, commentsListContainer);
+            }
         });
     }
 }
