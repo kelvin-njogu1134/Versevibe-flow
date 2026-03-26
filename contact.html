@@ -4,7 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>VerseVibe & Flow – Contact</title>
-  <!-- Fonts -->
+  <!-- Fonts and Icons -->
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=ABeeZee:ital@0;1&family=Arimo:ital,wght@0,400..700;1,400..700&family=Dancing+Script:wght@400..700&family=Delius+Unicase:wght@400;700&family=Edu+SA+Hand:wght@400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lora:ital,wght@0,400..700;1,400..700&family=Macondo&family=Momo+Signature&family=Momo+Trust+Sans:wght@200..800&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Playwrite+CZ:wght@100..400&family=Public+Sans:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Rubik:ital,wght@0,300..900;1,300..900&family=Special+Gothic+Expanded+One&family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
@@ -190,11 +192,19 @@
       flex: 1;
       text-align: center;
       min-width: 150px;
-    }
-    .info-item .icon {
-      font-size: 42px;
       display: block;
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.2s;
+    }
+    .info-item:hover {
+      transform: translateY(-5px);
+    }
+    .info-item ion-icon {
+      font-size: 48px;
+      color: teal;
       margin-bottom: 12px;
+      display: inline-block;
     }
     .info-item h4 {
       font-size: 20px;
@@ -202,16 +212,11 @@
       margin-bottom: 8px;
       font-family: 'Nunito', sans-serif;
     }
-    .info-item p, .info-item a {
+    .info-item p {
       font-size: 18px;
       color: #2c3e2f;
-      text-decoration: none;
       font-family: 'Nunito', sans-serif;
       font-weight: 500;
-    }
-    .info-item a:hover {
-      text-decoration: underline;
-      color: teal;
     }
     .contact-form {
       display: flex;
@@ -322,8 +327,11 @@
       .info-item h4 {
         font-size: 18px;
       }
-      .info-item p, .info-item a {
+      .info-item p {
         font-size: 16px;
+      }
+      .info-item ion-icon {
+        font-size: 42px;
       }
     }
 
@@ -375,8 +383,8 @@
       .info-item {
         min-width: 100%;
       }
-      .info-item .icon {
-        font-size: 36px;
+      .info-item ion-icon {
+        font-size: 38px;
       }
       nav .logo h1 {
         font-size: 1.8rem;
@@ -399,6 +407,12 @@
       }
       .back-link a {
         padding: 10px 20px;
+      }
+      .info-item ion-icon {
+        font-size: 34px;
+      }
+      .info-item p {
+        font-size: 14px;
       }
     }
   </style>
@@ -439,23 +453,23 @@
         <p>Have a story to share? A question? Just want to say hello? I'd love to hear from you.</p>
       </div>
 
-      <!-- Contact Info Cards: Facebook, Instagram, Email -->
+      <!-- Contact Info Cards: Facebook, Instagram, Email (clickable divs) -->
       <div class="contact-info">
-        <div class="info-item" data-aos="zoom-in" data-aos-delay="100">
-          <span class="icon">📘</span>
+        <a href="https://www.facebook.com/versevibeandflow/" target="_blank" rel="noopener noreferrer" class="info-item" data-aos="zoom-in" data-aos-delay="100">
+          <ion-icon name="logo-facebook"></ion-icon>
           <h4>Facebook</h4>
-          <p><a href="https://www.facebook.com/versevibeandflow/" target="_blank" rel="noopener noreferrer">@versevibeandflow</a></p>
-        </div>
-        <div class="info-item" data-aos="zoom-in" data-aos-delay="200">
-          <span class="icon">📷</span>
+          <p>@versevibeandflow</p>
+        </a>
+        <a href="https://www.instagram.com/versevibeandflow/" target="_blank" rel="noopener noreferrer" class="info-item" data-aos="zoom-in" data-aos-delay="200">
+          <ion-icon name="logo-instagram"></ion-icon>
           <h4>Instagram</h4>
-          <p><a href="https://www.instagram.com/versevibeandflow/" target="_blank" rel="noopener noreferrer">@versevibeandflow</a></p>
-        </div>
-        <div class="info-item" data-aos="zoom-in" data-aos-delay="300">
-          <span class="icon">📧</span>
+          <p>@versevibeandflow</p>
+        </a>
+        <a href="mailto:esthernjeri1824@gmail.com" class="info-item" data-aos="zoom-in" data-aos-delay="300">
+          <ion-icon name="mail-outline"></ion-icon>
           <h4>Email</h4>
-          <p><a href="mailto:esthernjeri1824@gmail.com">esthernjeri1824@gmail.com</a></p>
-        </div>
+          <p>esthernjeri1824@gmail.com</p>
+        </a>
       </div>
 
       <!-- Contact Form -->
