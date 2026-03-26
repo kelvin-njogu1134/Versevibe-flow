@@ -270,12 +270,12 @@ nav .logo p {
     transition: all 0.2s;
 }
 .like-btn {
-    background: #f0f0f0;
-    color: #333;
+    background: #fefdfd;
+    color: #000000;
 }
 .like-btn.liked {
-    background: #ff3366;
-    color: white;
+    background: #ffffff;
+    color: rgb(229, 27, 27);
 }
 .comment-toggle-btn {
     background: #e0e0e0;
