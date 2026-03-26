@@ -178,7 +178,7 @@
     }
     .contact-info {
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       flex-wrap: wrap;
       gap: 20px;
       margin-bottom: 2rem;
@@ -444,23 +444,17 @@
         <div class="info-item" data-aos="zoom-in" data-aos-delay="100">
           <span class="icon">📘</span>
           <h4>Facebook</h4>
-          <p><a href="https://www.facebook.com/versevibeandflow/" target="_blank">@versevibeandflow</a></p>
+          <p><a href="https://www.facebook.com/versevibeandflow/" target="_blank" rel="noopener noreferrer">@versevibeandflow</a></p>
         </div>
         <div class="info-item" data-aos="zoom-in" data-aos-delay="200">
           <span class="icon">📷</span>
           <h4>Instagram</h4>
-          <p><a href="https://www.instagram.com/versevibeandflow/" target="_blank">@versevibeandflow</a></p>
+          <p><a href="https://www.instagram.com/versevibeandflow/" target="_blank" rel="noopener noreferrer">@versevibeandflow</a></p>
         </div>
         <div class="info-item" data-aos="zoom-in" data-aos-delay="300">
           <span class="icon">📧</span>
           <h4>Email</h4>
           <p><a href="mailto:esthernjeri1824@gmail.com">esthernjeri1824@gmail.com</a></p>
-        </div>
-        <!-- Optional phone number (keep if you want) -->
-        <div class="info-item" data-aos="zoom-in" data-aos-delay="400">
-          <span class="icon">📞</span>
-          <h4>Phone</h4>
-          <p><a href="tel:+1234567890">+1 (234) 567-890</a></p>
         </div>
       </div>
 
@@ -497,7 +491,7 @@
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
   AOS.init({
-    once: true,   // animations happen only once when scrolling down
+    once: true,
     offset: 100,
   });
 </script>
@@ -605,7 +599,6 @@
         if (navMenu) navMenu.classList.remove('open');
         if (hamburger) hamburger.setAttribute('aria-expanded', false);
       }
-      // Keep dropdown state as is; we don't auto‑close on resize
     });
   });
 </script>
