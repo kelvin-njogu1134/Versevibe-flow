@@ -278,6 +278,99 @@ nav .logo p {
     }
 }
 
+
+/* Like button */
+.like-section {
+  margin: 1.5rem 0 1rem;
+}
+.like-btn {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
+  transition: all 0.2s ease;
+}
+.like-btn:hover {
+  background-color: #f0f0f0;
+}
+.like-btn.liked {
+  color: #e74c3c;
+}
+.like-count {
+  font-weight: bold;
+  margin-left: 0.3rem;
+}
+
+/* Comments section */
+.comments-section {
+  margin-top: 2rem;
+  border-top: 1px solid #eee;
+  padding-top: 1rem;
+}
+.comments-section h3 {
+  margin-bottom: 1rem;
+}
+.comments-list {
+  max-height: 400px;
+  overflow-y: auto;
+  margin-bottom: 1rem;
+}
+.comment {
+  background: #f9f9f9;
+  border-radius: 12px;
+  padding: 0.8rem;
+  margin-bottom: 0.8rem;
+}
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  color: #555;
+}
+.comment-content {
+  line-height: 1.4;
+}
+.no-comments {
+  color: #888;
+  font-style: italic;
+  text-align: center;
+  padding: 1rem;
+}
+.comment-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.comment-form input,
+.comment-form textarea {
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.9rem;
+}
+.comment-form button {
+  align-self: flex-start;
+  background-color: #0070f3;
+  color: white;
+  border: none;
+  border-radius: 2rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.comment-form button:hover {
+  background-color: #005bb5;
+}
+.loader-small {
+  text-align: center;
+  color: #888;
+  padding: 1rem;
+}
+
 /* Mobile: stack cards, show hamburger, hide nav links */
 @media (max-width: 768px) {
     /* Show hamburger */
