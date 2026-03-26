@@ -281,10 +281,7 @@ nav .logo p {
     background: #e0e0e0;
     color: #333;
 }
-.like-btn:hover, .comment-toggle-btn:hover {
-    transform: scale(1.05);
-    opacity: 0.9;
-}
+
 
 /* Comments section */
 .comments-section {
