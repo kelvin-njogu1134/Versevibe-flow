@@ -12,8 +12,189 @@
   <link rel="stylesheet" href="public.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1.35.6/dist/umd/supabase.min.js"></script>
-  <!-- Additional inline styles -->
+  
   <style>
+    /* ===== RESET & BASE ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    .page1 {
+      background-color: teal;
+      min-height: 100vh;
+      width: 100%;
+    }
+
+    /* ===== NAVBAR – Sticky & Responsive ===== */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      width: 100%;
+      background-color: teal;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      list-style: none;
+      transition: all 0.3s ease;
+    }
+    /* Logo */
+    nav .logo h1 {
+      font-size: 40px;
+      color: rgb(20, 20, 20);
+      font-family: "Dancing Script", cursive;
+      font-weight: 600;
+    }
+    nav .logo h1 span {
+      color: red;
+    }
+    nav .logo p {
+      font-size: 20px;
+      color: whitesmoke;
+      font-family: "Dancing Script", cursive;
+      font-weight: 600;
+    }
+    .logo a {
+      text-decoration: none;
+    }
+
+    /* Navigation links container */
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      list-style: none;
+    }
+    .nav li a {
+      color: rgb(255, 255, 255);
+      text-decoration: none;
+      font-size: 20px;
+      font-family: 'Roboto', sans-serif;
+      font-weight: 400;
+      transition: color 0.2s, transform 0.2s;
+    }
+    .nav li a:hover {
+      color: #ffd966;
+      transform: translateY(-2px);
+    }
+    .nav button {
+      padding: 8px 14px;
+      border: 1px solid white;
+      font-size: 15px;
+      background: white;
+      color: teal;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: 'Roboto', sans-serif;
+    }
+    .nav button:hover {
+      background: teal;
+      color: white;
+      border: 1px solid teal;
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+    }
+
+    /* Dropdown – click-only (no hover) */
+    .dropdown {
+      position: relative;
+    }
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      background: teal;
+      list-style: none;
+      padding: 0;
+      border-radius: 10px;
+      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+      top: 100%;
+      left: 0;
+      min-width: 160px;
+      z-index: 100;
+    }
+    .dropdown-menu li {
+      padding: 10px;
+    }
+    .dropdown-menu li a {
+      font-family: 'Roboto', sans-serif;
+      font-size: 16px;
+      color: white;
+      display: block;
+      transition: 0.2s;
+    }
+    .dropdown-menu li a:hover {
+      color: #ffd966;
+    }
+    /* Show menu when dropdown has 'open' class */
+    .dropdown.open .dropdown-menu {
+      display: block;
+    }
+
+    /* Hamburger button (hidden on desktop) */
+    .hamburger {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem;
+      z-index: 1001;
+    }
+    .hamburger span {
+      display: block;
+      width: 25px;
+      height: 3px;
+      background: white;
+      margin: 5px 0;
+      border-radius: 3px;
+      transition: all 0.2s;
+    }
+
+    /* ===== CONTAINER & FILTERS ===== */
+    .container {
+      height: auto;
+      min-height: 80vh;
+      width: 100%;
+      background-color: white;
+      padding: 50px 8%;
+      border-radius: 30px 30px 0 0;
+    }
+    .filters {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 30px;
+    }
+    .filters label {
+      font-family: 'Roboto', sans-serif;
+      margin-right: 10px;
+      font-size: 18px;
+      color: #2c3e2f;
+    }
+    .filters select {
+      padding: 8px 12px;
+      border-radius: 20px;
+      border: 1px solid #ddd;
+      font-family: 'Roboto', sans-serif;
+      font-size: 16px;
+    }
+
+    /* Story cards – your existing styles from public.css are imported, but we add a small base */
+    .story {
+      background: #fef9f0;
+      border-radius: 24px;
+      margin-bottom: 30px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .story:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+    }
+
+    /* ===== AUTH ELEMENTS ===== */
     .logout-btn {
       background: #667eea;
       color: white;
@@ -23,7 +204,7 @@
       cursor: pointer;
       font-size: 14px;
       margin-left: 15px;
-      
+      font-family: 'Roboto', sans-serif;
     }
     .logout-btn:hover {
       background: #5a67d8;
@@ -35,9 +216,54 @@
       background: rgba(0,0,0,0.2);
       padding: 5px 10px;
       border-radius: 20px;
+      font-family: 'Roboto', sans-serif;
     }
 
-    /* ----- SCROLL ANIMATION (improved) ----- */
+    /* ===== RESPONSIVE BREAKPOINTS ===== */
+    @media (max-width: 768px) {
+      .hamburger {
+        display: block;
+      }
+      .nav {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: teal;
+        flex-direction: column;
+        padding: 1rem;
+        gap: 1rem;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        z-index: 1000;
+      }
+      .nav.open {
+        display: flex;
+      }
+      .dropdown {
+        position: static;
+      }
+      .dropdown-menu {
+        position: static;
+        background: rgba(0,0,0,0.1);
+        box-shadow: none;
+        margin-top: 0.5rem;
+      }
+      .container {
+        padding: 30px 5%;
+      }
+      nav .logo h1 {
+        font-size: 1.8rem;
+      }
+      nav .logo p {
+        font-size: 1rem;
+      }
+      .filters {
+        justify-content: center;
+      }
+    }
+
+    /* ----- SCROLL ANIMATION (unchanged, keeps your existing story animation) ----- */
     @keyframes fadeInUp {
       0% {
         opacity: 0;
@@ -50,7 +276,7 @@
     }
 
     .animate-on-scroll {
-      opacity: 0; /* start hidden */
+      opacity: 0;
       will-change: transform, opacity;
     }
 
@@ -63,11 +289,13 @@
   <div class="page1">
     <nav>
       <div class="logo">
-        <h1 class="animate__animated animate__backInDown">VerseVibe & <span>Flow</span></h1>
-        <p class="animate__animated animate__backInDown">Stories That Feel like Coming Home</p>
+        <a href="index.html">
+          <h1 class="animate__animated animate__backInDown">VerseVibe & <span>Flow</span></h1>
+          <p class="animate__animated animate__backInDown">Stories That Feel like Coming Home</p>
+        </a>
       </div>
 
-      <!-- Hamburger button (hidden on desktop) -->
+      <!-- Hamburger button -->
       <button class="hamburger" aria-label="Menu" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
@@ -144,7 +372,7 @@
     });
   </script>
   
-  <!-- Your existing public.js script (unchanged) -->
+  <!-- Your existing public.js (unchanged) -->
   <script src="public.js"></script>
   
   <!-- Enhanced mobile menu & dropdown toggles (unchanged) -->
@@ -195,11 +423,10 @@
       });
     });
 
-    // ---------- SCROLL ANIMATION (FIXED) ----------
+    // ---------- SCROLL ANIMATION (unchanged) ----------
     (function() {
-      // Function to add the 'animate-on-scroll' class to all .story-item elements
       function addAnimationClass() {
-        const storyItems = document.querySelectorAll('.story-item');
+        const storyItems = document.querySelectorAll('.story');
         storyItems.forEach(item => {
           if (!item.classList.contains('animate-on-scroll')) {
             item.classList.add('animate-on-scroll');
@@ -207,51 +434,40 @@
         });
       }
 
-      // Intersection Observer to add 'in-view' class when element becomes visible
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             entry.target.classList.add('in-view');
-            // Unobserve after animation to save resources
             observer.unobserve(entry.target);
           }
         });
-      }, { threshold: 0.2 }); // trigger when 20% of the card is visible
+      }, { threshold: 0.2 });
 
-      // Observe all elements with .animate-on-scroll class
       function observeAllCards() {
         const cards = document.querySelectorAll('.animate-on-scroll');
         cards.forEach(card => {
-          // Only observe if not already observed and not already animated
           if (!card.classList.contains('in-view')) {
             observer.observe(card);
           }
         });
       }
 
-      // Call this whenever new content is added to #storiesContainer
       function refreshAnimations() {
         addAnimationClass();
         observeAllCards();
       }
 
-      // Initial run after page loads (with a slight delay to allow public.js to finish)
       window.addEventListener('load', () => {
         setTimeout(refreshAnimations, 100);
       });
 
-      // Watch for changes in the stories container (dynamic updates from public.js)
       const container = document.getElementById('storiesContainer');
       if (container) {
-        const mutationObserver = new MutationObserver((mutations) => {
-          // After any change, re-run the animation setup
+        const mutationObserver = new MutationObserver(() => {
           refreshAnimations();
         });
         mutationObserver.observe(container, { childList: true, subtree: true });
       }
-
-      // Also listen for category select changes? public.js already triggers a re-render,
-      // so the mutation observer will catch it.
     })();
   </script>
 </body>
