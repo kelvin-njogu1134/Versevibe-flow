@@ -136,7 +136,7 @@ nav .logo p {
     font-size: 20px;
 }
 
-/* ===== STORY CARDS (preserve original layout, add hover) ===== */
+/* ===== STORY CARDS ===== */
 .story {
     display: flex;
     gap: 20px;
@@ -159,19 +159,31 @@ nav .logo p {
     border-radius: 12px;
     flex-shrink: 0;
 }
-/* Make the story title bigger and underlined */
-.story h2 {
-    font-size: 1.5rem;      /* Adjust size as needed */
+
+/* ----- LABEL STYLING ----- */
+/* Make the "Title:" label bigger and underlined */
+.story h2 .story-label {
+    font-size: 2rem;
     text-decoration: underline;
-    margin: 0 0 30px 30px;  /* Keep existing margins if needed */
+    font-weight: 600;
+    margin-right: 8px;
 }
 
-/* Make the description bold */
-.story .short-desc {
+/* Regular title text size */
+.story h2 {
+    font-size: 1.5rem;
+    font-weight: normal;
+    margin: 0 0 30px 30px;
+}
+
+/* Make "Description:" and "Full Story:" labels bold */
+.story .story-label {
     font-weight: bold;
 }
+
+/* Additional styles for other elements */
 .story .meta {
-    font-size: 1px;
+    font-size: 18px;
     margin-bottom: 30px;
     margin-left: 30px;
 }
@@ -259,6 +271,7 @@ nav .logo p {
     90% { width: 80%; transform: translateX(15px); }
     100% { transform: translateX(0px); width: 16px; }
 }
+
 /* Action buttons row */
 .action-buttons {
     margin: 15px 0 0 30px;
@@ -287,7 +300,6 @@ nav .logo p {
     background: #e0e0e0;
     color: #333;
 }
-
 
 /* Comments section */
 .comments-section {
@@ -342,6 +354,7 @@ nav .logo p {
     color: #666;
     padding: 5px;
 }
+
 /* ===== RESPONSIVE BREAKPOINTS ===== */
 /* Tablet: reduce image size */
 @media (max-width: 992px) {
@@ -365,7 +378,6 @@ nav .logo p {
         font-size: 18px;
     }
 }
-
 
 /* Like button */
 .like-section {
@@ -406,7 +418,7 @@ nav .logo p {
 }
 
 .comments-list {
-    max-height: 300px;               /* slightly shorter, fits better */
+    max-height: 300px;
     overflow-y: auto;
     margin-bottom: 1rem;
     display: flex;
@@ -480,7 +492,7 @@ nav .logo p {
 
 .comment-form button {
     align-self: flex-start;
-    background-color: teal;          /* changed to match site theme */
+    background-color: teal;
     color: white;
     border: none;
     border-radius: 40px;
@@ -535,10 +547,6 @@ nav .logo p {
     .comment-form textarea {
         font-size: 0.8rem;
     }
-}.loader-small {
-  text-align: center;
-  color: #888;
-  padding: 1rem;
 }
 
 /* Mobile: stack cards, show hamburger, hide nav links */
