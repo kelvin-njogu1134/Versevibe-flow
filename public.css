@@ -161,7 +161,7 @@ nav .logo p {
 }
 /* Make the story title bigger and underlined */
 .story h2 {
-    font-size: 1.8rem;      /* Adjust size as needed */
+    font-size: 0.8rem;      /* Adjust size as needed */
     text-decoration: underline;
     margin: 0 0 30px 30px;  /* Keep existing margins if needed */
 }
