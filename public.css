@@ -162,16 +162,16 @@ nav .logo p {
 
 /* ----- LABEL STYLING ----- */
 /* Make the "Title:" label bigger and underlined */
-.story-label {
-    font-size: 2.5rem;
+/* .story-label { */
+    /* font-size: 2.5rem; */
     
-    font-weight: 600;
-    margin-right: 8px;
-}
+    /* font-weight: 600; */
+    /* margin-right: 8px; */
+/* } */ */
 
 /* Regular title text size */
 .story h2 {
-     font-size: 2.2rem;   /* increase size */
+     font-size: 1.5rem;   /* increase size */
     font-weight: 600;
     text-decoration: underline;  /* underline title */
     margin: 0 0 20px 30px;
