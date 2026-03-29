@@ -163,17 +163,18 @@ nav .logo p {
 /* ----- LABEL STYLING ----- */
 /* Make the "Title:" label bigger and underlined */
 .story h2 .story-label {
-    font-size: 2rem;
-    text-decoration: underline;
+    font-size: 3rem;
+    
     font-weight: 600;
     margin-right: 8px;
 }
 
 /* Regular title text size */
 .story h2 {
-    font-size: 1.5rem;
-    font-weight: normal;
-    margin: 0 0 30px 30px;
+     font-size: 2.2rem;   /* increase size */
+    font-weight: 600;
+    text-decoration: underline;  /* underline title */
+    margin: 0 0 20px 30px;
 }
 
 /* Make "Description:" and "Full Story:" labels bold */
