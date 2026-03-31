@@ -166,7 +166,8 @@ nav .logo p {
     font-size: 2rem;
     font-weight: 600;
     margin-right: 9px;
-    text-decoration: none;      /* explicitly remove underline */
+    text-decoration: none; 
+    font-weight: 600;     /* explicitly remove underline */
 }
 
 /* Regular title text size */
@@ -191,7 +192,7 @@ nav .logo p {
     font-size: 20px;
     margin-bottom: 30px;
     margin-left: 30px;
-    font-weight: 600;
+    
 }
 .story .full-story {
     line-height: 1.3;
