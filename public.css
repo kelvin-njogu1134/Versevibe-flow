@@ -199,6 +199,12 @@ nav .logo p {
     color: #000000;
     font-size: 18px;
     margin-left: 30px;
+    font-family: "Roboto", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
 }
 .read-more-btn {
     margin-top: 10px;
