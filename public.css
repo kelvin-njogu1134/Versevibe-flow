@@ -161,26 +161,24 @@ nav .logo p {
 }
 
 /* ----- LABEL STYLING ----- */
-/* Make the "Title:" label bigger and underlined */
-.story-label { 
-     font-size: 2.5rem; 
-    text-decoration: underline;  /* underline title */
-    /* font-weight: 600; */
-     margin-right: 8px; 
- }
+/* Title label: large, bold, NO underline */
+.story h2 .story-label {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-right: 8px;
+    text-decoration: none;      /* explicitly remove underline */
+}
 
 /* Regular title text size */
 .story h2 {
-     font-size: 1.5rem;   /* increase size */
-    font-weight: 600;
-    
+    font-size: 1.5rem;
+    font-weight: normal;
     margin: 0 0 20px 30px;
 }
 
-/* Make "Description:" and "Full Story:" labels bold */
+/* Make all story labels (Description:, Full Story:) bold */
 .story .story-label {
     font-weight: bold;
-    
 }
 
 /* Additional styles for other elements */
@@ -199,12 +197,9 @@ nav .logo p {
     color: #000000;
     font-size: 18px;
     margin-left: 30px;
-    font-family: "Roboto", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 400;
-  font-style: normal;
-  font-variation-settings:
-    "wdth" 100;
+    font-family: "Roboto", sans-serif;  /* ensure Roboto */
+    font-weight: 400;
+    font-style: normal;
 }
 .read-more-btn {
     margin-top: 10px;
