@@ -160,8 +160,9 @@ nav .logo p {
     flex-shrink: 0;
 }
 
-/* ----- LABEL STYLING ----- */
-/* Title label: large, bold, NO underline */
+/*  LABEL STYLING  */
+
+
 .story h2 .story-label {
     font-size: 2rem;
     font-weight: 600;
