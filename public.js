@@ -1,23 +1,23 @@
-// ========== CONFIGURATION ==========
+// CONFIGURATION 
 const SUPABASE_URL = 'https://yyebyrmgqaoiypwcchii.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_PNOBDTlx2p9nIR04E7ZfOw_9dXN_AI6';
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// ---------- Helper: Get or create visitor ID ----------
+// Helper: Get or create visitor ID 
 let visitorId = localStorage.getItem('visitor_id');
 if (!visitorId) {
     visitorId = crypto.randomUUID();
     localStorage.setItem('visitor_id', visitorId);
 }
 
-// ========== FORMAT DATE ==========
+// FORMAT DATE 
 function formatDate(isoString) {
     if (!isoString) return '';
     const date = new Date(isoString);
     return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 }
 
-// ========== FETCH STORIES ==========
+// FETCH STORIES 
 async function fetchStories(category = '') {
     let query = supabaseClient
         .from('stories')
@@ -34,7 +34,7 @@ async function fetchStories(category = '') {
     return { error: null, data };
 }
 
-// ---------- FETCH LIKES STATUS FOR ALL STORIES ----------
+//  FETCH LIKES STATUS FOR ALL STORIES 
 async function fetchLikesStatus(storyIds) {
     if (!storyIds.length) return {};
     const { data, error } = await supabaseClient
@@ -51,7 +51,7 @@ async function fetchLikesStatus(storyIds) {
     return likedMap;
 }
 
-// ---------- ATOMIC TOGGLE LIKE (uses RPC) ----------
+// ATOMIC TOGGLE LIKE (uses RPC) 
 async function toggleLike(storyId, currentCount, likeButton, likeCountSpan) {
     likeButton.disabled = true;
     const wasLiked = likeButton.classList.contains('liked');
@@ -100,7 +100,7 @@ async function fetchComments(storyId) {
     return data;
 }
 
-// ---------- RENDER COMMENTS (without author name) ----------
+// RENDER COMMENTS (without author name) 
 function renderComments(comments, container) {
     if (!comments.length) {
         container.innerHTML = '<p class="no-comments">No comments yet. Be the first to comment!</p>';
@@ -114,7 +114,7 @@ function renderComments(comments, container) {
     `).join('');
 }
 
-// ---------- SUBMIT COMMENT (without author name) ----------
+//  SUBMIT COMMENT (without author name) 
 async function submitComment(storyId, content, commentsContainer) {
     if (!content.trim()) {
         alert('Please enter a comment.');
@@ -139,7 +139,7 @@ async function submitComment(storyId, content, commentsContainer) {
     return true;
 }
 
-// ---------- ESCAPE HTML ----------
+//  ESCAPE HTML 
 function escapeHtml(unsafe) {
     if (!unsafe) return '';
     return unsafe
@@ -150,7 +150,7 @@ function escapeHtml(unsafe) {
         .replace(/'/g, '&#039;');
 }
 
-// ========== DISPLAY STORIES ==========
+// DISPLAY STORIES 
 async function displayStories(category = '') {
     const container = document.getElementById('storiesContainer');
     container.innerHTML = `<div class="loader"><span class="loader-text">Loading stories...</span></div>`;
@@ -175,7 +175,7 @@ async function displayStories(category = '') {
         const article = document.createElement('article');
         article.className = 'story';
 
-        // ---------- IMAGE ----------
+        // IMAGE 
         let coverHtml = '';
         if (story.image_urls && Array.isArray(story.image_urls) && story.image_urls.length > 0) {
             coverHtml = `<img src="${story.image_urls[0]}" alt="${story.title}" loading="lazy" onerror="this.onerror=null;this.src='https://via.placeholder.com/600x400?text=Image+not+found';">`;
@@ -190,7 +190,7 @@ async function displayStories(category = '') {
         const isLiked = likedMap[story.id] || false;
         const likeCount = story.likes_count || 0;
 
-        // ---------- BUILD STORY HTML ----------
+        //  BUILD STORY HTML 
         article.innerHTML = `
             ${coverHtml}
             <div class="story-content">
@@ -218,7 +218,7 @@ async function displayStories(category = '') {
         `;
         container.appendChild(article);
 
-        // ---------- READ MORE TOGGLE ----------
+        // READ MORE TOGGLE 
         const btn = article.querySelector('.read-more-btn');
         const fullStory = article.querySelector('.full-story');
         const previewText = article.querySelector('.story-preview');
@@ -237,7 +237,7 @@ async function displayStories(category = '') {
             }
         });
 
-        // ---------- LIKE BUTTON ----------
+        // LIKE BUTTON 
         const likeBtn = article.querySelector('.like-btn');
         const likeCountSpan = likeBtn.querySelector('.like-count');
         likeBtn.addEventListener('click', (e) => {
@@ -246,7 +246,7 @@ async function displayStories(category = '') {
             toggleLike(story.id, currentCount, likeBtn, likeCountSpan);
         });
 
-        // ---------- COMMENT TOGGLE BUTTON ----------
+        //  COMMENT TOGGLE BUTTON 
         const toggleBtn = article.querySelector('.comment-toggle-btn');
         const commentsSection = article.querySelector(`#comments-section-${story.id}`);
         const commentsListContainer = article.querySelector(`#comments-list-${story.id}`);
@@ -274,7 +274,7 @@ async function displayStories(category = '') {
             }
         });
 
-        // ---------- COMMENT FORM SUBMIT ----------
+        // COMMENT FORM SUBMIT 
         commentForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const content = commentForm.querySelector('textarea[name="content"]').value;
@@ -293,12 +293,12 @@ async function displayStories(category = '') {
     }
 }
 
-// ========== CATEGORY FILTER ==========
+// CATEGORY FILTER 
 document.getElementById('categorySelect').addEventListener('change', (e) => {
     displayStories(e.target.value);
 });
 
-// ========== LOAD STORIES ==========
+//  LOAD STORIES 
 window.addEventListener('load', () => {
     displayStories('');
 });
