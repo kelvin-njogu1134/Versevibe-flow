@@ -279,7 +279,7 @@ async function displayStories(category = '') {
             e.preventDefault();
             const content = commentForm.querySelector('textarea[name="content"]').value;
             const success = await submitComment(story.id, content, commentsListContainer);
-            if () {
+            if (success) {
                 commentForm.reset();
                 // Ensure comments are loaded (if not, they will be after submit)
                 if (!commentLoaded[story.id]) {
