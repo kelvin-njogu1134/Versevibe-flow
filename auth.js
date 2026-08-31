@@ -1,90 +1,176 @@
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { 
-    getAuth, 
-    createUserWithEmailAndPassword, 
-    signInWithEmailAndPassword, 
-    signOut,
-    onAuthStateChanged as onAuthStateChangedFirebase
-} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
 
-const firebaseConfig = {
-    apiKey: "AIzaSyAkfJl2xQtTN7Ukm4HU0d4qt2gohixvagQ",
-    authDomain: "versevibeauth.firebaseapp.com",
-    projectId: "versevibeauth",
-    storageBucket: "versevibeauth.firebasestorage.app",
-    messagingSenderId: "226274481716",
-    appId: "1:226274481716:web:29cac22674389cbc951c61"
-};
+
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+
+const SUPABASE_URL = 'https://lzfdrgrdaglbsafvujcq.supabase.co';
+const SUPABASE_ANON_KEY =  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx6ZmRyZ3JkYWdsYnNhZnZ1amNxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgwMDIwNTIsImV4cCI6MjEwMzU3ODA1Mn0.ApBYgdQoswu9BAkUUNku2qgnfcm4tEkucd1rEuTLC8o';
+
+export const supabase = createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+);
 
 
-//  ADMIN CREDENTIALS (hardcoded)
 
 const ADMIN_EMAIL = "esthernjeri1824@gmail.com";
-const ADMIN_PASSWORD = "admin@njeri1824";
 
 
 
 
 export async function signUpUser(email, password) {
-    if (email === ADMIN_EMAIL) {
-        throw new Error("This email is reserved. Please use another email.");
+
+ 
+    
+    if (email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
+        throw new Error(
+            "This email is reserved. Please use another email."
+        );
     }
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    return userCredential.user;
+
+    const { data, error } = await supabase.auth.signUp({
+        email: email,
+        password: password
+    });
+
+    if (error) {
+        throw error;
+    }
+
+    return data.user;
 }
 
 
-export async function loginUser(email, password) {
-    const isAdminAttempt = (email === ADMIN_EMAIL && password === ADMIN_PASSWORD);
 
-    try {
-        const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        return userCredential.user;
-    } catch (error) {
-        
-        if (isAdminAttempt && error.code === 'auth/user-not-found') {
-            await createUserWithEmailAndPassword(auth, ADMIN_EMAIL, ADMIN_PASSWORD);
-            
-            const userCredential = await signInWithEmailAndPassword(auth, ADMIN_EMAIL, ADMIN_PASSWORD);
-            return userCredential.user;
-        }
-        
+
+export async function loginUser(email, password) {
+
+    const { data, error } = await supabase.auth.signInWithPassword({
+        email: email,
+        password: password
+    });
+
+    if (error) {
+        throw error;
+    }
+
+    return data.user;
+}
+
+
+
+
+export async function logoutUser() {
+
+    const { error } = await supabase.auth.signOut();
+
+    if (error) {
         throw error;
     }
 }
 
 
-export async function logoutUser() {
-    await signOut(auth);
-}
 
 
 export function onAuthStateChanged(callback) {
-    return onAuthStateChangedFirebase(auth, callback);
+
+    const {
+        data: { subscription }
+    } = supabase.auth.onAuthStateChange(
+        (event, session) => {
+
+            const user = session?.user ?? null;
+
+            callback(user);
+        }
+    );
+
+    
+    
+    return () => {
+        subscription.unsubscribe();
+    };
 }
+
+
 
 
 export function isAdminUser(user) {
-    return user && user.email === ADMIN_EMAIL;
+
+    if (!user) {
+        return false;
+    }
+
+    return (
+        user.email?.toLowerCase() ===
+        ADMIN_EMAIL.toLowerCase()
+    );
 }
 
 
+
+
 export function redirectIfAuthenticated(user) {
-    if (!user) return;
+
+    if (!user) {
+        return;
+    }
+
     if (isAdminUser(user)) {
-        window.location.href = 'admin.html';
+
+        window.location.href = "admin.html";
+
     } else {
-        window.location.href = 'public.html';
+
+        window.location.href = "public.html";
+
     }
 }
 
 
-export function getCurrentUser() {
-    return auth.currentUser;
+
+
+export async function getCurrentUser() {
+
+    const {
+        data: { user },
+        error
+    } = await supabase.auth.getUser();
+
+    if (error) {
+        return null;
+    }
+
+    return user;
 }
+
+
+
+
+export async function getCurrentSession() {
+
+    const {
+        data: { session },
+        error
+    } = await supabase.auth.getSession();
+
+    if (error) {
+        return null;
+    }
+
+    return session;
+}
+
+
+
+
+export async function isAuthenticated() {
+
+    const session = await getCurrentSession();
+
+    return !!session;
+}
+

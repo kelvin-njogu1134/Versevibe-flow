@@ -4,315 +4,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>VerseVibe & Flow – Stories</title>
-  <!-- Fonts -->
-   <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=ABeeZee:ital@0;1&family=Arimo:ital,wght@0,400..700;1,400..700&family=Dancing+Script:wght@400..700&family=Delius+Unicase:wght@400;700&family=Edu+SA+Hand:wght@400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lora:ital,wght@0,400..700;1,400..700&family=Macondo&family=Momo+Signature&family=Momo+Trust+Sans:wght@200..800&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Playwrite+CZ:wght@100..400&family=Public+Sans:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Rubik:ital,wght@0,300..900;1,300..900&family=Special+Gothic+Expanded+One&family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=ABeeZee:ital@0;1&family=Arimo:ital,wght@0,400..700;1,400..700&family=Dancing+Script:wght@400..700&family=Delius+Unicase:wght@400;700&family=Edu+SA+Hand:wght@400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lora:ital,wght@0,400..700;1,400..700&family=Macondo&family=Momo+Signature&family=Momo+Trust+Sans:wght@200..800&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Playwrite+CZ:wght@100..400&family=Public+Sans:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Rubik:ital,wght@0,300..900;1,300..900&family=Special+Gothic+Expanded+One&family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="public.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1.35.6/dist/umd/supabase.min.js"></script>
-  
-  <style>
-    /* ===== RESET & BAS  */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    .page1 {
-      background-color: teal;
-      min-height: 100vh;
-      width: 100%;
-    }
-
-    /*  NAVBAR – Sticky & Responsive  */
-    nav {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      width: 100%;
-      background-color: teal;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px;
-      list-style: none;
-      transition: all 0.3s ease;
-    }
-    /* Logo */
-    nav .logo h1 {
-      font-size: 40px;
-      color: rgb(20, 20, 20);
-      font-family: "Dancing Script", cursive;
-      font-weight: 600;
-    }
-    nav .logo h1 span {
-      color: red;
-    }
-    nav .logo p {
-      font-size: 20px;
-      color: whitesmoke;
-      font-family: "Dancing Script", cursive;
-      font-weight: 600;
-    }
-    .logo a {
-      text-decoration: none;
-    }
-
-    /* Navigation links container */
-    .nav {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      list-style: none;
-    }
-    .nav li a {
-      color: rgb(255, 255, 255);
-      text-decoration: none;
-      font-size: 20px;
-      font-family: 'Roboto', sans-serif;
-      font-weight: 400;
-      transition: color 0.2s, transform 0.2s;
-    }
-    .nav li a:hover {
-      color: #ffd966;
-      transform: translateY(-2px);
-    }
-    .nav button {
-      padding: 8px 14px;
-      border: 1px solid white;
-      font-size: 15px;
-      background: white;
-      color: teal;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-family: 'Roboto', sans-serif;
-    }
-    .nav button:hover {
-      background: teal;
-      color: white;
-      border: 1px solid teal;
-      transform: translateY(-3px);
-      box-shadow: 0 6px 15px rgba(0,0,0,0.2);
-    }
-
-    /* Dropdown – click-only (no hover) */
-    .dropdown {
-      position: relative;
-    }
-    .dropdown-menu {
-      display: none;
-      position: absolute;
-      background: teal;
-      list-style: none;
-      padding: 0;
-      border-radius: 10px;
-      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
-      top: 100%;
-      left: 0;
-      min-width: 160px;
-      z-index: 100;
-    }
-    .dropdown-menu li {
-      padding: 10px;
-    }
-    .dropdown-menu li a {
-      font-family: 'Roboto', sans-serif;
-      font-size: 16px;
-      color: white;
-      display: block;
-      transition: 0.2s;
-    }
-    .dropdown-menu li a:hover {
-      color: #ffd966;
-    }
-    /* Show menu when dropdown has 'open' class */
-    .dropdown.open .dropdown-menu {
-      display: block;
-    }
-
-    /* Hamburger button (hidden on desktop) */
-    .hamburger {
-      display: none;
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 0.5rem;
-      z-index: 1001;
-    }
-    .hamburger span {
-      display: block;
-      width: 25px;
-      height: 3px;
-      background: white;
-      margin: 5px 0;
-      border-radius: 3px;
-      transition: all 0.2s;
-    }
-
-    /* ===== CONTAINER & FILTERS ===== */
-    .container {
-      height: auto;
-      min-height: 80vh;
-      width: 100%;
-      background-color: white;
-      padding: 50px 8%;
-      border-radius: 30px 30px 0 0;
-    }
-    .filters {
-      display: flex;
-      justify-content: flex-end;
-      margin-bottom: 30px;
-    }
-    .filters label {
-      font-family: 'Roboto', sans-serif;
-      margin-right: 10px;
-      font-size: 18px;
-      color: #2c3e2f;
-    }
-    .filters select {
-      padding: 8px 12px;
-      border-radius: 20px;
-      border: 1px solid #ddd;
-      font-family: 'Roboto', sans-serif;
-      font-size: 16px;
-    }
-
-    /* Story cards – your existing styles from public.css are imported, but we add a small base */
-    .story {
-      background: #fef9f0;
-      border-radius: 24px;
-      margin-bottom: 30px;
-      overflow: hidden;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .story:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 24px rgba(0,0,0,0.1);
-    }
-
-    /* ===== AUTH ELEMENTS ===== */
-    .logout-btn {
-      background: #667eea;
-      color: white;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 14px;
-      margin-left: 15px;
-      font-family: 'Roboto', sans-serif;
-    }
-    .logout-btn:hover {
-      background: #5a67d8;
-    }
-    .user-email {
-      font-size: 14px;
-      margin-left: 10px;
-      color: #fff;
-      background: rgba(0,0,0,0.2);
-      padding: 5px 10px;
-      border-radius: 20px;
-      font-family: 'Roboto', sans-serif;
-    }
-    .admin-link {
-      background: #ff9900;
-      color: white;
-      padding: 6px 12px;
-      border-radius: 6px;
-      text-decoration: none;
-      font-size: 14px;
-      margin-left: 10px;
-      font-family: 'Roboto', sans-serif;
-      transition: background 0.2s;
-    }
-    .admin-link:hover {
-      background: #e68a00;
-    }
-
-    /* ===== RESPONSIVE BREAKPOINTS ===== */
-    @media (max-width: 768px) {
-      .hamburger {
-        display: block;
-      }
-      .nav {
-        display: none;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        width: 100%;
-        background: teal;
-        flex-direction: column;
-        padding: 1rem;
-        gap: 1rem;
-        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-        z-index: 1000;
-      }
-      .nav.open {
-        display: flex;
-      }
-      .dropdown {
-        position: static;
-      }
-      .dropdown-menu {
-        position: static;
-        background: rgba(0,0,0,0.1);
-        box-shadow: none;
-        margin-top: 0.5rem;
-      }
-      .container {
-        padding: 30px 5%;
-      }
-      nav .logo h1 {
-        font-size: 1.8rem;
-      }
-      nav .logo p {
-        font-size: 1rem;
-      }
-      .filters {
-        justify-content: center;
-      }
-    }
-
-    /* ----- SCROLL ANIMATION (unchanged, keeps your existing story animation) ----- */
-    @keyframes fadeInUp {
-      0% {
-        opacity: 0;
-        transform: translateY(25px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .animate-on-scroll {
-      opacity: 0;
-      will-change: transform, opacity;
-    }
-
-    .animate-on-scroll.in-view {
-      animation: fadeInUp 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards;
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
   <div class="page1">
-    <nav>
+    <nav class="site-nav">
       <div class="logo">
-        <a href="index.html">
-          <h1 class="animate__animated animate__backInDown">VerseVibe & <span>Flow</span></h1>
-          <p class="animate__animated animate__backInDown">Stories That Feel like Coming Home</p>
+        <a href="public.html">
+          <h1>VerseVibe & <span>Flow</span></h1>
+          <p>Stories that feel like coming home</p>
         </a>
       </div>
 
-      <!-- Hamburger button -->
       <button class="hamburger" aria-label="Menu" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
@@ -332,26 +41,31 @@
     </nav>
 
     <div class="container">
+      <div class="hero">
+        <p class="kicker">Welcome</p>
+        <h1>Stories that feel like coming home.</h1>
+        <p>Fiction, reflections, and quiet truths — the small moments that shape us, written down before they're lost.</p>
+      </div>
+
       <div class="filters">
-        <label for="categorySelect">Filter by category:</label>
+        <label for="categorySelect">Filter by category</label>
         <select id="categorySelect">
-          <option value="">📚 All stories</option>
-          <option value="Life">🌿 Life</option>
-          <option value="Inspiration">💡 Inspiration</option>
-          <option value="Fiction">📖 Fiction</option>
-          <option value="Selfgrowth">🌱 Selfgrowth</option>
-          <option value="Money">💰 Money</option>
-          <option value="Parenting">👨‍👩‍👧 Parenting</option>
-          <option value="Moments">📸 Moments</option>
-          <option value="News">📰 News</option>
+          <option value="">All stories</option>
+          <option value="Life">Life</option>
+          <option value="Inspiration">Inspiration</option>
+          <option value="Fiction">Fiction</option>
+          <option value="Selfgrowth">Self-growth</option>
+          <option value="Money">Money</option>
+          <option value="Parenting">Parenting</option>
+          <option value="Moments">Moments</option>
+          <option value="News">News</option>
         </select>
       </div>
 
-      <div id="storiesContainer" class="loading">📖 Loading stories...</div>
+      <div id="storiesContainer" class="loading">Loading stories…</div>
     </div>
   </div>
 
-  <!-- Import Firebase and auth logic -->
   <script type="importmap">
     {
       "imports": {
@@ -363,23 +77,20 @@
   <script type="module">
     import { onAuthStateChanged, logoutUser, isAdminUser } from './auth.js';
     const authNav = document.getElementById('auth-nav');
-    
+
     onAuthStateChanged(async (user) => {
       if (!user) {
         window.location.href = 'login.html';
         return;
       }
 
-      // Clear existing content
       authNav.innerHTML = '';
 
-      // Add user email
       const userSpan = document.createElement('span');
       userSpan.textContent = user.email;
       userSpan.classList.add('user-email');
       authNav.appendChild(userSpan);
 
-      // If admin, add a button/link to go to admin panel
       if (isAdminUser(user)) {
         const adminLink = document.createElement('a');
         adminLink.textContent = 'Admin Panel';
@@ -388,7 +99,6 @@
         authNav.appendChild(adminLink);
       }
 
-      // Add logout button
       const logoutBtn = document.createElement('button');
       logoutBtn.textContent = 'Logout';
       logoutBtn.classList.add('logout-btn');
@@ -399,18 +109,16 @@
       authNav.appendChild(logoutBtn);
     });
   </script>
-  
-  <!-- Your existing public.js (unchanged) -->
+
   <script src="public.js"></script>
-  
-  <!-- Enhanced mobile menu & dropdown toggles (unchanged) -->
+
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const hamburger = document.querySelector('.hamburger');
       const navMenu = document.querySelector('nav .nav');
       const dropdownToggle = document.querySelector('.dropdown-toggle');
       const dropdown = document.querySelector('.dropdown');
-      
+
       if (hamburger && navMenu) {
         hamburger.addEventListener('click', (e) => {
           e.stopPropagation();
@@ -418,7 +126,7 @@
           hamburger.setAttribute('aria-expanded', expanded);
         });
       }
-      
+
       if (dropdownToggle && dropdown) {
         dropdownToggle.addEventListener('click', (e) => {
           e.preventDefault();
@@ -426,14 +134,12 @@
           dropdown.classList.toggle('open');
         });
       }
-      
+
       document.addEventListener('click', (e) => {
         if (dropdown && dropdown.classList.contains('open')) {
           const isInsideDropdown = dropdown.contains(e.target);
           const isToggleClick = dropdownToggle && dropdownToggle.contains(e.target);
-          if (!isInsideDropdown && !isToggleClick) {
-            dropdown.classList.remove('open');
-          }
+          if (!isInsideDropdown && !isToggleClick) dropdown.classList.remove('open');
         }
         if (navMenu && navMenu.classList.contains('open')) {
           if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
@@ -442,7 +148,7 @@
           }
         }
       });
-      
+
       window.addEventListener('resize', () => {
         if (window.innerWidth > 768) {
           if (navMenu) navMenu.classList.remove('open');
@@ -450,53 +156,6 @@
         }
       });
     });
-
-    // ---------- SCROLL ANIMATION (unchanged) ----------
-    (function() {
-      function addAnimationClass() {
-        const storyItems = document.querySelectorAll('.story');
-        storyItems.forEach(item => {
-          if (!item.classList.contains('animate-on-scroll')) {
-            item.classList.add('animate-on-scroll');
-          }
-        });
-      }
-
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('in-view');
-            observer.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.2 });
-
-      function observeAllCards() {
-        const cards = document.querySelectorAll('.animate-on-scroll');
-        cards.forEach(card => {
-          if (!card.classList.contains('in-view')) {
-            observer.observe(card);
-          }
-        });
-      }
-
-      function refreshAnimations() {
-        addAnimationClass();
-        observeAllCards();
-      }
-
-      window.addEventListener('load', () => {
-        setTimeout(refreshAnimations, 100);
-      });
-
-      const container = document.getElementById('storiesContainer');
-      if (container) {
-        const mutationObserver = new MutationObserver(() => {
-          refreshAnimations();
-        });
-        mutationObserver.observe(container, { childList: true, subtree: true });
-      }
-    })();
   </script>
 </body>
 </html>

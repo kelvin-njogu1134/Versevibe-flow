@@ -1,9 +1,7 @@
-
-const SUPABASE_URL = 'https://yyebyrmgqaoiypwcchii.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_PNOBDTlx2p9nIR04E7ZfOw_9dXN_AI6';
+const SUPABASE_URL = 'https://lzfdrgrdaglbsafvujcq.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx6ZmRyZ3JkYWdsYnNhZnZ1amNxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgwMDIwNTIsImV4cCI6MjEwMzU3ODA1Mn0.ApBYgdQoswu9BAkUUNku2qgnfcm4tEkucd1rEuTLC8o';
 
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
 
 function formatDate(isoString) {
   if (!isoString) return '';
@@ -11,13 +9,10 @@ function formatDate(isoString) {
   return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
 }
 
-
 function getFileNameFromUrl(url) {
-  
   const parts = url.split('/images/');
   return parts.length > 1 ? parts[1] : null;
 }
-
 
 const fullStoryTextarea = document.getElementById('fullStory');
 if (fullStoryTextarea) {
@@ -26,7 +21,6 @@ if (fullStoryTextarea) {
     fullStoryTextarea.style.height = fullStoryTextarea.scrollHeight + 'px';
   });
 }
-
 
 async function loadStoriesForManage() {
   const container = document.getElementById('storiesManageList');
@@ -56,25 +50,25 @@ async function loadStoriesForManage() {
 
     let imageHtml = '';
     if (story.image_urls && story.image_urls.length > 0) {
-      imageHtml = `<img src="${story.image_urls[0]}" alt="cover" style="max-width:80px; max-height:60px; margin-right:10px;">`;
+      imageHtml = `<img src="${story.image_urls[0]}" alt="cover">`;
     }
 
     div.innerHTML = `
-      <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+      <div>
         ${imageHtml}
-        <div style="flex:1;">
-          <strong>${story.title}</strong> (${formatDate(story.created_at)})<br>
-          <small>Category: ${story.category}</small>
+        <div class="story-info">
+          <strong>${story.title}</strong>
+          <small>${story.category || 'Uncategorized'} · ${formatDate(story.created_at)}</small>
         </div>
-        <button class="edit-btn" data-id="${story.id}">Edit</button>
-        <button class="delete-btn" data-id="${story.id}">Delete</button>
+        <div class="story-actions">
+          <button class="edit-btn" data-id="${story.id}">Edit</button>
+          <button class="delete-btn" data-id="${story.id}">Delete</button>
+        </div>
       </div>
-      <hr style="margin:10px 0;">
     `;
     container.appendChild(div);
   });
 
-  // Attach event listeners to edit and delete buttons
   document.querySelectorAll('.edit-btn').forEach(btn => {
     btn.addEventListener('click', () => populateEditForm(btn.dataset.id));
   });
@@ -83,15 +77,11 @@ async function loadStoriesForManage() {
   });
 }
 
-// ---------------------------
-// 4. Populate the edit form with story data
-// ---------------------------
 async function populateEditForm(storyId) {
   const form = document.getElementById('editStoryForm');
   const messageDiv = document.getElementById('editMessage');
   if (!form) return;
 
-  // Fetch the story
   const { data: story, error } = await supabaseClient
     .from('stories')
     .select('*')
@@ -106,43 +96,32 @@ async function populateEditForm(storyId) {
     return;
   }
 
-  // Store story id in a hidden field or data attribute
   form.dataset.storyId = story.id;
   form.dataset.currentImageUrl = story.image_urls?.[0] || '';
 
-  // Fill form fields
   document.getElementById('editCategory').value = story.category || '';
   document.getElementById('editTitle').value = story.title || '';
   document.getElementById('editShortDesc').value = story.short_description || '';
   const fullStoryField = document.getElementById('editFullStory');
   if (fullStoryField) {
     fullStoryField.value = story.full_story || '';
-    // Trigger auto-resize
     fullStoryField.style.height = 'auto';
     fullStoryField.style.height = fullStoryField.scrollHeight + 'px';
   }
 
-  // Show current image preview if exists
   const previewDiv = document.getElementById('currentImagePreview');
   if (previewDiv) {
     if (story.image_urls && story.image_urls.length > 0) {
-      previewDiv.innerHTML = `<img src="${story.image_urls[0]}" alt="Current image" style="max-width:200px; max-height:150px;"><br>
-                              <small>Current image</small>`;
+      previewDiv.innerHTML = `<img src="${story.image_urls[0]}" alt="Current image"><p>Current image</p>`;
     } else {
       previewDiv.innerHTML = '<p>No image</p>';
     }
   }
 
-  // Clear any previous message
   if (messageDiv) messageDiv.textContent = '';
-
-  // Optionally scroll to form
   form.scrollIntoView({ behavior: 'smooth' });
 }
 
-// ---------------------------
-// 5. Update story (handle text fields and optional image change)
-// ---------------------------
 async function updateStory(e) {
   e.preventDefault();
 
@@ -157,7 +136,6 @@ async function updateStory(e) {
     return;
   }
 
-  // Get form values
   const category = document.getElementById('editCategory').value;
   const title = document.getElementById('editTitle').value.trim();
   const shortDesc = document.getElementById('editShortDesc').value.trim();
@@ -165,25 +143,22 @@ async function updateStory(e) {
   const fileInput = document.getElementById('editStoryImage');
   const newFile = fileInput.files[0];
 
-  messageDiv.style.color = 'black';
+  messageDiv.style.color = 'inherit';
   messageDiv.textContent = 'Updating story...';
 
   try {
     let imageUrls = currentImageUrl ? [currentImageUrl] : [];
 
-    // If a new image was selected, upload it and delete the old one
     if (newFile) {
-      // 1. Upload new image
       const newFileName = `${Date.now()}-${newFile.name}`;
-      const { data: uploadData, error: uploadError } = await supabaseClient.storage
+      const { error: uploadError } = await supabaseClient.storage
         .from('images')
         .upload(newFileName, newFile);
       if (uploadError) throw uploadError;
 
-      const { publicURL } = supabaseClient.storage.from('images').getPublicUrl(newFileName);
-      imageUrls = [publicURL];
+      const { data: urlData } = supabaseClient.storage.from('images').getPublicUrl(newFileName);
+      imageUrls = [urlData.publicUrl];
 
-      // 2. Delete old image from storage (if exists)
       if (currentImageUrl) {
         const oldFileName = getFileNameFromUrl(currentImageUrl);
         if (oldFileName) {
@@ -192,7 +167,6 @@ async function updateStory(e) {
       }
     }
 
-    // Update the story record
     const { error: updateError } = await supabaseClient
       .from('stories')
       .update({
@@ -201,7 +175,6 @@ async function updateStory(e) {
         short_description: shortDesc,
         full_story: fullStory,
         image_urls: imageUrls,
-        // updated_at can be added automatically if you have a trigger
       })
       .eq('id', storyId);
 
@@ -210,15 +183,9 @@ async function updateStory(e) {
     messageDiv.style.color = 'green';
     messageDiv.textContent = 'Story updated successfully!';
 
-    // Clear the file input
     fileInput.value = '';
 
-    // Refresh the list and clear the form (optional)
     await loadStoriesForManage();
-    // Optionally reset the form or keep data
-    // form.reset(); // careful: this would clear all fields, including storyId
-    // Instead, keep the updated data in the form
-    // You can re-populate with the new data:
     await populateEditForm(storyId);
   } catch (err) {
     console.error(err);
@@ -227,15 +194,11 @@ async function updateStory(e) {
   }
 }
 
-// ---------------------------
-// 6. Delete story and its associated image
-// ---------------------------
 async function deleteStory(storyId) {
   if (!confirm('Are you sure you want to delete this story? This action cannot be undone.')) {
     return;
   }
 
-  // First fetch the story to get the image URL
   const { data: story, error: fetchError } = await supabaseClient
     .from('stories')
     .select('image_urls')
@@ -248,7 +211,6 @@ async function deleteStory(storyId) {
   }
 
   try {
-    // Delete the story record
     const { error: deleteError } = await supabaseClient
       .from('stories')
       .delete()
@@ -256,7 +218,6 @@ async function deleteStory(storyId) {
 
     if (deleteError) throw deleteError;
 
-    // Delete the associated image from storage if it exists
     if (story.image_urls && story.image_urls.length > 0) {
       const imageUrl = story.image_urls[0];
       const fileName = getFileNameFromUrl(imageUrl);
@@ -266,10 +227,8 @@ async function deleteStory(storyId) {
     }
 
     alert('Story deleted successfully.');
-    // Refresh the list
     await loadStoriesForManage();
 
-    // Clear the edit form if the deleted story was being edited
     const form = document.getElementById('editStoryForm');
     if (form.dataset.storyId === storyId) {
       form.reset();
@@ -283,9 +242,6 @@ async function deleteStory(storyId) {
   }
 }
 
-// ---------------------------
-// 7. Initialization on page load
-// ---------------------------
 document.addEventListener('DOMContentLoaded', () => {
   loadStoriesForManage();
 
@@ -294,7 +250,6 @@ document.addEventListener('DOMContentLoaded', () => {
     editForm.addEventListener('submit', updateStory);
   }
 
-  // Optional: add a cancel button to clear the form
   const cancelBtn = document.getElementById('cancelEdit');
   if (cancelBtn) {
     cancelBtn.addEventListener('click', () => {
