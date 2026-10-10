@@ -71,12 +71,11 @@
     const authNav = document.getElementById('auth-nav');
 
     onAuthStateChanged(async (user) => {
+      authNav.innerHTML = '';
       if (!user) {
-        window.location.href = 'login.html';
+        authNav.innerHTML = '<a href="login.html">Log in</a> <a href="signup.html">Sign up</a>';
         return;
       }
-
-      authNav.innerHTML = '';
 
       const userSpan = document.createElement('span');
       userSpan.textContent = user.email;
@@ -96,7 +95,7 @@
       logoutBtn.classList.add('logout-btn');
       logoutBtn.addEventListener('click', async () => {
         await logoutUser();
-        window.location.href = 'login.html';
+        window.location.href = 'public.html';
       });
       authNav.appendChild(logoutBtn);
     });

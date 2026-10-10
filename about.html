@@ -70,12 +70,12 @@
   const authNav = document.getElementById('auth-nav');
 
   onAuthStateChanged(async (user) => {
+    authNav.innerHTML = '';
     if (!user) {
-      window.location.href = 'login.html';
+      authNav.innerHTML = '<a href="login.html">Log in</a> <a href="signup.html">Sign up</a>';
       return;
     }
 
-    authNav.innerHTML = '';
     if (isAdminUser(user)) {
       const adminLink = document.createElement('a');
       adminLink.textContent = 'Admin Panel';
@@ -88,7 +88,7 @@
     logoutBtn.classList.add('logout-btn');
     logoutBtn.addEventListener('click', async () => {
       await logoutUser();
-      window.location.href = 'login.html';
+      window.location.href = 'public.html';
     });
 
     const userSpan = document.createElement('span');
