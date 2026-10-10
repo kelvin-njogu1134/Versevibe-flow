@@ -99,6 +99,7 @@ export function onAuthStateChanged(callback) {
 
 
 export function isAdminUser(user) {
+    // This is for UI routing only; authorization is enforced by public.is_admin() through RLS.
     return user?.email?.toLowerCase() === ADMIN_EMAIL.toLowerCase();
 }
 

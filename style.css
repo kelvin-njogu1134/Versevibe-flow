@@ -105,6 +105,7 @@ input:focus {
   text-align: center;
   display: block;
 }
+#error-message { color: var(--danger); }
 .error-message:empty { display: none; }
 
 .form-footer { text-align: center; margin-top: 1.5rem; font-size: 0.9rem; color: var(--ink-soft); }
