@@ -1021,7 +1021,15 @@ nav.site-nav {
     display: inline-flex;
   }
 
-  .page1 .site-nav .nav {
+  .page1 .site-nav ul.nav {
+    display: none;
+  }
+
+  .page1 .site-nav ul.nav.open {
+    display: flex;
+  }
+
+  .page1 .site-nav ul.nav {
     gap: 0.4rem;
     padding: 0.85rem 5% 1.2rem;
     max-height: calc(100dvh - 72px);
