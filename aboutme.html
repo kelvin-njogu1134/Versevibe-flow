@@ -21,14 +21,16 @@
       </a>
     </div>
 
-    <button class="hamburger" aria-label="Menu" aria-expanded="false">
-      <span></span><span></span><span></span>
+    <button class="hamburger" aria-label="Open menu" aria-expanded="false">
+      <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
+        <path d="M4 6h16M4 12h16M4 18h16"></path>
+      </svg>
     </button>
 
     <ul class="nav">
       <li><a href="public.html">Home</a></li>
       <li class="dropdown">
-        <a href="#" class="dropdown-toggle">About</a>
+        <a href="#" class="dropdown-toggle" aria-expanded="false">About</a>
         <ul class="dropdown-menu">
           <li><a href="about.html">About</a></li>
           <li><a href="aboutme.html">About Me</a></li>
@@ -108,6 +110,7 @@
       hamburger.addEventListener('click', () => {
         const expanded = navMenu.classList.toggle('open');
         hamburger.setAttribute('aria-expanded', expanded);
+        hamburger.setAttribute('aria-label', expanded ? 'Close menu' : 'Open menu');
       });
     }
 
@@ -116,6 +119,7 @@
         if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
           navMenu.classList.remove('open');
           hamburger.setAttribute('aria-expanded', false);
+          hamburger.setAttribute('aria-label', 'Open menu');
         }
       }
     });
@@ -124,11 +128,13 @@
       dropdownToggle.addEventListener('click', (e) => {
         e.preventDefault();
         dropdown.classList.toggle('open');
+        dropdownToggle.setAttribute('aria-expanded', dropdown.classList.contains('open'));
       });
 
       document.addEventListener('click', (e) => {
         if (dropdown.classList.contains('open') && !dropdown.contains(e.target)) {
           dropdown.classList.remove('open');
+          dropdownToggle.setAttribute('aria-expanded', 'false');
         }
       });
     }
@@ -137,6 +143,7 @@
       if (window.innerWidth > 768) {
         if (navMenu) navMenu.classList.remove('open');
         if (hamburger) hamburger.setAttribute('aria-expanded', false);
+        if (hamburger) hamburger.setAttribute('aria-label', 'Open menu');
       }
     });
   });

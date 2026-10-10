@@ -134,9 +134,12 @@ async function displayStories(category = '') {
   container.innerHTML = '';
   const commentLoaded = {};
 
+  let storyIndex = 0;
   for (const story of stories) {
     const article = document.createElement('article');
     article.className = 'story';
+    article.style.setProperty('--story-delay', `${Math.min(storyIndex, 8) * 45}ms`);
+    storyIndex += 1;
 
     const title = escapeHtml(story.title);
     const coverHtml = (Array.isArray(story.image_urls) && story.image_urls.length > 0)

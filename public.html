@@ -31,7 +31,7 @@
       <ul class="nav">
         <li><a href="public.html">Home</a></li>
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle">About</a>
+          <a href="#" class="dropdown-toggle" aria-expanded="false">About</a>
           <ul class="dropdown-menu">
             <li><a href="about.html">About</a></li>
             <li><a href="aboutme.html">About Me</a></li>
@@ -132,6 +132,7 @@
           e.preventDefault();
           e.stopPropagation();
           dropdown.classList.toggle('open');
+          dropdownToggle.setAttribute('aria-expanded', dropdown.classList.contains('open'));
         });
       }
 
@@ -139,7 +140,10 @@
         if (dropdown && dropdown.classList.contains('open')) {
           const isInsideDropdown = dropdown.contains(e.target);
           const isToggleClick = dropdownToggle && dropdownToggle.contains(e.target);
-          if (!isInsideDropdown && !isToggleClick) dropdown.classList.remove('open');
+          if (!isInsideDropdown && !isToggleClick) {
+            dropdown.classList.remove('open');
+            dropdownToggle.setAttribute('aria-expanded', 'false');
+          }
         }
         if (navMenu && navMenu.classList.contains('open')) {
           if (!navMenu.contains(e.target) && !hamburger.contains(e.target)) {
