@@ -634,3 +634,175 @@ nav .logo p {
         font-size: 0.9rem;
     }
 }
+
+/* Public stories page refinements */
+.page1 {
+    overflow-x: clip;
+}
+
+.page1 .container,
+.page1 #storiesContainer,
+.page1 .story,
+.page1 .story-content {
+    min-width: 0;
+    max-width: 100%;
+}
+
+.page1 .hero,
+.page1 .filters {
+    width: 100%;
+}
+
+.page1 #auth-nav {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.page1 #auth-nav > a {
+    white-space: nowrap;
+}
+
+.page1 .hamburger {
+    width: 44px;
+    height: 44px;
+    flex: 0 0 auto;
+    color: #f6efe1;
+}
+
+.page1 .hamburger svg,
+.page1 .hero-link svg,
+.page1 .action-buttons svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    display: block;
+}
+
+.page1 .hamburger svg,
+.page1 .hero-link svg,
+.page1 .comment-toggle-btn svg {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.page1 .hero-link {
+    gap: 0.75rem;
+}
+
+.page1 .story {
+    width: 100%;
+    overflow: hidden;
+}
+
+.page1 .story img {
+    flex: 0 1 34%;
+    width: min(34%, 350px);
+    max-width: 100%;
+    min-width: 0;
+    object-fit: cover;
+}
+
+.page1 .story-content,
+.page1 .story h2,
+.page1 .story .meta,
+.page1 .story .short-desc,
+.page1 .story .story-preview,
+.page1 .story .full-story,
+.page1 .comment-content {
+    overflow-wrap: anywhere;
+    word-break: normal;
+}
+
+.page1 .story h2 {
+    margin-left: 0;
+}
+
+.page1 .story .meta,
+.page1 .story .short-desc,
+.page1 .story .full-story {
+    margin-left: 0;
+}
+
+.page1 .read-more-btn,
+.page1 .action-buttons,
+.page1 .comments-section {
+    margin-left: 0;
+}
+
+.page1 .action-buttons {
+    flex-wrap: wrap;
+}
+
+.page1 .like-btn,
+.page1 .comment-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 42px;
+}
+
+.page1 .like-btn svg {
+    width: 1.15rem;
+    height: 1.15rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.page1 .like-btn.liked svg {
+    fill: currentColor;
+}
+
+.page1 .comment-form textarea {
+    width: 100%;
+    max-width: 100%;
+}
+
+@media (max-width: 768px) {
+    .page1 .story {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .page1 .story img {
+        flex: none;
+        width: 100%;
+        height: clamp(180px, 52vw, 320px);
+    }
+}
+
+@media (max-width: 480px) {
+    .page1 .site-nav {
+        gap: 0.5rem;
+    }
+
+    .page1 .site-nav .logo h1 {
+        font-size: clamp(1.2rem, 6vw, 1.55rem);
+    }
+
+    .page1 .site-nav .logo p {
+        max-width: 34ch;
+        line-height: 1.4;
+    }
+
+    .page1 .story {
+        padding: 16px;
+    }
+
+    .page1 .action-buttons {
+        gap: 8px;
+    }
+
+    .page1 .like-btn,
+    .page1 .comment-toggle-btn {
+        padding: 8px 12px;
+        font-size: 0.82rem;
+    }
+}

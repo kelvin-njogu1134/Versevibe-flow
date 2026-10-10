@@ -53,6 +53,7 @@ async function toggleLike(storyId, currentCount, likeButton, likeCountSpan) {
   const wasLiked = likeButton.classList.contains('liked');
   likeCountSpan.textContent = wasLiked ? currentCount - 1 : currentCount + 1;
   likeButton.classList.toggle('liked');
+  likeButton.setAttribute('aria-label', wasLiked ? 'Like story' : 'Unlike story');
 
   try {
     const { data: newCount, error } = await supabaseClient.rpc('toggle_like', {
@@ -64,6 +65,7 @@ async function toggleLike(storyId, currentCount, likeButton, likeCountSpan) {
     console.error('Error toggling like:', err);
     likeCountSpan.textContent = currentCount;
     likeButton.classList.toggle('liked');
+    likeButton.setAttribute('aria-label', wasLiked ? 'Unlike story' : 'Like story');
     alert('Failed to update like. Please try again.');
   } finally {
     likeButton.disabled = false;
@@ -141,7 +143,8 @@ async function displayStories(category = '') {
       ? `<img src="${escapeHtml(story.image_urls[0])}" alt="${title}" loading="lazy" onerror="this.style.display='none';">`
       : '';
 
-    const preview = story.full_story.substring(0, 220);
+    const fullStoryText = story.full_story ?? '';
+    const preview = fullStoryText.substring(0, 220);
     const isLiked = likedMap[story.id] || false;
     const likeCount = story.likes_count || 0;
 
@@ -151,14 +154,22 @@ async function displayStories(category = '') {
         <div class="meta">${story.category ? escapeHtml(story.category) + ' — ' : ''}${formatDate(story.created_at)}</div>
         <h2>${title}</h2>
         <div class="short-desc">${escapeHtml(story.short_description)}</div>
-        <div class="story-preview">${escapeHtml(preview)}${story.full_story.length > 220 ? '…' : ''}</div>
-        <div class="full-story">${escapeHtml(story.full_story).replace(/\n/g, '<br>')}</div>
-        <button class="read-more-btn">Read more</button>
+        <div class="story-preview">${escapeHtml(preview)}${fullStoryText.length > 220 ? '…' : ''}</div>
+        <div class="full-story">${escapeHtml(fullStoryText).replace(/\n/g, '<br>')}</div>
+        <button class="read-more-btn" aria-expanded="false">Read more</button>
         <div class="action-buttons">
-          <button class="like-btn ${isLiked ? 'liked' : ''}" data-story-id="${story.id}">
-            ♥ <span class="like-count">${likeCount}</span>
+          <button class="like-btn ${isLiked ? 'liked' : ''}" data-story-id="${story.id}" aria-label="${isLiked ? 'Unlike' : 'Like'} story">
+            <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
+              <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8Z"></path>
+            </svg>
+            <span class="like-count">${likeCount}</span>
           </button>
-          <button class="comment-toggle-btn" data-story-id="${story.id}">Comment</button>
+          <button class="comment-toggle-btn" data-story-id="${story.id}">
+            <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
+              <path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8v.5Z"></path>
+            </svg>
+            Comment
+          </button>
         </div>
         <div class="comments-section" id="comments-section-${story.id}" style="display: none;">
           <h3>Comments</h3>
@@ -176,13 +187,12 @@ async function displayStories(category = '') {
     const btn = article.querySelector('.read-more-btn');
     const fullStory = article.querySelector('.full-story');
     const previewText = article.querySelector('.story-preview');
-    const image = article.querySelector('img');
     btn.addEventListener('click', () => {
       const open = fullStory.style.display === 'block';
       fullStory.style.display = open ? 'none' : 'block';
       previewText.style.display = open ? 'block' : 'none';
-      if (image) image.style.display = open ? 'block' : 'none';
       btn.textContent = open ? 'Read more' : 'Read less';
+      btn.setAttribute('aria-expanded', String(!open));
     });
 
     // Likes
