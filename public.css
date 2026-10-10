@@ -698,6 +698,84 @@ nav .logo p {
     overflow: hidden;
 }
 
+.page1 .reader-close-btn {
+    display: none;
+}
+
+.page1 .story.story-expanded {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    display: block;
+    width: 100vw;
+    max-width: none;
+    height: 100vh;
+    height: 100dvh;
+    margin: 0;
+    padding: clamp(20px, 5vw, 64px);
+    overflow-x: hidden;
+    overflow-y: auto;
+    border: 0;
+    border-radius: 0;
+    background: var(--paper);
+    box-shadow: none;
+}
+
+.page1 .story.story-expanded:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+.page1 .story.story-expanded .story-content {
+    width: min(100%, 900px);
+    margin: 0 auto;
+}
+
+.page1 .story.story-expanded > img {
+    display: block;
+    width: min(100%, 900px);
+    height: clamp(200px, 42vh, 440px);
+    margin: 0 auto 2rem;
+}
+
+.page1 .story.story-expanded .reader-close-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    min-height: 44px;
+    margin: 0 0 1.5rem;
+    padding: 0.65rem 1rem;
+    border: 1px solid var(--sage-line);
+    border-radius: var(--radius-pill);
+    background: #fff;
+    color: var(--ink);
+    font: 600 0.9rem var(--font-sans);
+    cursor: pointer;
+}
+
+.page1 .story.story-expanded .reader-close-btn svg {
+    width: 1.2rem;
+    height: 1.2rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.page1 .story.story-expanded h2 {
+    font-size: clamp(2rem, 5vw, 3.25rem);
+}
+
+.page1 .story.story-expanded .full-story {
+    font-size: clamp(1.05rem, 1.8vw, 1.2rem);
+    line-height: 1.95;
+}
+
+body.story-reader-open {
+    overflow: hidden;
+}
+
 .page1 .story img {
     flex: 0 1 34%;
     width: min(34%, 350px);
@@ -804,5 +882,14 @@ nav .logo p {
     .page1 .comment-toggle-btn {
         padding: 8px 12px;
         font-size: 0.82rem;
+    }
+
+    .page1 .story.story-expanded {
+        padding: 20px 18px;
+    }
+
+    .page1 .story.story-expanded > img {
+        height: 34vh;
+        margin-bottom: 1.5rem;
     }
 }

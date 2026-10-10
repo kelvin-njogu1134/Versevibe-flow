@@ -151,6 +151,12 @@ async function displayStories(category = '') {
     article.innerHTML = `
       ${coverHtml}
       <div class="story-content">
+        <button class="reader-close-btn" type="button" aria-label="Back to stories">
+          <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
+            <path d="m15 18-6-6 6-6M9 12h12"></path>
+          </svg>
+          Back to stories
+        </button>
         <div class="meta">${story.category ? escapeHtml(story.category) + ' — ' : ''}${formatDate(story.created_at)}</div>
         <h2>${title}</h2>
         <div class="short-desc">${escapeHtml(story.short_description)}</div>
@@ -187,12 +193,41 @@ async function displayStories(category = '') {
     const btn = article.querySelector('.read-more-btn');
     const fullStory = article.querySelector('.full-story');
     const previewText = article.querySelector('.story-preview');
+    const closeReaderButton = article.querySelector('.reader-close-btn');
+
+    const closeReader = () => {
+      article.classList.remove('story-expanded');
+      article.removeAttribute('role');
+      article.removeAttribute('aria-modal');
+      article.removeAttribute('aria-label');
+      article.removeAttribute('tabindex');
+      document.body.classList.remove('story-reader-open');
+      fullStory.style.display = 'none';
+      previewText.style.display = 'block';
+      btn.textContent = 'Read more';
+      btn.setAttribute('aria-expanded', 'false');
+      btn.focus();
+    };
+
     btn.addEventListener('click', () => {
-      const open = fullStory.style.display === 'block';
-      fullStory.style.display = open ? 'none' : 'block';
-      previewText.style.display = open ? 'block' : 'none';
-      btn.textContent = open ? 'Read more' : 'Read less';
-      btn.setAttribute('aria-expanded', String(!open));
+      article.classList.add('story-expanded');
+      article.setAttribute('role', 'dialog');
+      article.setAttribute('aria-modal', 'true');
+      article.setAttribute('aria-label', `Reading ${story.title}`);
+      article.setAttribute('tabindex', '-1');
+      document.body.classList.add('story-reader-open');
+      fullStory.style.display = 'block';
+      previewText.style.display = 'none';
+      btn.textContent = 'Read less';
+      btn.setAttribute('aria-expanded', 'true');
+      article.focus();
+    });
+    closeReaderButton.addEventListener('click', closeReader);
+
+    article.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && article.classList.contains('story-expanded')) {
+        closeReader();
+      }
     });
 
     // Likes
