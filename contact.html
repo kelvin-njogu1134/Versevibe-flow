@@ -60,10 +60,10 @@
           <h4>Instagram</h4>
           <p>@versevibeandflow</p>
         </a>
-        <a href="mailto:esthernjeri1824@gmail.com" class="info-item">
+        <a href="mailto:esternjerimuraya@gmail.com" class="info-item">
           <ion-icon name="mail-outline"></ion-icon>
           <h4>Email</h4>
-          <p>esthernjeri1824@gmail.com</p>
+          <p>esternjerimuraya@gmail.com</p>
         </a>
       </div>
 
@@ -95,14 +95,6 @@
   </div>
 </div>
 
-<script type="importmap">
-  {
-    "imports": {
-      "firebase/app": "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js",
-      "firebase/auth": "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js"
-    }
-  }
-</script>
 <script type="module">
   import { onAuthStateChanged, logoutUser, isAdminUser } from './auth.js';
 
@@ -114,11 +106,14 @@
       return;
     }
 
+    authNav.innerHTML = '';
     if (isAdminUser(user)) {
-      window.location.href = 'admin.html';
-      return;
+      const adminLink = document.createElement('a');
+      adminLink.textContent = 'Admin Panel';
+      adminLink.href = 'admin.html';
+      adminLink.classList.add('admin-link');
+      authNav.appendChild(adminLink);
     }
-
     const logoutBtn = document.createElement('button');
     logoutBtn.textContent = 'Logout';
     logoutBtn.classList.add('logout-btn');
@@ -131,7 +126,6 @@
     userSpan.textContent = user.email;
     userSpan.classList.add('user-email');
 
-    authNav.innerHTML = '';
     authNav.appendChild(userSpan);
     authNav.appendChild(logoutBtn);
   });

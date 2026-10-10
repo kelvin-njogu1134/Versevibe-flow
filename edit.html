@@ -13,8 +13,7 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="admin.css">
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="admin-manage.js" defer></script>
+  <script type="module" src="admin-manage.js"></script>
 </head>
 <body>
 <div class="page-wrapper">
@@ -84,14 +83,6 @@
   </div>
 </div>
 
-<script type="importmap">
-  {
-    "imports": {
-      "firebase/app": "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js",
-      "firebase/auth": "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js"
-    }
-  }
-</script>
 <script type="module">
   import { onAuthStateChanged, logoutUser, isAdminUser } from './auth.js';
 

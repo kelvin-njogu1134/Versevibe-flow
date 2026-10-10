@@ -10,7 +10,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="styles.css">
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
   <div class="page1">
@@ -67,14 +66,6 @@
     </div>
   </div>
 
-  <script type="importmap">
-    {
-      "imports": {
-        "firebase/app": "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js",
-        "firebase/auth": "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js"
-      }
-    }
-  </script>
   <script type="module">
     import { onAuthStateChanged, logoutUser, isAdminUser } from './auth.js';
     const authNav = document.getElementById('auth-nav');
@@ -111,7 +102,7 @@
     });
   </script>
 
-  <script src="public.js"></script>
+  <script type="module" src="public.js"></script>
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -158,6 +149,5 @@
       });
     });
   </script>
-  /
 </body>
 </html>

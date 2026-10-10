@@ -43,25 +43,25 @@
         </div>
     </div>
 
-    <script type="importmap">
-        {
-            "imports": {
-                "firebase/app": "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js",
-                "firebase/auth": "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js"
-            }
-        }
-    </script>
     <script type="module">
-        import { loginUser, onAuthStateChanged, redirectIfAuthenticated } from './auth.js';
+        import { getCurrentUser, isAdminUser, loginUser } from './auth.js';
 
         const form = document.getElementById('login-form');
         const emailInput = document.getElementById('email');
         const passwordInput = document.getElementById('password');
         const errorDiv = document.getElementById('error-message');
 
-        onAuthStateChanged((user) => {
-            if (user) redirectIfAuthenticated(user);
-        });
+        const submitButton = form.querySelector('[type="submit"]');
+
+        try {
+            const user = await getCurrentUser();
+            if (user) {
+                window.location.href = isAdminUser(user) ? 'admin.html' : 'public.html';
+            }
+        } catch (error) {
+            errorDiv.textContent = error.message || 'Unable to check your session. Please try again.';
+            errorDiv.style.display = 'block';
+        }
 
         document.querySelectorAll('.toggle-password').forEach(btn => {
             btn.addEventListener('click', function() {
@@ -86,29 +86,17 @@
                 return;
             }
 
+            submitButton.disabled = true;
+            submitButton.textContent = 'Logging in...';
             try {
                 const user = await loginUser(email, password);
-                redirectIfAuthenticated(user);
+                window.location.href = isAdminUser(user) ? 'admin.html' : 'public.html';
             } catch (error) {
-                let friendlyMsg = '';
-                switch (error.code) {
-                    case 'auth/user-not-found':
-                        friendlyMsg = 'No account found with this email.';
-                        break;
-                    case 'auth/wrong-password':
-                        friendlyMsg = 'Incorrect password.';
-                        break;
-                    case 'auth/invalid-email':
-                        friendlyMsg = 'Invalid email format.';
-                        break;
-                    case 'auth/too-many-requests':
-                        friendlyMsg = 'Too many failed attempts. Try again later.';
-                        break;
-                    default:
-                        friendlyMsg = error.message || 'Login failed. Please try again.';
-                }
-                errorDiv.textContent = friendlyMsg;
+                errorDiv.textContent = error.message || 'Login failed. Please try again.';
                 errorDiv.style.display = 'block';
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = 'Log in';
             }
         });
     </script>

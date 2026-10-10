@@ -16,7 +16,7 @@ export const supabase = createClient(
 
 
 
-const ADMIN_EMAIL = "esthernjeri1824@gmail.com";
+const ADMIN_EMAIL = 'esternjerimuraya@gmail.com';
 
 
 
@@ -25,7 +25,7 @@ export async function signUpUser(email, password) {
 
  
     
-    if (email.toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
+    if (email.trim().toLowerCase() === ADMIN_EMAIL.toLowerCase()) {
         throw new Error(
             "This email is reserved. Please use another email."
         );
@@ -99,15 +99,7 @@ export function onAuthStateChanged(callback) {
 
 
 export function isAdminUser(user) {
-
-    if (!user) {
-        return false;
-    }
-
-    return (
-        user.email?.toLowerCase() ===
-        ADMIN_EMAIL.toLowerCase()
-    );
+    return user?.email?.toLowerCase() === ADMIN_EMAIL.toLowerCase();
 }
 
 
@@ -141,7 +133,7 @@ export async function getCurrentUser() {
     } = await supabase.auth.getUser();
 
     if (error) {
-        return null;
+        throw error;
     }
 
     return user;
@@ -173,4 +165,3 @@ export async function isAuthenticated() {
 
     return !!session;
 }
-
