@@ -210,6 +210,11 @@ async function displayStories(category = '') {
     };
 
     btn.addEventListener('click', () => {
+      if (article.classList.contains('story-expanded')) {
+        closeReader();
+        return;
+      }
+
       article.classList.add('story-expanded');
       article.setAttribute('role', 'dialog');
       article.setAttribute('aria-modal', 'true');
