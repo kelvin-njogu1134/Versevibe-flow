@@ -830,6 +830,20 @@ nav.site-nav {
   stroke-linecap: round;
 }
 
+.page1 .site-nav .hamburger svg path {
+  transform-box: view-box;
+  transform-origin: center;
+  transition: transform 180ms ease;
+}
+
+.page1 .site-nav .hamburger[aria-expanded="true"] svg path:first-child {
+  transform: translateY(4px) rotate(45deg);
+}
+
+.page1 .site-nav .hamburger[aria-expanded="true"] svg path:last-child {
+  transform: translateY(-4px) rotate(-45deg);
+}
+
 .page1 .container {
   background:
     radial-gradient(ellipse at 96% 0%, rgba(208, 161, 92, 0.08), transparent 26rem),
@@ -1010,6 +1024,9 @@ nav.site-nav {
   .page1 .site-nav .nav {
     gap: 0.4rem;
     padding: 0.85rem 5% 1.2rem;
+    max-height: calc(100dvh - 72px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
     border-top: 1px solid rgba(255, 255, 255, 0.08);
     transform-origin: top;
   }
