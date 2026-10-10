@@ -2,22 +2,26 @@
 
 body {
   font-family: var(--font-sans);
-  background: linear-gradient(135deg, var(--ink) 0%, #0A2A2A 100%);
+  color: var(--ink);
+  background:
+    radial-gradient(ellipse at 12% 14%, rgba(208, 161, 92, 0.17), transparent 26rem),
+    radial-gradient(ellipse at 88% 82%, rgba(102, 138, 115, 0.2), transparent 28rem),
+    #173b35;
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1rem;
+  padding: clamp(20px, 5vw, 60px);
 }
 
-.container { width: 100%; max-width: 440px; background: transparent; padding: 0; }
+.container { width: 100%; max-width: 470px; background: transparent; padding: 0; }
 
 .form-card, .dashboard-card {
   background: var(--paper-raised);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow);
-  padding: 2.4rem 2.2rem;
-  border: 1px solid var(--sage-line);
+  border-radius: 22px;
+  box-shadow: 0 28px 75px -32px rgba(0, 0, 0, 0.55);
+  padding: clamp(2rem, 6vw, 3.2rem);
+  border: 1px solid rgba(255, 255, 255, 0.48);
 }
 
 .dashboard-card { max-width: 500px; margin: 0 auto; text-align: center; }
@@ -26,12 +30,13 @@ h2 {
   color: var(--ink);
   font-family: var(--font-serif);
   margin-bottom: 0.4rem;
-  font-size: 1.9rem;
+  font-size: clamp(1.9rem, 6vw, 2.25rem);
+  letter-spacing: -0.04em;
   text-align: center;
   font-weight: 600;
 }
 
-.subtitle { text-align: center; color: var(--ink-soft); margin-bottom: 1.8rem; font-size: 0.9rem; }
+.subtitle { text-align: center; color: var(--ink-soft); margin-bottom: 2rem; font-size: 0.94rem; }
 
 .input-group { margin-bottom: 1.4rem; }
 
@@ -39,12 +44,12 @@ label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: var(--in
 
 input {
   width: 100%;
-  padding: 0.75rem 1rem;
+  padding: 0.85rem 1rem;
   border: 1px solid var(--sage-line);
   border-radius: var(--radius-sm);
   font-size: 1rem;
   font-family: var(--font-sans);
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s;
   background: var(--paper);
 }
 
@@ -74,18 +79,18 @@ input:focus {
 
 .btn {
   width: 100%;
-  padding: 0.78rem;
+  padding: 0.9rem;
   border: none;
   border-radius: var(--radius-pill);
   font-size: 0.98rem;
   font-weight: 700;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
   font-family: var(--font-sans);
 }
 
-.btn-primary { background: var(--ink); color: var(--paper); }
-.btn-primary:hover { background: var(--gold-deep); }
+.btn-primary { background: var(--ink); color: var(--paper); box-shadow: 0 8px 20px -10px rgba(23, 59, 53, 0.8); }
+.btn-primary:hover { background: #2a574c; transform: translateY(-1px); box-shadow: 0 12px 24px -10px rgba(23, 59, 53, 0.7); }
 
 .btn-secondary { background: var(--sage); color: var(--ink); margin-top: 1rem; }
 .btn-secondary:hover { background: var(--sage-line); }
@@ -100,6 +105,7 @@ input:focus {
   text-align: center;
   display: block;
 }
+.error-message:empty { display: none; }
 
 .form-footer { text-align: center; margin-top: 1.5rem; font-size: 0.9rem; color: var(--ink-soft); }
 .form-footer a { color: var(--gold-deep); text-decoration: none; font-weight: 600; }
@@ -129,5 +135,5 @@ input:focus {
 
 @media (max-width: 480px) {
   .form-card, .dashboard-card { padding: 1.6rem; }
-  h2 { font-size: 1.6rem; }
+  h2 { font-size: 1.75rem; }
 }
